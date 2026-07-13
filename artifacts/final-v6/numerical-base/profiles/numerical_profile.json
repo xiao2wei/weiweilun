@@ -1,0 +1,4629 @@
+{
+  "data_kind": "numerical_simulation",
+  "edge_models": [
+    {
+      "model_hash": "a267279c18000843a2aa284f93d6d6cd5cacfa8094448a035ddefc1097a57fbe",
+      "model_id": "edge_fer_numerical_v1",
+      "model_kind": "edge",
+      "protocol_version": "anon-fer/1.0",
+      "supported_devices": [],
+      "supported_pipelines": [
+        "pixelate_weak_numerical_v1",
+        "pixelate_medium_numerical_v1",
+        "pixelate_strong_numerical_v1",
+        "blur_weak_numerical_v1",
+        "blur_medium_numerical_v1",
+        "blur_strong_numerical_v1",
+        "generative_weak_numerical_v1",
+        "generative_medium_numerical_v1",
+        "generative_strong_numerical_v1",
+        "diffusion_weak_numerical_v1",
+        "diffusion_medium_numerical_v1",
+        "diffusion_strong_numerical_v1"
+      ],
+      "supported_rsus": [
+        "rsu-1",
+        "rsu-2"
+      ]
+    }
+  ],
+  "evidence_status": "frozen_numerical_model",
+  "local_models": [
+    {
+      "model_hash": "d83b5434a3f5e843305c9e0f14902865f8127c22812266b41cb0f9ed0ebc782a",
+      "model_id": "local_fer_numerical_v1",
+      "model_kind": "local",
+      "protocol_version": "anon-fer/1.0",
+      "supported_devices": [
+        "vehicle_gpu_class_a",
+        "vehicle_cpu_class_b"
+      ],
+      "supported_pipelines": [],
+      "supported_rsus": []
+    }
+  ],
+  "metadata": {
+    "contains_real_images": false,
+    "contains_real_measurements": false,
+    "cost_normalization_hash": "3df07d1d1211490d6c87258ea0ef498036f939e608e9c62ce67928af54127bf8",
+    "evidence_hash": "9cd7748e5a03af96da78eae7b3bcabf4f0a4007ad5be27b94675d6a6769e1918",
+    "formal_experiment_eligible": false,
+    "generator": "privacy_edge_sim.numerical.generate_numerical_study",
+    "numerical_experiment_eligible": true,
+    "quality_conformal_id": "numerical-quality-conformal-1.0.0",
+    "quality_partition_hash": "2507a05a85ba0524fd1dde6a883194ffbd4ad49c4b668bc9904ca8b837e7ffac",
+    "split_manifest_hash": "bc53bbbe1df64e8b7ecaa5e86fc03ae12c15dadbb39b6036f02eafbe77d0da27",
+    "warning": "FROZEN NUMERICAL MODEL - NOT HARDWARE OR ATTACK MEASUREMENT"
+  },
+  "online_mutable": false,
+  "parameter_sources": {
+    "emission_support": {
+      "category": "engineering_assumption",
+      "description": "Numerical guard emission lower confidence bounds.",
+      "unit": "probability"
+    },
+    "privacy_bounds": {
+      "category": "engineering_assumption",
+      "description": "Recomputed from stored numerical subject outcomes using simultaneous Bonferroni-Hoeffding bounds.",
+      "unit": "probability"
+    },
+    "retry_limits": {
+      "category": "engineering_assumption",
+      "description": "Finite numerical transaction retry cap.",
+      "unit": "attempts"
+    },
+    "subject_support": {
+      "category": "engineering_assumption",
+      "description": "Mutually exclusive numerical profile-evaluation subjects.",
+      "unit": "subjects"
+    }
+  },
+  "pipelines": [
+    {
+      "encoder_hash": "e161ec96de027271c055140ea3b3a2e801ca73cbe8d4f54762a581ad30abcedf",
+      "encoder_id": "jpeg_numerical_v1",
+      "fallback_local_model": "local_fer_numerical_v1",
+      "guard_hash": "a4d5e33c71adea61801a472fe159dc8101883214a69c012f606fa6b767296f9a",
+      "guard_id": "guard_numerical_v1",
+      "max_attempts": 3,
+      "pipeline_hash": "a6c4c7611f6395d2a20aada95baba09729e9e4d4f90044cd005574398f21aa1b",
+      "pipeline_id": "pixelate_weak_numerical_v1",
+      "protocol_version": "anon-fer/1.0",
+      "retryable_reasons": [
+        "ANON_OOM",
+        "ANON_FAILED",
+        "GUARD_REJECTED",
+        "ENCODE_FAILED"
+      ],
+      "supported_devices": [
+        "vehicle_gpu_class_a",
+        "vehicle_cpu_class_b"
+      ]
+    },
+    {
+      "encoder_hash": "e161ec96de027271c055140ea3b3a2e801ca73cbe8d4f54762a581ad30abcedf",
+      "encoder_id": "jpeg_numerical_v1",
+      "fallback_local_model": "local_fer_numerical_v1",
+      "guard_hash": "a4d5e33c71adea61801a472fe159dc8101883214a69c012f606fa6b767296f9a",
+      "guard_id": "guard_numerical_v1",
+      "max_attempts": 3,
+      "pipeline_hash": "a892a11d660d3751288169c7cb7fdef533dfdbe84ee69b8301e8e636381e3206",
+      "pipeline_id": "pixelate_medium_numerical_v1",
+      "protocol_version": "anon-fer/1.0",
+      "retryable_reasons": [
+        "ANON_OOM",
+        "ANON_FAILED",
+        "GUARD_REJECTED",
+        "ENCODE_FAILED"
+      ],
+      "supported_devices": [
+        "vehicle_gpu_class_a",
+        "vehicle_cpu_class_b"
+      ]
+    },
+    {
+      "encoder_hash": "e161ec96de027271c055140ea3b3a2e801ca73cbe8d4f54762a581ad30abcedf",
+      "encoder_id": "jpeg_numerical_v1",
+      "fallback_local_model": "local_fer_numerical_v1",
+      "guard_hash": "a4d5e33c71adea61801a472fe159dc8101883214a69c012f606fa6b767296f9a",
+      "guard_id": "guard_numerical_v1",
+      "max_attempts": 3,
+      "pipeline_hash": "06992e3be6e741c9d0076933644e2fc542d47636a5c5c33a24f129b6ed7775ab",
+      "pipeline_id": "pixelate_strong_numerical_v1",
+      "protocol_version": "anon-fer/1.0",
+      "retryable_reasons": [
+        "ANON_OOM",
+        "ANON_FAILED",
+        "GUARD_REJECTED",
+        "ENCODE_FAILED"
+      ],
+      "supported_devices": [
+        "vehicle_gpu_class_a",
+        "vehicle_cpu_class_b"
+      ]
+    },
+    {
+      "encoder_hash": "e161ec96de027271c055140ea3b3a2e801ca73cbe8d4f54762a581ad30abcedf",
+      "encoder_id": "jpeg_numerical_v1",
+      "fallback_local_model": "local_fer_numerical_v1",
+      "guard_hash": "a4d5e33c71adea61801a472fe159dc8101883214a69c012f606fa6b767296f9a",
+      "guard_id": "guard_numerical_v1",
+      "max_attempts": 3,
+      "pipeline_hash": "37c438f917a9f24460ff3d41765f47ebff2e467cf701c9c8761930efe0178829",
+      "pipeline_id": "blur_weak_numerical_v1",
+      "protocol_version": "anon-fer/1.0",
+      "retryable_reasons": [
+        "ANON_OOM",
+        "ANON_FAILED",
+        "GUARD_REJECTED",
+        "ENCODE_FAILED"
+      ],
+      "supported_devices": [
+        "vehicle_gpu_class_a",
+        "vehicle_cpu_class_b"
+      ]
+    },
+    {
+      "encoder_hash": "e161ec96de027271c055140ea3b3a2e801ca73cbe8d4f54762a581ad30abcedf",
+      "encoder_id": "jpeg_numerical_v1",
+      "fallback_local_model": "local_fer_numerical_v1",
+      "guard_hash": "a4d5e33c71adea61801a472fe159dc8101883214a69c012f606fa6b767296f9a",
+      "guard_id": "guard_numerical_v1",
+      "max_attempts": 3,
+      "pipeline_hash": "937091eb635d4f1b8cf6e5851e2b933228f86644e8302bab09a7270b71b43869",
+      "pipeline_id": "blur_medium_numerical_v1",
+      "protocol_version": "anon-fer/1.0",
+      "retryable_reasons": [
+        "ANON_OOM",
+        "ANON_FAILED",
+        "GUARD_REJECTED",
+        "ENCODE_FAILED"
+      ],
+      "supported_devices": [
+        "vehicle_gpu_class_a",
+        "vehicle_cpu_class_b"
+      ]
+    },
+    {
+      "encoder_hash": "e161ec96de027271c055140ea3b3a2e801ca73cbe8d4f54762a581ad30abcedf",
+      "encoder_id": "jpeg_numerical_v1",
+      "fallback_local_model": "local_fer_numerical_v1",
+      "guard_hash": "a4d5e33c71adea61801a472fe159dc8101883214a69c012f606fa6b767296f9a",
+      "guard_id": "guard_numerical_v1",
+      "max_attempts": 3,
+      "pipeline_hash": "62afc8a13337956a548b0503f7af33ece299e815796943866e2534b9ebbe64d9",
+      "pipeline_id": "blur_strong_numerical_v1",
+      "protocol_version": "anon-fer/1.0",
+      "retryable_reasons": [
+        "ANON_OOM",
+        "ANON_FAILED",
+        "GUARD_REJECTED",
+        "ENCODE_FAILED"
+      ],
+      "supported_devices": [
+        "vehicle_gpu_class_a",
+        "vehicle_cpu_class_b"
+      ]
+    },
+    {
+      "encoder_hash": "e161ec96de027271c055140ea3b3a2e801ca73cbe8d4f54762a581ad30abcedf",
+      "encoder_id": "jpeg_numerical_v1",
+      "fallback_local_model": "local_fer_numerical_v1",
+      "guard_hash": "a4d5e33c71adea61801a472fe159dc8101883214a69c012f606fa6b767296f9a",
+      "guard_id": "guard_numerical_v1",
+      "max_attempts": 3,
+      "pipeline_hash": "92028c3d1c37051d9fec5ea65b0904f3edf380ff8402e947c26c4cb63a82297d",
+      "pipeline_id": "generative_weak_numerical_v1",
+      "protocol_version": "anon-fer/1.0",
+      "retryable_reasons": [
+        "ANON_OOM",
+        "ANON_FAILED",
+        "GUARD_REJECTED",
+        "ENCODE_FAILED"
+      ],
+      "supported_devices": [
+        "vehicle_gpu_class_a",
+        "vehicle_cpu_class_b"
+      ]
+    },
+    {
+      "encoder_hash": "e161ec96de027271c055140ea3b3a2e801ca73cbe8d4f54762a581ad30abcedf",
+      "encoder_id": "jpeg_numerical_v1",
+      "fallback_local_model": "local_fer_numerical_v1",
+      "guard_hash": "a4d5e33c71adea61801a472fe159dc8101883214a69c012f606fa6b767296f9a",
+      "guard_id": "guard_numerical_v1",
+      "max_attempts": 3,
+      "pipeline_hash": "d95503ef93c4216559b14933882578886584ce72425284a31b796e90f5786c72",
+      "pipeline_id": "generative_medium_numerical_v1",
+      "protocol_version": "anon-fer/1.0",
+      "retryable_reasons": [
+        "ANON_OOM",
+        "ANON_FAILED",
+        "GUARD_REJECTED",
+        "ENCODE_FAILED"
+      ],
+      "supported_devices": [
+        "vehicle_gpu_class_a",
+        "vehicle_cpu_class_b"
+      ]
+    },
+    {
+      "encoder_hash": "e161ec96de027271c055140ea3b3a2e801ca73cbe8d4f54762a581ad30abcedf",
+      "encoder_id": "jpeg_numerical_v1",
+      "fallback_local_model": "local_fer_numerical_v1",
+      "guard_hash": "a4d5e33c71adea61801a472fe159dc8101883214a69c012f606fa6b767296f9a",
+      "guard_id": "guard_numerical_v1",
+      "max_attempts": 3,
+      "pipeline_hash": "e8c082f28aa0b730f9502de227b27a61b0d39eecf3683ada59fd34bcc7c4dce4",
+      "pipeline_id": "generative_strong_numerical_v1",
+      "protocol_version": "anon-fer/1.0",
+      "retryable_reasons": [
+        "ANON_OOM",
+        "ANON_FAILED",
+        "GUARD_REJECTED",
+        "ENCODE_FAILED"
+      ],
+      "supported_devices": [
+        "vehicle_gpu_class_a",
+        "vehicle_cpu_class_b"
+      ]
+    },
+    {
+      "encoder_hash": "e161ec96de027271c055140ea3b3a2e801ca73cbe8d4f54762a581ad30abcedf",
+      "encoder_id": "jpeg_numerical_v1",
+      "fallback_local_model": "local_fer_numerical_v1",
+      "guard_hash": "a4d5e33c71adea61801a472fe159dc8101883214a69c012f606fa6b767296f9a",
+      "guard_id": "guard_numerical_v1",
+      "max_attempts": 3,
+      "pipeline_hash": "1ceae41805fc79cacac7d54ca71f4534484e0dbfa489319bb425c573ab8921b0",
+      "pipeline_id": "diffusion_weak_numerical_v1",
+      "protocol_version": "anon-fer/1.0",
+      "retryable_reasons": [
+        "ANON_OOM",
+        "ANON_FAILED",
+        "GUARD_REJECTED",
+        "ENCODE_FAILED"
+      ],
+      "supported_devices": [
+        "vehicle_gpu_class_a",
+        "vehicle_cpu_class_b"
+      ]
+    },
+    {
+      "encoder_hash": "e161ec96de027271c055140ea3b3a2e801ca73cbe8d4f54762a581ad30abcedf",
+      "encoder_id": "jpeg_numerical_v1",
+      "fallback_local_model": "local_fer_numerical_v1",
+      "guard_hash": "a4d5e33c71adea61801a472fe159dc8101883214a69c012f606fa6b767296f9a",
+      "guard_id": "guard_numerical_v1",
+      "max_attempts": 3,
+      "pipeline_hash": "e0f133897f61e01f93aa6110ff01cbe357884702d59352c3630f5bee914d4c27",
+      "pipeline_id": "diffusion_medium_numerical_v1",
+      "protocol_version": "anon-fer/1.0",
+      "retryable_reasons": [
+        "ANON_OOM",
+        "ANON_FAILED",
+        "GUARD_REJECTED",
+        "ENCODE_FAILED"
+      ],
+      "supported_devices": [
+        "vehicle_gpu_class_a",
+        "vehicle_cpu_class_b"
+      ]
+    },
+    {
+      "encoder_hash": "e161ec96de027271c055140ea3b3a2e801ca73cbe8d4f54762a581ad30abcedf",
+      "encoder_id": "jpeg_numerical_v1",
+      "fallback_local_model": "local_fer_numerical_v1",
+      "guard_hash": "a4d5e33c71adea61801a472fe159dc8101883214a69c012f606fa6b767296f9a",
+      "guard_id": "guard_numerical_v1",
+      "max_attempts": 3,
+      "pipeline_hash": "207a82cd7e772f80037829e3b358cd8d34adc89b835a40572554e3d2c106cab8",
+      "pipeline_id": "diffusion_strong_numerical_v1",
+      "protocol_version": "anon-fer/1.0",
+      "retryable_reasons": [
+        "ANON_OOM",
+        "ANON_FAILED",
+        "GUARD_REJECTED",
+        "ENCODE_FAILED"
+      ],
+      "supported_devices": [
+        "vehicle_gpu_class_a",
+        "vehicle_cpu_class_b"
+      ]
+    }
+  ],
+  "privacy_cells": [
+    {
+      "bounds": [
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:identity:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:identity:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:identity:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:link:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:link:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:link:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:verification:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:verification:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:verification:fmr-0.0100",
+          "ucb": 1.0
+        }
+      ],
+      "device_type": "vehicle_gpu_class_a",
+      "joint_trace_supported": true,
+      "pipeline_id": "pixelate_weak_numerical_v1",
+      "quality_bin": "clear"
+    },
+    {
+      "bounds": [
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:identity:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:identity:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:identity:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:link:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:link:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:link:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:verification:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:verification:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:verification:fmr-0.0100",
+          "ucb": 1.0
+        }
+      ],
+      "device_type": "vehicle_cpu_class_b",
+      "joint_trace_supported": true,
+      "pipeline_id": "pixelate_weak_numerical_v1",
+      "quality_bin": "clear"
+    },
+    {
+      "bounds": [
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.809879751,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:identity:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.809879751,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:identity:fmr-0.0100",
+          "ucb": 0.847303564
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.809879751,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:identity:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.809879751,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:link:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.809879751,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:link:fmr-0.0100",
+          "ucb": 0.695371287
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.809879751,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:link:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.809879751,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:verification:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.809879751,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:verification:fmr-0.0100",
+          "ucb": 0.90759415
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.809879751,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:verification:fmr-0.0100",
+          "ucb": 1.0
+        }
+      ],
+      "device_type": "vehicle_gpu_class_a",
+      "joint_trace_supported": true,
+      "pipeline_id": "pixelate_weak_numerical_v1",
+      "quality_bin": "challenging"
+    },
+    {
+      "bounds": [
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.809879751,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:identity:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.809879751,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:identity:fmr-0.0100",
+          "ucb": 0.847303564
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.809879751,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:identity:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.809879751,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:link:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.809879751,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:link:fmr-0.0100",
+          "ucb": 0.695371287
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.809879751,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:link:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.809879751,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:verification:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.809879751,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:verification:fmr-0.0100",
+          "ucb": 0.90759415
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.809879751,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:verification:fmr-0.0100",
+          "ucb": 1.0
+        }
+      ],
+      "device_type": "vehicle_cpu_class_b",
+      "joint_trace_supported": true,
+      "pipeline_id": "pixelate_weak_numerical_v1",
+      "quality_bin": "challenging"
+    },
+    {
+      "bounds": [
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:identity:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:identity:fmr-0.0100",
+          "ucb": 0.238998081
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:identity:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:link:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:link:fmr-0.0100",
+          "ucb": 0.231780616
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:link:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:verification:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:verification:fmr-0.0100",
+          "ucb": 0.25343301
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:verification:fmr-0.0100",
+          "ucb": 1.0
+        }
+      ],
+      "device_type": "vehicle_gpu_class_a",
+      "joint_trace_supported": true,
+      "pipeline_id": "pixelate_medium_numerical_v1",
+      "quality_bin": "clear"
+    },
+    {
+      "bounds": [
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:identity:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:identity:fmr-0.0100",
+          "ucb": 0.238998081
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:identity:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:link:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:link:fmr-0.0100",
+          "ucb": 0.231780616
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:link:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:verification:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:verification:fmr-0.0100",
+          "ucb": 0.25343301
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:verification:fmr-0.0100",
+          "ucb": 1.0
+        }
+      ],
+      "device_type": "vehicle_cpu_class_b",
+      "joint_trace_supported": true,
+      "pipeline_id": "pixelate_medium_numerical_v1",
+      "quality_bin": "clear"
+    },
+    {
+      "bounds": [
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:identity:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:identity:fmr-0.0100",
+          "ucb": 0.232901254
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:identity:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:link:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:link:fmr-0.0100",
+          "ucb": 0.232901254
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:link:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:verification:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:verification:fmr-0.0100",
+          "ucb": 0.232901254
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:verification:fmr-0.0100",
+          "ucb": 1.0
+        }
+      ],
+      "device_type": "vehicle_gpu_class_a",
+      "joint_trace_supported": true,
+      "pipeline_id": "pixelate_medium_numerical_v1",
+      "quality_bin": "challenging"
+    },
+    {
+      "bounds": [
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:identity:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:identity:fmr-0.0100",
+          "ucb": 0.232901254
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:identity:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:link:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:link:fmr-0.0100",
+          "ucb": 0.232901254
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:link:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:verification:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:verification:fmr-0.0100",
+          "ucb": 0.232901254
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:verification:fmr-0.0100",
+          "ucb": 1.0
+        }
+      ],
+      "device_type": "vehicle_cpu_class_b",
+      "joint_trace_supported": true,
+      "pipeline_id": "pixelate_medium_numerical_v1",
+      "quality_bin": "challenging"
+    },
+    {
+      "bounds": [
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:identity:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:identity:fmr-0.0100",
+          "ucb": 0.232901254
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:identity:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:link:fmr-0.0100",
+          "ucb": 0.921875484
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:link:fmr-0.0100",
+          "ucb": 0.232901254
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:link:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:verification:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:verification:fmr-0.0100",
+          "ucb": 0.232901254
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:verification:fmr-0.0100",
+          "ucb": 1.0
+        }
+      ],
+      "device_type": "vehicle_gpu_class_a",
+      "joint_trace_supported": true,
+      "pipeline_id": "pixelate_strong_numerical_v1",
+      "quality_bin": "clear"
+    },
+    {
+      "bounds": [
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:identity:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:identity:fmr-0.0100",
+          "ucb": 0.232901254
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:identity:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:link:fmr-0.0100",
+          "ucb": 0.921875484
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:link:fmr-0.0100",
+          "ucb": 0.232901254
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:link:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:verification:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:verification:fmr-0.0100",
+          "ucb": 0.232901254
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:verification:fmr-0.0100",
+          "ucb": 1.0
+        }
+      ],
+      "device_type": "vehicle_cpu_class_b",
+      "joint_trace_supported": true,
+      "pipeline_id": "pixelate_strong_numerical_v1",
+      "quality_bin": "clear"
+    },
+    {
+      "bounds": [
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.802067251,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:identity:fmr-0.0100",
+          "ucb": 0.468373598
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.802067251,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:identity:fmr-0.0100",
+          "ucb": 0.234602677
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.802067251,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:identity:fmr-0.0100",
+          "ucb": 0.74110634
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.802067251,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:link:fmr-0.0100",
+          "ucb": 0.28817518
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.802067251,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:link:fmr-0.0100",
+          "ucb": 0.234602677
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.802067251,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:link:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.802067251,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:verification:fmr-0.0100",
+          "ucb": 0.609610196
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.802067251,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:verification:fmr-0.0100",
+          "ucb": 0.234602677
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.802067251,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:verification:fmr-0.0100",
+          "ucb": 0.672923154
+        }
+      ],
+      "device_type": "vehicle_gpu_class_a",
+      "joint_trace_supported": true,
+      "pipeline_id": "pixelate_strong_numerical_v1",
+      "quality_bin": "challenging"
+    },
+    {
+      "bounds": [
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.802067251,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:identity:fmr-0.0100",
+          "ucb": 0.468373598
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.802067251,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:identity:fmr-0.0100",
+          "ucb": 0.234602677
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.802067251,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:identity:fmr-0.0100",
+          "ucb": 0.74110634
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.802067251,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:link:fmr-0.0100",
+          "ucb": 0.28817518
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.802067251,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:link:fmr-0.0100",
+          "ucb": 0.234602677
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.802067251,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:link:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.802067251,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:verification:fmr-0.0100",
+          "ucb": 0.609610196
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.802067251,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:verification:fmr-0.0100",
+          "ucb": 0.234602677
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.802067251,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:verification:fmr-0.0100",
+          "ucb": 0.672923154
+        }
+      ],
+      "device_type": "vehicle_cpu_class_b",
+      "joint_trace_supported": true,
+      "pipeline_id": "pixelate_strong_numerical_v1",
+      "quality_bin": "challenging"
+    },
+    {
+      "bounds": [
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:identity:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:identity:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:identity:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:link:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:link:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:link:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:verification:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:verification:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:verification:fmr-0.0100",
+          "ucb": 1.0
+        }
+      ],
+      "device_type": "vehicle_gpu_class_a",
+      "joint_trace_supported": true,
+      "pipeline_id": "blur_weak_numerical_v1",
+      "quality_bin": "clear"
+    },
+    {
+      "bounds": [
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:identity:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:identity:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:identity:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:link:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:link:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:link:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:verification:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:verification:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:verification:fmr-0.0100",
+          "ucb": 1.0
+        }
+      ],
+      "device_type": "vehicle_cpu_class_b",
+      "joint_trace_supported": true,
+      "pipeline_id": "blur_weak_numerical_v1",
+      "quality_bin": "clear"
+    },
+    {
+      "bounds": [
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:identity:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:identity:fmr-0.0100",
+          "ucb": 0.52541312
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:identity:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:link:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:link:fmr-0.0100",
+          "ucb": 0.365861193
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:link:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:verification:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:verification:fmr-0.0100",
+          "ucb": 0.537500387
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:verification:fmr-0.0100",
+          "ucb": 1.0
+        }
+      ],
+      "device_type": "vehicle_gpu_class_a",
+      "joint_trace_supported": true,
+      "pipeline_id": "blur_weak_numerical_v1",
+      "quality_bin": "challenging"
+    },
+    {
+      "bounds": [
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:identity:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:identity:fmr-0.0100",
+          "ucb": 0.52541312
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:identity:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:link:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:link:fmr-0.0100",
+          "ucb": 0.365861193
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:link:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:verification:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:verification:fmr-0.0100",
+          "ucb": 0.537500387
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:verification:fmr-0.0100",
+          "ucb": 1.0
+        }
+      ],
+      "device_type": "vehicle_cpu_class_b",
+      "joint_trace_supported": true,
+      "pipeline_id": "blur_weak_numerical_v1",
+      "quality_bin": "challenging"
+    },
+    {
+      "bounds": [
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:identity:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:identity:fmr-0.0100",
+          "ucb": 0.234186438
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:identity:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:link:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:link:fmr-0.0100",
+          "ucb": 0.231780616
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:link:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:verification:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:verification:fmr-0.0100",
+          "ucb": 0.234186438
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:verification:fmr-0.0100",
+          "ucb": 1.0
+        }
+      ],
+      "device_type": "vehicle_gpu_class_a",
+      "joint_trace_supported": true,
+      "pipeline_id": "blur_medium_numerical_v1",
+      "quality_bin": "clear"
+    },
+    {
+      "bounds": [
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:identity:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:identity:fmr-0.0100",
+          "ucb": 0.234186438
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:identity:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:link:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:link:fmr-0.0100",
+          "ucb": 0.231780616
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:link:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:verification:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:verification:fmr-0.0100",
+          "ucb": 0.234186438
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:verification:fmr-0.0100",
+          "ucb": 1.0
+        }
+      ],
+      "device_type": "vehicle_cpu_class_b",
+      "joint_trace_supported": true,
+      "pipeline_id": "blur_medium_numerical_v1",
+      "quality_bin": "clear"
+    },
+    {
+      "bounds": [
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:identity:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:identity:fmr-0.0100",
+          "ucb": 0.232901254
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:identity:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:link:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:link:fmr-0.0100",
+          "ucb": 0.232901254
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:link:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:verification:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:verification:fmr-0.0100",
+          "ucb": 0.232901254
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:verification:fmr-0.0100",
+          "ucb": 1.0
+        }
+      ],
+      "device_type": "vehicle_gpu_class_a",
+      "joint_trace_supported": true,
+      "pipeline_id": "blur_medium_numerical_v1",
+      "quality_bin": "challenging"
+    },
+    {
+      "bounds": [
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:identity:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:identity:fmr-0.0100",
+          "ucb": 0.232901254
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:identity:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:link:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:link:fmr-0.0100",
+          "ucb": 0.232901254
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:link:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:verification:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:verification:fmr-0.0100",
+          "ucb": 0.232901254
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:verification:fmr-0.0100",
+          "ucb": 1.0
+        }
+      ],
+      "device_type": "vehicle_cpu_class_b",
+      "joint_trace_supported": true,
+      "pipeline_id": "blur_medium_numerical_v1",
+      "quality_bin": "challenging"
+    },
+    {
+      "bounds": [
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:identity:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:identity:fmr-0.0100",
+          "ucb": 0.232901254
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:identity:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:link:fmr-0.0100",
+          "ucb": 0.774410824
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:link:fmr-0.0100",
+          "ucb": 0.232901254
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:link:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:verification:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:verification:fmr-0.0100",
+          "ucb": 0.232901254
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:verification:fmr-0.0100",
+          "ucb": 1.0
+        }
+      ],
+      "device_type": "vehicle_gpu_class_a",
+      "joint_trace_supported": true,
+      "pipeline_id": "blur_strong_numerical_v1",
+      "quality_bin": "clear"
+    },
+    {
+      "bounds": [
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:identity:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:identity:fmr-0.0100",
+          "ucb": 0.232901254
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:identity:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:link:fmr-0.0100",
+          "ucb": 0.774410824
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:link:fmr-0.0100",
+          "ucb": 0.232901254
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:link:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:verification:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:verification:fmr-0.0100",
+          "ucb": 0.232901254
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:verification:fmr-0.0100",
+          "ucb": 1.0
+        }
+      ],
+      "device_type": "vehicle_cpu_class_b",
+      "joint_trace_supported": true,
+      "pipeline_id": "blur_strong_numerical_v1",
+      "quality_bin": "clear"
+    },
+    {
+      "bounds": [
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:identity:fmr-0.0100",
+          "ucb": 0.392453181
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:identity:fmr-0.0100",
+          "ucb": 0.232901254
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:identity:fmr-0.0100",
+          "ucb": 0.694634861
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:link:fmr-0.0100",
+          "ucb": 0.271580509
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:link:fmr-0.0100",
+          "ucb": 0.232901254
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:link:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:verification:fmr-0.0100",
+          "ucb": 0.552005108
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:verification:fmr-0.0100",
+          "ucb": 0.232901254
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:verification:fmr-0.0100",
+          "ucb": 0.651120699
+        }
+      ],
+      "device_type": "vehicle_gpu_class_a",
+      "joint_trace_supported": true,
+      "pipeline_id": "blur_strong_numerical_v1",
+      "quality_bin": "challenging"
+    },
+    {
+      "bounds": [
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:identity:fmr-0.0100",
+          "ucb": 0.392453181
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:identity:fmr-0.0100",
+          "ucb": 0.232901254
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:identity:fmr-0.0100",
+          "ucb": 0.694634861
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:link:fmr-0.0100",
+          "ucb": 0.271580509
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:link:fmr-0.0100",
+          "ucb": 0.232901254
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:link:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:verification:fmr-0.0100",
+          "ucb": 0.552005108
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:verification:fmr-0.0100",
+          "ucb": 0.232901254
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:verification:fmr-0.0100",
+          "ucb": 0.651120699
+        }
+      ],
+      "device_type": "vehicle_cpu_class_b",
+      "joint_trace_supported": true,
+      "pipeline_id": "blur_strong_numerical_v1",
+      "quality_bin": "challenging"
+    },
+    {
+      "bounds": [
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:identity:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:identity:fmr-0.0100",
+          "ucb": 0.366506621
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:identity:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:link:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:link:fmr-0.0100",
+          "ucb": 0.260650474
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:link:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:verification:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:verification:fmr-0.0100",
+          "ucb": 0.347260049
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:verification:fmr-0.0100",
+          "ucb": 1.0
+        }
+      ],
+      "device_type": "vehicle_gpu_class_a",
+      "joint_trace_supported": true,
+      "pipeline_id": "generative_weak_numerical_v1",
+      "quality_bin": "clear"
+    },
+    {
+      "bounds": [
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:identity:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:identity:fmr-0.0100",
+          "ucb": 0.366506621
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:identity:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:link:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:link:fmr-0.0100",
+          "ucb": 0.260650474
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:link:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:verification:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:verification:fmr-0.0100",
+          "ucb": 0.347260049
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:verification:fmr-0.0100",
+          "ucb": 1.0
+        }
+      ],
+      "device_type": "vehicle_cpu_class_b",
+      "joint_trace_supported": true,
+      "pipeline_id": "generative_weak_numerical_v1",
+      "quality_bin": "clear"
+    },
+    {
+      "bounds": [
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:identity:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:identity:fmr-0.0100",
+          "ucb": 0.234186438
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:identity:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:link:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:link:fmr-0.0100",
+          "ucb": 0.231780616
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:link:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:verification:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:verification:fmr-0.0100",
+          "ucb": 0.231780616
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:verification:fmr-0.0100",
+          "ucb": 1.0
+        }
+      ],
+      "device_type": "vehicle_gpu_class_a",
+      "joint_trace_supported": true,
+      "pipeline_id": "generative_weak_numerical_v1",
+      "quality_bin": "challenging"
+    },
+    {
+      "bounds": [
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:identity:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:identity:fmr-0.0100",
+          "ucb": 0.234186438
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:identity:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:link:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:link:fmr-0.0100",
+          "ucb": 0.231780616
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:link:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:verification:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:verification:fmr-0.0100",
+          "ucb": 0.231780616
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:verification:fmr-0.0100",
+          "ucb": 1.0
+        }
+      ],
+      "device_type": "vehicle_cpu_class_b",
+      "joint_trace_supported": true,
+      "pipeline_id": "generative_weak_numerical_v1",
+      "quality_bin": "challenging"
+    },
+    {
+      "bounds": [
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.809879751,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:identity:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.809879751,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:identity:fmr-0.0100",
+          "ucb": 0.232339584
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.809879751,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:identity:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.809879751,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:link:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.809879751,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:link:fmr-0.0100",
+          "ucb": 0.232339584
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.809879751,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:link:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.809879751,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:verification:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.809879751,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:verification:fmr-0.0100",
+          "ucb": 0.234751207
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.809879751,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:verification:fmr-0.0100",
+          "ucb": 1.0
+        }
+      ],
+      "device_type": "vehicle_gpu_class_a",
+      "joint_trace_supported": true,
+      "pipeline_id": "generative_medium_numerical_v1",
+      "quality_bin": "clear"
+    },
+    {
+      "bounds": [
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.809879751,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:identity:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.809879751,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:identity:fmr-0.0100",
+          "ucb": 0.232339584
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.809879751,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:identity:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.809879751,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:link:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.809879751,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:link:fmr-0.0100",
+          "ucb": 0.232339584
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.809879751,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:link:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.809879751,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:verification:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.809879751,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:verification:fmr-0.0100",
+          "ucb": 0.234751207
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.809879751,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:verification:fmr-0.0100",
+          "ucb": 1.0
+        }
+      ],
+      "device_type": "vehicle_cpu_class_b",
+      "joint_trace_supported": true,
+      "pipeline_id": "generative_medium_numerical_v1",
+      "quality_bin": "clear"
+    },
+    {
+      "bounds": [
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:identity:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:identity:fmr-0.0100",
+          "ucb": 0.232901254
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:identity:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:link:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:link:fmr-0.0100",
+          "ucb": 0.232901254
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:link:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:verification:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:verification:fmr-0.0100",
+          "ucb": 0.232901254
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:verification:fmr-0.0100",
+          "ucb": 1.0
+        }
+      ],
+      "device_type": "vehicle_gpu_class_a",
+      "joint_trace_supported": true,
+      "pipeline_id": "generative_medium_numerical_v1",
+      "quality_bin": "challenging"
+    },
+    {
+      "bounds": [
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:identity:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:identity:fmr-0.0100",
+          "ucb": 0.232901254
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:identity:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:link:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:link:fmr-0.0100",
+          "ucb": 0.232901254
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:link:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:verification:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:verification:fmr-0.0100",
+          "ucb": 0.232901254
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:verification:fmr-0.0100",
+          "ucb": 1.0
+        }
+      ],
+      "device_type": "vehicle_cpu_class_b",
+      "joint_trace_supported": true,
+      "pipeline_id": "generative_medium_numerical_v1",
+      "quality_bin": "challenging"
+    },
+    {
+      "bounds": [
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:identity:fmr-0.0100",
+          "ucb": 0.936380205
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:identity:fmr-0.0100",
+          "ucb": 0.232901254
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:identity:fmr-0.0100",
+          "ucb": 0.868691508
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:link:fmr-0.0100",
+          "ucb": 0.568927282
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:link:fmr-0.0100",
+          "ucb": 0.232901254
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:link:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:verification:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:verification:fmr-0.0100",
+          "ucb": 0.232901254
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:verification:fmr-0.0100",
+          "ucb": 0.921875484
+        }
+      ],
+      "device_type": "vehicle_gpu_class_a",
+      "joint_trace_supported": true,
+      "pipeline_id": "generative_strong_numerical_v1",
+      "quality_bin": "clear"
+    },
+    {
+      "bounds": [
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:identity:fmr-0.0100",
+          "ucb": 0.936380205
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:identity:fmr-0.0100",
+          "ucb": 0.232901254
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:identity:fmr-0.0100",
+          "ucb": 0.868691508
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:link:fmr-0.0100",
+          "ucb": 0.568927282
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:link:fmr-0.0100",
+          "ucb": 0.232901254
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:link:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:verification:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:verification:fmr-0.0100",
+          "ucb": 0.232901254
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.807926626,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:verification:fmr-0.0100",
+          "ucb": 0.921875484
+        }
+      ],
+      "device_type": "vehicle_cpu_class_b",
+      "joint_trace_supported": true,
+      "pipeline_id": "generative_strong_numerical_v1",
+      "quality_bin": "clear"
+    },
+    {
+      "bounds": [
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.802067251,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:identity:fmr-0.0100",
+          "ucb": 0.305220976
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.802067251,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:identity:fmr-0.0100",
+          "ucb": 0.234602677
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.802067251,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:identity:fmr-0.0100",
+          "ucb": 0.599869741
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.802067251,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:link:fmr-0.0100",
+          "ucb": 0.244343132
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.802067251,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:link:fmr-0.0100",
+          "ucb": 0.234602677
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.802067251,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:link:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.802067251,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:verification:fmr-0.0100",
+          "ucb": 0.388014844
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.802067251,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:verification:fmr-0.0100",
+          "ucb": 0.234602677
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.802067251,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:verification:fmr-0.0100",
+          "ucb": 0.548732352
+        }
+      ],
+      "device_type": "vehicle_gpu_class_a",
+      "joint_trace_supported": true,
+      "pipeline_id": "generative_strong_numerical_v1",
+      "quality_bin": "challenging"
+    },
+    {
+      "bounds": [
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.802067251,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:identity:fmr-0.0100",
+          "ucb": 0.305220976
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.802067251,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:identity:fmr-0.0100",
+          "ucb": 0.234602677
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.802067251,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:identity:fmr-0.0100",
+          "ucb": 0.599869741
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.802067251,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:link:fmr-0.0100",
+          "ucb": 0.244343132
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.802067251,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:link:fmr-0.0100",
+          "ucb": 0.234602677
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.802067251,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:link:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.802067251,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:verification:fmr-0.0100",
+          "ucb": 0.388014844
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.802067251,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:verification:fmr-0.0100",
+          "ucb": 0.234602677
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.802067251,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:verification:fmr-0.0100",
+          "ucb": 0.548732352
+        }
+      ],
+      "device_type": "vehicle_cpu_class_b",
+      "joint_trace_supported": true,
+      "pipeline_id": "generative_strong_numerical_v1",
+      "quality_bin": "challenging"
+    },
+    {
+      "bounds": [
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:identity:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:identity:fmr-0.0100",
+          "ucb": 0.234186438
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:identity:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:link:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:link:fmr-0.0100",
+          "ucb": 0.231780616
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:link:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:verification:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:verification:fmr-0.0100",
+          "ucb": 0.248621367
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:verification:fmr-0.0100",
+          "ucb": 1.0
+        }
+      ],
+      "device_type": "vehicle_gpu_class_a",
+      "joint_trace_supported": true,
+      "pipeline_id": "diffusion_weak_numerical_v1",
+      "quality_bin": "clear"
+    },
+    {
+      "bounds": [
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:identity:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:identity:fmr-0.0100",
+          "ucb": 0.234186438
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:identity:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:link:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:link:fmr-0.0100",
+          "ucb": 0.231780616
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:link:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:verification:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:verification:fmr-0.0100",
+          "ucb": 0.248621367
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:verification:fmr-0.0100",
+          "ucb": 1.0
+        }
+      ],
+      "device_type": "vehicle_cpu_class_b",
+      "joint_trace_supported": true,
+      "pipeline_id": "diffusion_weak_numerical_v1",
+      "quality_bin": "clear"
+    },
+    {
+      "bounds": [
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.809879751,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:identity:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.809879751,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:identity:fmr-0.0100",
+          "ucb": 0.232339584
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.809879751,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:identity:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.809879751,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:link:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.809879751,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:link:fmr-0.0100",
+          "ucb": 0.232339584
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.809879751,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:link:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.809879751,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:verification:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.809879751,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:verification:fmr-0.0100",
+          "ucb": 0.232339584
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.809879751,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:verification:fmr-0.0100",
+          "ucb": 1.0
+        }
+      ],
+      "device_type": "vehicle_gpu_class_a",
+      "joint_trace_supported": true,
+      "pipeline_id": "diffusion_weak_numerical_v1",
+      "quality_bin": "challenging"
+    },
+    {
+      "bounds": [
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.809879751,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:identity:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.809879751,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:identity:fmr-0.0100",
+          "ucb": 0.232339584
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.809879751,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:identity:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.809879751,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:link:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.809879751,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:link:fmr-0.0100",
+          "ucb": 0.232339584
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.809879751,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:link:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.809879751,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:verification:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.809879751,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:verification:fmr-0.0100",
+          "ucb": 0.232339584
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.809879751,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:verification:fmr-0.0100",
+          "ucb": 1.0
+        }
+      ],
+      "device_type": "vehicle_cpu_class_b",
+      "joint_trace_supported": true,
+      "pipeline_id": "diffusion_weak_numerical_v1",
+      "quality_bin": "challenging"
+    },
+    {
+      "bounds": [
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:identity:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:identity:fmr-0.0100",
+          "ucb": 0.231780616
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:identity:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:link:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:link:fmr-0.0100",
+          "ucb": 0.231780616
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:link:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:verification:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:verification:fmr-0.0100",
+          "ucb": 0.231780616
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:verification:fmr-0.0100",
+          "ucb": 1.0
+        }
+      ],
+      "device_type": "vehicle_gpu_class_a",
+      "joint_trace_supported": true,
+      "pipeline_id": "diffusion_medium_numerical_v1",
+      "quality_bin": "clear"
+    },
+    {
+      "bounds": [
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:identity:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:identity:fmr-0.0100",
+          "ucb": 0.231780616
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:identity:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:link:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:link:fmr-0.0100",
+          "ucb": 0.231780616
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:link:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:verification:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:verification:fmr-0.0100",
+          "ucb": 0.231780616
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.811832876,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:verification:fmr-0.0100",
+          "ucb": 1.0
+        }
+      ],
+      "device_type": "vehicle_cpu_class_b",
+      "joint_trace_supported": true,
+      "pipeline_id": "diffusion_medium_numerical_v1",
+      "quality_bin": "clear"
+    },
+    {
+      "bounds": [
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.809879751,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:identity:fmr-0.0100",
+          "ucb": 0.979942854
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.809879751,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:identity:fmr-0.0100",
+          "ucb": 0.232339584
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.809879751,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:identity:fmr-0.0100",
+          "ucb": 0.890712786
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.809879751,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:link:fmr-0.0100",
+          "ucb": 0.664020182
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.809879751,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:link:fmr-0.0100",
+          "ucb": 0.232339584
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.809879751,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:link:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.809879751,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:verification:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.809879751,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:verification:fmr-0.0100",
+          "ucb": 0.232339584
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.809879751,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:verification:fmr-0.0100",
+          "ucb": 0.972707984
+        }
+      ],
+      "device_type": "vehicle_gpu_class_a",
+      "joint_trace_supported": true,
+      "pipeline_id": "diffusion_medium_numerical_v1",
+      "quality_bin": "challenging"
+    },
+    {
+      "bounds": [
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.809879751,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:identity:fmr-0.0100",
+          "ucb": 0.979942854
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.809879751,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:identity:fmr-0.0100",
+          "ucb": 0.232339584
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.809879751,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:identity:fmr-0.0100",
+          "ucb": 0.890712786
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.809879751,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:link:fmr-0.0100",
+          "ucb": 0.664020182
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.809879751,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:link:fmr-0.0100",
+          "ucb": 0.232339584
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.809879751,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:link:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.809879751,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:verification:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.809879751,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:verification:fmr-0.0100",
+          "ucb": 0.232339584
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.809879751,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:verification:fmr-0.0100",
+          "ucb": 0.972707984
+        }
+      ],
+      "device_type": "vehicle_cpu_class_b",
+      "joint_trace_supported": true,
+      "pipeline_id": "diffusion_medium_numerical_v1",
+      "quality_bin": "challenging"
+    },
+    {
+      "bounds": [
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.809879751,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:identity:fmr-0.0100",
+          "ucb": 0.748427003
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.809879751,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:identity:fmr-0.0100",
+          "ucb": 0.232339584
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.809879751,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:identity:fmr-0.0100",
+          "ucb": 0.8304222
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.809879751,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:link:fmr-0.0100",
+          "ucb": 0.456620565
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.809879751,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:link:fmr-0.0100",
+          "ucb": 0.232339584
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.809879751,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:link:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.809879751,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:verification:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.809879751,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:verification:fmr-0.0100",
+          "ucb": 0.232339584
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.809879751,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:verification:fmr-0.0100",
+          "ucb": 0.873831422
+        }
+      ],
+      "device_type": "vehicle_gpu_class_a",
+      "joint_trace_supported": true,
+      "pipeline_id": "diffusion_strong_numerical_v1",
+      "quality_bin": "clear"
+    },
+    {
+      "bounds": [
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.809879751,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:identity:fmr-0.0100",
+          "ucb": 0.748427003
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.809879751,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:identity:fmr-0.0100",
+          "ucb": 0.232339584
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.809879751,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:identity:fmr-0.0100",
+          "ucb": 0.8304222
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.809879751,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:link:fmr-0.0100",
+          "ucb": 0.456620565
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.809879751,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:link:fmr-0.0100",
+          "ucb": 0.232339584
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.809879751,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:link:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.809879751,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:verification:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.809879751,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:verification:fmr-0.0100",
+          "ucb": 0.232339584
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.809879751,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:verification:fmr-0.0100",
+          "ucb": 0.873831422
+        }
+      ],
+      "device_type": "vehicle_cpu_class_b",
+      "joint_trace_supported": true,
+      "pipeline_id": "diffusion_strong_numerical_v1",
+      "quality_bin": "clear"
+    },
+    {
+      "bounds": [
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.805973501,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:identity:fmr-0.0100",
+          "ucb": 0.272238633
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.805973501,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:identity:fmr-0.0100",
+          "ucb": 0.233465646
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.805973501,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:identity:fmr-0.0100",
+          "ucb": 0.548496165
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.805973501,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:link:fmr-0.0100",
+          "ucb": 0.240735581
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.805973501,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:link:fmr-0.0100",
+          "ucb": 0.233465646
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.805973501,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:link:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.805973501,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:verification:fmr-0.0100",
+          "ucb": 0.318281555
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.805973501,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:verification:fmr-0.0100",
+          "ucb": 0.233465646
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.805973501,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:verification:fmr-0.0100",
+          "ucb": 0.466103568
+        }
+      ],
+      "device_type": "vehicle_gpu_class_a",
+      "joint_trace_supported": true,
+      "pipeline_id": "diffusion_strong_numerical_v1",
+      "quality_bin": "challenging"
+    },
+    {
+      "bounds": [
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.805973501,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:identity:fmr-0.0100",
+          "ucb": 0.272238633
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.805973501,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:identity:fmr-0.0100",
+          "ucb": 0.233465646
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.805973501,
+          "risk_type": "identity",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:identity:fmr-0.0100",
+          "ucb": 0.548496165
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.805973501,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:link:fmr-0.0100",
+          "ucb": 0.240735581
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.805973501,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:link:fmr-0.0100",
+          "ucb": 0.233465646
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.805973501,
+          "risk_type": "link",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:link:fmr-0.0100",
+          "ucb": 1.0
+        },
+        {
+          "attacker_id": "cosine_gallery_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.805973501,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "cosine_gallery_numerical_v1:verification:fmr-0.0100",
+          "ucb": 0.318281555
+        },
+        {
+          "attacker_id": "projected_margin_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.805973501,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "projected_margin_numerical_v1:verification:fmr-0.0100",
+          "ucb": 0.233465646
+        },
+        {
+          "attacker_id": "temporal_link_numerical_v1",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.805973501,
+          "risk_type": "verification",
+          "subject_count": 128,
+          "threshold_id": "temporal_link_numerical_v1:verification:fmr-0.0100",
+          "ucb": 0.466103568
+        }
+      ],
+      "device_type": "vehicle_cpu_class_b",
+      "joint_trace_supported": true,
+      "pipeline_id": "diffusion_strong_numerical_v1",
+      "quality_bin": "challenging"
+    }
+  ],
+  "privacy_policy": {
+    "confidence_error": 0.05,
+    "interpretation": "Numerical subject-level simultaneous empirical bound for frozen simulated attackers only; not absolute anonymity.",
+    "min_emission_lcb": 0.5,
+    "min_subjects": 64,
+    "registered_risk_types": [
+      "identity",
+      "verification",
+      "link"
+    ],
+    "risk_threshold": 0.8
+  },
+  "profile_hash": "f50273aea7168da8d589a87bec43b7608a36389c7605d5bf01bba28105a78004",
+  "profile_version": "numerical-1.0.0",
+  "protocol_version": "anon-fer/1.0",
+  "quality_bins": [
+    "clear",
+    "challenging"
+  ],
+  "schema_version": "1.1.0"
+}

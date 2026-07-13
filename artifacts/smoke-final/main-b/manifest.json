@@ -1,0 +1,497 @@
+{
+  "code_version": {
+    "kind": "source_tree_sha256",
+    "source_file_count": 21,
+    "source_tree_sha256": "b0854731d3104250bc709456f71906cdc52dd7c111c54c1bc7cc393b96649f4a",
+    "value": "b0854731d3104250bc709456f71906cdc52dd7c111c54c1bc7cc393b96649f4a"
+  },
+  "configuration": {
+    "canonical_sha256": "3b839566c49cf5c8f9c13037bd1024e578b4ec88ec69fd3824ce86cd105486ad",
+    "content": {
+      "controller": {
+        "controller_energy_j": 0.004,
+        "controller_overhead_s": 0.0008,
+        "horizon_events": 2,
+        "lyapunov_v": 12.0,
+        "policy": "esl_smpc",
+        "rollout_policy": "safe_greedy",
+        "scenarios": 8
+      },
+      "cost": {
+        "failure_loss": 1.0,
+        "latency_scale_s": 1.0,
+        "rsu_energy_scale_j": 40.0,
+        "utility_scale": 1.0,
+        "vehicle_energy_scale_j": 25.0,
+        "weights": {
+          "failure": 2.0,
+          "latency": 1.0,
+          "rsu_energy": 0.15,
+          "utility": 1.0,
+          "vehicle_energy": 0.25
+        }
+      },
+      "downlink_pause_limit_s": 2.0,
+      "long_term": {
+        "coverage_rate_minimum": 0.75,
+        "failure_rate_limit": 0.25,
+        "timeout_rate_limit": 0.15
+      },
+      "max_snapshot_age_s": 0.5,
+      "metadata_bits": 2048,
+      "output_parquet": false,
+      "parameter_sources": {
+        "anonymous_transaction": "engineering_assumption",
+        "arrival_load": "engineering_assumption",
+        "deadlines": "engineering_assumption",
+        "encoded_output_size": "engineering_assumption",
+        "faults": "stress_test_boundary",
+        "interruptions_and_recovery": "stress_test_boundary",
+        "privacy_risk_values": "engineering_assumption",
+        "resource_capacity": "engineering_assumption",
+        "rsu_power": "engineering_assumption",
+        "task_buffer_hold_power": "engineering_assumption",
+        "thermal_throttling": "stress_test_boundary",
+        "vehicle_compute_latency_energy": "engineering_assumption",
+        "vehicle_power": "engineering_assumption",
+        "wireless_goodput": "engineering_assumption"
+      },
+      "privacy": {
+        "confidence_error": 0.05,
+        "min_emission_lcb": 0.5,
+        "min_subjects": 30,
+        "quality_miscoverage": 0.1,
+        "risk_threshold": 0.1
+      },
+      "profile_path": "E:\\lun\\lun1\\profiles\\synthetic_profile.json",
+      "protocol_version": "anon-fer/1.0",
+      "rsus": [
+        {
+          "average_power_budget_w": 128.0,
+          "cached_models": [
+            "edge_fer_full_v1"
+          ],
+          "descriptor_capacity": 16,
+          "gpu_servers": 2,
+          "hold_power_w": 0.5,
+          "idle_power_w": 72.0,
+          "rsu_id": "rsu-1",
+          "vram_capacity_bytes": 8589934592,
+          "workload_capacity_gpu_s": 30.0
+        },
+        {
+          "average_power_budget_w": 108.0,
+          "cached_models": [
+            "edge_fer_full_v1"
+          ],
+          "descriptor_capacity": 10,
+          "gpu_servers": 1,
+          "hold_power_w": 0.4,
+          "idle_power_w": 58.0,
+          "rsu_id": "rsu-2",
+          "vram_capacity_bytes": 6442450944,
+          "workload_capacity_gpu_s": 18.0
+        }
+      ],
+      "schema_version": "1.0",
+      "seeds": {
+        "arrivals": 41002,
+        "environment": 41001,
+        "fault": 41007,
+        "mobility": 41003,
+        "rsu": 41006,
+        "scenario": 51001,
+        "vehicle": 41000,
+        "wireless": 41004
+      },
+      "trace_path": "E:\\lun\\lun1\\traces\\synthetic_trace.json",
+      "uplink_pause_limit_s": 2.0,
+      "vehicles": [
+        {
+          "accelerator_descriptors": 8,
+          "average_power_budget_w": 22.0,
+          "battery_capacity_j": 2400.0,
+          "cpu_descriptors": 8,
+          "device_type": "vehicle_gpu_class_a",
+          "encoder_descriptors": 8,
+          "hold_power_w": 0.15,
+          "idle_power_w": 8.0,
+          "initial_battery_j": 2400.0,
+          "memory_capacity_bytes": 536870912,
+          "vehicle_id": "veh-1"
+        },
+        {
+          "accelerator_descriptors": 6,
+          "average_power_budget_w": 18.0,
+          "battery_capacity_j": 1800.0,
+          "cpu_descriptors": 6,
+          "device_type": "vehicle_cpu_class_b",
+          "encoder_descriptors": 6,
+          "hold_power_w": 0.12,
+          "idle_power_w": 6.5,
+          "initial_battery_j": 1800.0,
+          "memory_capacity_bytes": 268435456,
+          "vehicle_id": "veh-2"
+        }
+      ]
+    }
+  },
+  "controller": {
+    "controller_energy_j": 0.004,
+    "controller_overhead_s": 0.0008,
+    "horizon_events": 2,
+    "lyapunov_v": 12.0,
+    "policy": "esl_smpc",
+    "rollout_policy": "safe_greedy",
+    "scenarios": 8
+  },
+  "controller_diagnostics": {
+    "note": "engineering diagnostic only; excluded from simulated time and core_digest",
+    "sample_count": 8,
+    "wall_clock_max_s": 0.018079,
+    "wall_clock_mean_s": 0.009304950000000001,
+    "wall_clock_p50_s": 0.00720315,
+    "wall_clock_p95_s": 0.017614025000000002,
+    "wall_clock_total_s": 0.07443960000000001
+  },
+  "core_digest": "417064504d917ff8b844eb1c8fb90a18fa3e196755c45a957b27c0a9cbbdea99",
+  "data_provenance": {
+    "evidence_status": "synthetic_fixture_only",
+    "formal_experiment_eligible": false,
+    "profile_data_kind": "synthetic",
+    "result_label": "synthetic_engineering_only",
+    "trace_data_kind": "synthetic"
+  },
+  "data_split": {
+    "status": "not_declared"
+  },
+  "deadline": {
+    "count": 8,
+    "relative_deadline_max_s": 1.35,
+    "relative_deadline_mean_s": 1.015,
+    "relative_deadline_min_s": 0.62
+  },
+  "generated_at_utc": "2026-07-12T13:10:30.411672+00:00",
+  "invariants": {
+    "check_count": 45,
+    "failure_count": 0,
+    "failures": [],
+    "passed": true,
+    "status": "passed"
+  },
+  "manifest_schema_version": "1.0",
+  "manifest_sha256": "4415f7c7ebc42d263fdc282f1156661ec7ed74cef09162dba5fcea0f79c703fa",
+  "network": {
+    "downlink_pause_limit_s": 2.0,
+    "max_snapshot_age_s": 0.5,
+    "metadata_bits": 2048,
+    "uplink_pause_limit_s": 2.0
+  },
+  "outputs": {
+    "files": {
+      "actions.jsonl": {
+        "filename": "actions.jsonl",
+        "row_count": 32,
+        "sha256": "a183de33e04a99dab9a47799f643f0dc872d95abf58495c3b483e8a23a3c17d3",
+        "size_bytes": 34323
+      },
+      "events.jsonl": {
+        "filename": "events.jsonl",
+        "row_count": 46,
+        "sha256": "08983f9fff6408fde84842acaf216584b0a33a6c00c36662c1c485c350039ac4",
+        "size_bytes": 14273
+      },
+      "resources.csv": {
+        "filename": "resources.csv",
+        "row_count": 450,
+        "sha256": "47a9643b6ea0376ff7853d4709ef9f0caa834a9b3f286b46945466c1d96280b8",
+        "size_bytes": 77266
+      },
+      "summary.json": {
+        "filename": "summary.json",
+        "row_count": null,
+        "sha256": "fe458e064402825d871ea29dc68ccd0085bd40dcf240a82018fbc402058ab664",
+        "size_bytes": 12020
+      },
+      "tasks.csv": {
+        "filename": "tasks.csv",
+        "row_count": 8,
+        "sha256": "a41fce3c368367ebf1afb73cb32cb05df7b44c3511affd41ad9a751e6c3b2e1e",
+        "size_bytes": 10958
+      },
+      "virtual_queues.csv": {
+        "filename": "virtual_queues.csv",
+        "row_count": 315,
+        "sha256": "4ae9ebecd841f3b69f3217559b80890203fd974057f6cbe65b9843c051b66ce1",
+        "size_bytes": 8687
+      }
+    },
+    "parquet": {
+      "available": true,
+      "filename": null,
+      "generated": false,
+      "requested": false,
+      "status": "not_requested"
+    }
+  },
+  "parameter_sources": {
+    "configuration": {
+      "anonymous_transaction": "engineering_assumption",
+      "arrival_load": "engineering_assumption",
+      "deadlines": "engineering_assumption",
+      "encoded_output_size": "engineering_assumption",
+      "faults": "stress_test_boundary",
+      "interruptions_and_recovery": "stress_test_boundary",
+      "privacy_risk_values": "engineering_assumption",
+      "resource_capacity": "engineering_assumption",
+      "rsu_power": "engineering_assumption",
+      "task_buffer_hold_power": "engineering_assumption",
+      "thermal_throttling": "stress_test_boundary",
+      "vehicle_compute_latency_energy": "engineering_assumption",
+      "vehicle_power": "engineering_assumption",
+      "wireless_goodput": "engineering_assumption"
+    },
+    "profile": {
+      "emission_support": {
+        "category": "engineering_assumption",
+        "description": "Synthetic lower bounds used to exercise guard-emission support filtering.",
+        "unit": "probability"
+      },
+      "privacy_bounds": {
+        "category": "engineering_assumption",
+        "description": "Fabricated bounded values chosen only to exercise all three hard-risk checks; not attack measurements.",
+        "unit": "probability"
+      },
+      "retry_limits": {
+        "category": "engineering_assumption",
+        "description": "Small finite attempt limits for deterministic smoke and boundary tests.",
+        "unit": "attempts"
+      },
+      "subject_support": {
+        "category": "engineering_assumption",
+        "description": "Synthetic cluster counts used to exercise minimum subject support.",
+        "unit": "subjects"
+      }
+    },
+    "trace": {
+      "anonymization_transactions": {
+        "category": "engineering_assumption",
+        "description": "Joint retry/guard/encode rows, including correlated tail attempts and an OOM prefix.",
+        "unit": "resource_busy_s,J,bytes"
+      },
+      "arrivals_deadlines": {
+        "category": "engineering_assumption",
+        "description": "Small bursty workload with 0.62-1.35 second deadlines for smoke tests.",
+        "unit": "s"
+      },
+      "faults_versions": {
+        "category": "stress_test_boundary",
+        "description": "Transient RSU fault and an incompatible cached-model version event.",
+        "unit": "event"
+      },
+      "fer_compute": {
+        "category": "engineering_assumption",
+        "description": "Compact local and server FER service/energy orders of magnitude; no model was run.",
+        "unit": "resource_busy_s,J,bytes"
+      },
+      "prep_compute": {
+        "category": "engineering_assumption",
+        "description": "Detection/alignment/quality preprocessing fixture at 21-45 ms and sub-joule dynamic energy.",
+        "unit": "resource_busy_s,J,bytes"
+      },
+      "thermal": {
+        "category": "stress_test_boundary",
+        "description": "A finite hot interval reduces effective compute rate to 0.68; it never raises capacity.",
+        "unit": "dimensionless"
+      },
+      "wireless": {
+        "category": "engineering_assumption",
+        "description": "4G/5G-class application-goodput fixture with bursts, pauses, handover and permanent loss.",
+        "unit": "bit/s,W"
+      }
+    }
+  },
+  "profile_metadata": {
+    "contains_real_images": false,
+    "contains_trained_models": false,
+    "formal_experiment_eligible": false,
+    "generator": "privacy_edge_sim.synthetic.generate_synthetic_profile",
+    "seed": 20260712,
+    "warning": "SYNTHETIC ENGINEERING FIXTURE - NOT A MEASUREMENT OR PAPER RESULT"
+  },
+  "protocol_version": "anon-fer/1.0",
+  "resources": {
+    "rsus": [
+      {
+        "average_power_budget_w": 128.0,
+        "cached_models": [
+          "edge_fer_full_v1"
+        ],
+        "descriptor_capacity": 16,
+        "gpu_servers": 2,
+        "hold_power_w": 0.5,
+        "idle_power_w": 72.0,
+        "rsu_id": "rsu-1",
+        "vram_capacity_bytes": 8589934592,
+        "workload_capacity_gpu_s": 30.0
+      },
+      {
+        "average_power_budget_w": 108.0,
+        "cached_models": [
+          "edge_fer_full_v1"
+        ],
+        "descriptor_capacity": 10,
+        "gpu_servers": 1,
+        "hold_power_w": 0.4,
+        "idle_power_w": 58.0,
+        "rsu_id": "rsu-2",
+        "vram_capacity_bytes": 6442450944,
+        "workload_capacity_gpu_s": 18.0
+      }
+    ],
+    "vehicles": [
+      {
+        "accelerator_descriptors": 8,
+        "average_power_budget_w": 22.0,
+        "battery_capacity_j": 2400.0,
+        "cpu_descriptors": 8,
+        "device_type": "vehicle_gpu_class_a",
+        "encoder_descriptors": 8,
+        "hold_power_w": 0.15,
+        "idle_power_w": 8.0,
+        "initial_battery_j": 2400.0,
+        "memory_capacity_bytes": 536870912,
+        "vehicle_id": "veh-1"
+      },
+      {
+        "accelerator_descriptors": 6,
+        "average_power_budget_w": 18.0,
+        "battery_capacity_j": 1800.0,
+        "cpu_descriptors": 6,
+        "device_type": "vehicle_cpu_class_b",
+        "encoder_descriptors": 6,
+        "hold_power_w": 0.12,
+        "idle_power_w": 6.5,
+        "initial_battery_j": 1800.0,
+        "memory_capacity_bytes": 268435456,
+        "vehicle_id": "veh-2"
+      }
+    ]
+  },
+  "run_metadata": {
+    "policy": "esl_smpc"
+  },
+  "seeds": {
+    "arrivals": 41002,
+    "environment": 41001,
+    "fault": 41007,
+    "mobility": 41003,
+    "rsu": 41006,
+    "scenario": 51001,
+    "vehicle": 41000,
+    "wireless": 41004
+  },
+  "simulation": {
+    "duration_s": 5.93274,
+    "end_time_s": 5.93274,
+    "start_time_s": 0.0,
+    "task_count": 8,
+    "terminal_task_count": 8
+  },
+  "software_environment": {
+    "dependencies": {
+      "privacy-edge-sim": "0.1.0",
+      "pyarrow": "21.0.0"
+    },
+    "machine": "AMD64",
+    "os_name": "nt",
+    "platform": "Windows-11-10.0.22000-SP0",
+    "processor": "Intel64 Family 6 Model 154 Stepping 3, GenuineIntel",
+    "python_executable": "D:\\anaconda\\python.exe",
+    "python_implementation": "CPython",
+    "python_version": "3.13.9"
+  },
+  "trace_checksums": [
+    {
+      "aggregate_sha256": "31bfd8a5fd33bca39e527ad6d5727633da97ae7714835b03dca8b1085156c368",
+      "files": {
+        "synthetic_trace.json": "ebdb1ccd952cad574b08d60c9ebb089778fdae0f9ce6a2beb7f02f10d5b2f462"
+      },
+      "kind": "file",
+      "path": "E:\\lun\\lun1\\traces\\synthetic_trace.json"
+    }
+  ],
+  "trace_identity": {
+    "evidence_status": "synthetic_fixture_only",
+    "horizon_end_s": 8.0,
+    "horizon_start_s": 0.0,
+    "profile_hash": "744d2b396a79e71bd706ba767b8a7d859949c71da3dd0d3f403b23683fbbeb6a",
+    "protocol_version": "anon-fer/1.0",
+    "schema_version": "1.0.0",
+    "seed": 20260712,
+    "trace_hash": "b3397f037ae982a41e515bd32799181e7b65627e74cbc35e14317d76b9648e2a",
+    "trace_version": "synthetic-1.0.0"
+  },
+  "trace_metadata": {
+    "contains_real_measurements": false,
+    "formal_experiment_eligible": false,
+    "generator": "privacy_edge_sim.synthetic.generate_synthetic_trace",
+    "joint_rows_must_not_be_split": true,
+    "warning": "SYNTHETIC ENGINEERING FIXTURE - NOT A MEASUREMENT OR PAPER RESULT"
+  },
+  "versions": {
+    "edge_models": {
+      "edge_fer_full_v1": {
+        "model_hash": "cff94c9fa50bda3fe3cdc393316ccad4236fbfa43b8f77d33678eb333522f371",
+        "protocol_version": "anon-fer/1.0"
+      }
+    },
+    "local_models": {
+      "local_fer_compact_v1": {
+        "model_hash": "cca191aa51bbed34cc39b22777bc172b68c6b6aa4ac54221509cbc52916f94e9",
+        "protocol_version": "anon-fer/1.0"
+      }
+    },
+    "pipelines": {
+      "blur_balanced_v1": {
+        "encoder_hash": "4b6ceb2892370e04f6ab02924d1039ae41dd2118eaff8ebd4db134b640b0e758",
+        "encoder_id": "synthetic_jpeg_encoder_v1",
+        "guard_hash": "5127f79741938b0526535c259bf5a9f3d4ddee667bc11f9c7c66ba0cbb508fd4",
+        "guard_id": "synthetic_guard_v1",
+        "pipeline_hash": "a7a1dacde8174940445b7165cc5f92edb381060f10e1f5b071b6e5341da10a65"
+      },
+      "pixelate_strong_v1": {
+        "encoder_hash": "4b6ceb2892370e04f6ab02924d1039ae41dd2118eaff8ebd4db134b640b0e758",
+        "encoder_id": "synthetic_jpeg_encoder_v1",
+        "guard_hash": "5127f79741938b0526535c259bf5a9f3d4ddee667bc11f9c7c66ba0cbb508fd4",
+        "guard_id": "synthetic_guard_v1",
+        "pipeline_hash": "dc193b7023f4e00cc68007be1aa1881dec56aebf8491e90fb2848387f13bc253"
+      }
+    },
+    "privacy_policy": {
+      "confidence_error": 0.05,
+      "min_emission_lcb": 0.6,
+      "min_subjects": 64,
+      "quality_bins": [
+        "clear",
+        "challenging"
+      ],
+      "risk_threshold": 0.1
+    },
+    "profile_hash": "744d2b396a79e71bd706ba767b8a7d859949c71da3dd0d3f403b23683fbbeb6a",
+    "profile_version": "synthetic-1.0.0",
+    "protocol_version": "anon-fer/1.0",
+    "schema_version": "1.0.0"
+  },
+  "workload": {
+    "arrival_end_s": 5.82,
+    "arrival_span_s": 5.720000000000001,
+    "arrival_start_s": 0.1,
+    "empirical_arrival_rate_tasks_per_s": 1.2237762237762237,
+    "task_count": 8,
+    "tasks_by_vehicle": {
+      "veh-1": 4,
+      "veh-2": 4
+    }
+  }
+}

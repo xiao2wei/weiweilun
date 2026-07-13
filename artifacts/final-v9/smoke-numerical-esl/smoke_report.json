@@ -1,0 +1,46 @@
+{
+  "baseline": {
+    "core_digest": "9e90ffd0faf1e849e035a8221a29baf4810dc2bbc7348aef0c2a7eb000e6660c",
+    "data_kind": "numerical_simulation",
+    "done": 11,
+    "failed": 1,
+    "formal_experiment_eligible": false,
+    "invariant_checks": 140,
+    "numerical_experiment_eligible": true,
+    "output": "E:\\lun\\lun1\\artifacts\\final-v9\\smoke-numerical-esl\\baseline-all-local",
+    "policy": "all_local",
+    "real_hardware_measurement": false,
+    "sim_end_s": 9.626397548,
+    "tasks": 12
+  },
+  "engineering_smoke_only": true,
+  "main_policy": {
+    "core_digest": "517d5b4dd50a3ce79db3457aa01fa685447d43f3a05a60cd5ef956fe2a1ce961",
+    "data_kind": "numerical_simulation",
+    "done": 11,
+    "failed": 1,
+    "formal_experiment_eligible": false,
+    "invariant_checks": 150,
+    "numerical_experiment_eligible": true,
+    "output": "E:\\lun\\lun1\\artifacts\\final-v9\\smoke-numerical-esl\\main-a",
+    "policy": "esl_smpc",
+    "real_hardware_measurement": false,
+    "sim_end_s": 9.626397548,
+    "tasks": 12
+  },
+  "repeat_policy": {
+    "core_digest": "517d5b4dd50a3ce79db3457aa01fa685447d43f3a05a60cd5ef956fe2a1ce961",
+    "data_kind": "numerical_simulation",
+    "done": 11,
+    "failed": 1,
+    "formal_experiment_eligible": false,
+    "invariant_checks": 150,
+    "numerical_experiment_eligible": true,
+    "output": "E:\\lun\\lun1\\artifacts\\final-v9\\smoke-numerical-esl\\main-b",
+    "policy": "esl_smpc",
+    "real_hardware_measurement": false,
+    "sim_end_s": 9.626397548,
+    "tasks": 12
+  },
+  "same_seed_core_digest_equal": true
+}

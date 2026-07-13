@@ -1,0 +1,19 @@
+{
+  "checkpoint_sha256": "522fb995490b6745e2aec230483fe041efd2c39426da556b9f23499729ad149e",
+  "clock_s": 9.626397548,
+  "complete": true,
+  "compound_events": 140,
+  "contains_raw_or_aligned_payload": false,
+  "identity": {
+    "code_version": "110d9f98a97876871526552bb635350fc05d7a677b4944e67a339f20da4d5b01",
+    "configuration_sha256": "9e3ae296e860682ae186e02b59612363ac19ca62b0c5034dc4db9a1918e982d1",
+    "evaluation_trace_hash": "c0f89985a6866f199e0fbe5b74f095585a9b9c626525360e79cb496a95494ea5",
+    "policy": "esl_smpc",
+    "profile_hash": "7a9176b997ff4f2d2a4908eb560bf80c3916b4ecca4dfe2c3702ee5628583c44",
+    "protocol_version": "anon-fer/1.0",
+    "scenario_trace_hash": "2a68c640310d0cb031324dc05ac0f2af9994e4ecc9c74698b04cdfdee9caaab5"
+  },
+  "prefix_sha256": "ace2e665b09086f2b0d28b5a20332f0cc7e3b3452e30ec601bb691ad06631e7e",
+  "recovery_mode": "deterministic_replay",
+  "schema_version": "replay-checkpoint/1.0"
+}

@@ -1,0 +1,305 @@
+{
+  "analyses": {
+    "all_task_loss": {
+      "analysis": "paired_strategy_comparison",
+      "baseline_strategy": "all_local",
+      "bootstrap_resamples": 100,
+      "comparisons": {
+        "safe_lyapunov_h1__vs__all_local": {
+          "baseline_strategy": "all_local",
+          "bootstrap_ci": {
+            "confidence_level": 0.95,
+            "independent_unit": "environment",
+            "lower": 0.0,
+            "method": "environment_cluster_percentile_bootstrap",
+            "resamples": 100,
+            "statistical_seed": 91001,
+            "upper": 0.0
+          },
+          "difference_definition": "strategy_minus_baseline",
+          "environment_count": 2,
+          "environment_difference_sample_sd": 0.0,
+          "holm_adjusted_p_value": 1.0,
+          "mean_environment_difference": 0.0,
+          "mean_pair_difference": 0.0,
+          "pair_count": 2,
+          "sign_flip_test": {
+            "environment_count": 2,
+            "extreme_count": 4,
+            "independent_unit": "environment",
+            "method": "exact_environment_sign_flip",
+            "observed_absolute_mean_difference": 0.0,
+            "p_value": 1.0,
+            "permutations": 4,
+            "statistical_seed": 91001
+          },
+          "standardized_paired_effect_dz": null,
+          "strategy": "safe_lyapunov_h1"
+        }
+      },
+      "confidence_level": 0.95,
+      "difference_definition": "strategy_minus_baseline",
+      "environment_count": 2,
+      "independent_unit": "environment",
+      "metric_name": "all_task_loss",
+      "pairing_count": 2,
+      "schema_version": "1.0.0",
+      "sign_flip_permutations_requested": 1000,
+      "statistical_seed": 91001,
+      "statistics_manifest": {
+        "analysis": "paired_strategy_comparison",
+        "environment_ids": [
+          "numerical-environment-1001",
+          "numerical-environment-1002"
+        ],
+        "evaluation_trace_hashes": [
+          "6d330789b7615adc1b7456f77cc8b61dbbe9826c5dbf7c8a89fb026eccc4c1bf",
+          "fb9540cb7356d7b18b1e5677e2a28fc7a43c1db56306df8eea3a69cab413eb62"
+        ],
+        "input_record_count": 4,
+        "input_sha256": "978724eab3d12d36c7b07b98942132df761878ca0eefa1585db71595c8a44f0b",
+        "manifest_sha256": "fa4a234f46905bfcaee018ce11be7f04bb906db94e565b8d87fe282859b69a6b",
+        "result_core_sha256": "879b7b35f22da7449c4d1b4dfc7f81fe0e0002b5d47efc3d96cb8ba82c144a7b",
+        "schema_version": "1.0.0",
+        "statistical_seed": 91001,
+        "task_identity_hashes": [
+          "6d330789b7615adc1b7456f77cc8b61dbbe9826c5dbf7c8a89fb026eccc4c1bf",
+          "fb9540cb7356d7b18b1e5677e2a28fc7a43c1db56306df8eea3a69cab413eb62"
+        ]
+      },
+      "strategies": [
+        "all_local",
+        "safe_lyapunov_h1"
+      ]
+    },
+    "coverage": {
+      "analysis": "paired_strategy_comparison",
+      "baseline_strategy": "all_local",
+      "bootstrap_resamples": 100,
+      "comparisons": {
+        "safe_lyapunov_h1__vs__all_local": {
+          "baseline_strategy": "all_local",
+          "bootstrap_ci": {
+            "confidence_level": 0.95,
+            "independent_unit": "environment",
+            "lower": 0.0,
+            "method": "environment_cluster_percentile_bootstrap",
+            "resamples": 100,
+            "statistical_seed": 91001,
+            "upper": 0.0
+          },
+          "difference_definition": "strategy_minus_baseline",
+          "environment_count": 2,
+          "environment_difference_sample_sd": 0.0,
+          "holm_adjusted_p_value": 1.0,
+          "mean_environment_difference": 0.0,
+          "mean_pair_difference": 0.0,
+          "pair_count": 2,
+          "sign_flip_test": {
+            "environment_count": 2,
+            "extreme_count": 4,
+            "independent_unit": "environment",
+            "method": "exact_environment_sign_flip",
+            "observed_absolute_mean_difference": 0.0,
+            "p_value": 1.0,
+            "permutations": 4,
+            "statistical_seed": 91001
+          },
+          "standardized_paired_effect_dz": null,
+          "strategy": "safe_lyapunov_h1"
+        }
+      },
+      "confidence_level": 0.95,
+      "difference_definition": "strategy_minus_baseline",
+      "environment_count": 2,
+      "independent_unit": "environment",
+      "metric_name": "coverage",
+      "pairing_count": 2,
+      "schema_version": "1.0.0",
+      "sign_flip_permutations_requested": 1000,
+      "statistical_seed": 91001,
+      "statistics_manifest": {
+        "analysis": "paired_strategy_comparison",
+        "environment_ids": [
+          "numerical-environment-1001",
+          "numerical-environment-1002"
+        ],
+        "evaluation_trace_hashes": [
+          "6d330789b7615adc1b7456f77cc8b61dbbe9826c5dbf7c8a89fb026eccc4c1bf",
+          "fb9540cb7356d7b18b1e5677e2a28fc7a43c1db56306df8eea3a69cab413eb62"
+        ],
+        "input_record_count": 4,
+        "input_sha256": "19e945e5d01a0c04588d1148044bbc3be115afd1f893fe2d029ccb37bbe4bce3",
+        "manifest_sha256": "59ba9981ec6d3f96ec78eb0934c8dd380b785f42b3ebc109c9d52d6510505a82",
+        "result_core_sha256": "782523ab49c9f090ffd9052478e220c51ee739208b4fe9326183ac16c3849a72",
+        "schema_version": "1.0.0",
+        "statistical_seed": 91001,
+        "task_identity_hashes": [
+          "6d330789b7615adc1b7456f77cc8b61dbbe9826c5dbf7c8a89fb026eccc4c1bf",
+          "fb9540cb7356d7b18b1e5677e2a28fc7a43c1db56306df8eea3a69cab413eb62"
+        ]
+      },
+      "strategies": [
+        "all_local",
+        "safe_lyapunov_h1"
+      ]
+    },
+    "failure_rate": {
+      "analysis": "paired_strategy_comparison",
+      "baseline_strategy": "all_local",
+      "bootstrap_resamples": 100,
+      "comparisons": {
+        "safe_lyapunov_h1__vs__all_local": {
+          "baseline_strategy": "all_local",
+          "bootstrap_ci": {
+            "confidence_level": 0.95,
+            "independent_unit": "environment",
+            "lower": 0.0,
+            "method": "environment_cluster_percentile_bootstrap",
+            "resamples": 100,
+            "statistical_seed": 91001,
+            "upper": 0.0
+          },
+          "difference_definition": "strategy_minus_baseline",
+          "environment_count": 2,
+          "environment_difference_sample_sd": 0.0,
+          "holm_adjusted_p_value": 1.0,
+          "mean_environment_difference": 0.0,
+          "mean_pair_difference": 0.0,
+          "pair_count": 2,
+          "sign_flip_test": {
+            "environment_count": 2,
+            "extreme_count": 4,
+            "independent_unit": "environment",
+            "method": "exact_environment_sign_flip",
+            "observed_absolute_mean_difference": 0.0,
+            "p_value": 1.0,
+            "permutations": 4,
+            "statistical_seed": 91001
+          },
+          "standardized_paired_effect_dz": null,
+          "strategy": "safe_lyapunov_h1"
+        }
+      },
+      "confidence_level": 0.95,
+      "difference_definition": "strategy_minus_baseline",
+      "environment_count": 2,
+      "independent_unit": "environment",
+      "metric_name": "failure_rate",
+      "pairing_count": 2,
+      "schema_version": "1.0.0",
+      "sign_flip_permutations_requested": 1000,
+      "statistical_seed": 91001,
+      "statistics_manifest": {
+        "analysis": "paired_strategy_comparison",
+        "environment_ids": [
+          "numerical-environment-1001",
+          "numerical-environment-1002"
+        ],
+        "evaluation_trace_hashes": [
+          "6d330789b7615adc1b7456f77cc8b61dbbe9826c5dbf7c8a89fb026eccc4c1bf",
+          "fb9540cb7356d7b18b1e5677e2a28fc7a43c1db56306df8eea3a69cab413eb62"
+        ],
+        "input_record_count": 4,
+        "input_sha256": "af2689a6a9b8cdc1016e70e37705487405825bc8d7db1e79ed9968010aa45f70",
+        "manifest_sha256": "42b387e2db4ccd7bcf7689e7a5383418f0c0e69d22ad3f4b2e2108e67e0050f3",
+        "result_core_sha256": "58b0b169be3762605f6f8f7be18154a19e9f1f6d23db7438427bea3b3a357e73",
+        "schema_version": "1.0.0",
+        "statistical_seed": 91001,
+        "task_identity_hashes": [
+          "6d330789b7615adc1b7456f77cc8b61dbbe9826c5dbf7c8a89fb026eccc4c1bf",
+          "fb9540cb7356d7b18b1e5677e2a28fc7a43c1db56306df8eea3a69cab413eb62"
+        ]
+      },
+      "strategies": [
+        "all_local",
+        "safe_lyapunov_h1"
+      ]
+    }
+  },
+  "baseline": "all_local",
+  "environment_seeds": [
+    1001,
+    1002
+  ],
+  "policies": [
+    "all_local",
+    "safe_lyapunov_h1"
+  ],
+  "real_hardware_measurement": false,
+  "runs": [
+    {
+      "core_digest": "c3ecf59c78c7b29b6cfe124875e918b696da607b1c927faba63b610f58472f45",
+      "data_kind": "numerical_simulation",
+      "done": 5,
+      "environment_id": "numerical-environment-1001",
+      "environment_seed": 1001,
+      "evaluation_trace_hash": "fb9540cb7356d7b18b1e5677e2a28fc7a43c1db56306df8eea3a69cab413eb62",
+      "failed": 1,
+      "formal_experiment_eligible": false,
+      "invariant_checks": 76,
+      "numerical_experiment_eligible": true,
+      "output": "E:\\lun\\lun1\\artifacts\\final-v4\\paired-study\\runs\\numerical-environment-1001\\all_local",
+      "policy": "all_local",
+      "real_hardware_measurement": false,
+      "scenario_trace_hash": "d68c2c60429804d1d1779687256813c14220f80c08e11a3b2f64ac113c586316",
+      "sim_end_s": 5.541927009999999,
+      "tasks": 6
+    },
+    {
+      "core_digest": "fdb5f96476fb9e57799c4262b08eb9c83c294a6d8601c2b6c9e83135d70a0bb6",
+      "data_kind": "numerical_simulation",
+      "done": 5,
+      "environment_id": "numerical-environment-1001",
+      "environment_seed": 1001,
+      "evaluation_trace_hash": "fb9540cb7356d7b18b1e5677e2a28fc7a43c1db56306df8eea3a69cab413eb62",
+      "failed": 1,
+      "formal_experiment_eligible": false,
+      "invariant_checks": 76,
+      "numerical_experiment_eligible": true,
+      "output": "E:\\lun\\lun1\\artifacts\\final-v4\\paired-study\\runs\\numerical-environment-1001\\safe_lyapunov_h1",
+      "policy": "safe_lyapunov_h1",
+      "real_hardware_measurement": false,
+      "scenario_trace_hash": "d68c2c60429804d1d1779687256813c14220f80c08e11a3b2f64ac113c586316",
+      "sim_end_s": 5.541927009999999,
+      "tasks": 6
+    },
+    {
+      "core_digest": "e738d43d644445cc5d4b72db1f25e6cd331e86981c22033aac3d93983d1f98e0",
+      "data_kind": "numerical_simulation",
+      "done": 5,
+      "environment_id": "numerical-environment-1002",
+      "environment_seed": 1002,
+      "evaluation_trace_hash": "6d330789b7615adc1b7456f77cc8b61dbbe9826c5dbf7c8a89fb026eccc4c1bf",
+      "failed": 1,
+      "formal_experiment_eligible": false,
+      "invariant_checks": 75,
+      "numerical_experiment_eligible": true,
+      "output": "E:\\lun\\lun1\\artifacts\\final-v4\\paired-study\\runs\\numerical-environment-1002\\all_local",
+      "policy": "all_local",
+      "real_hardware_measurement": false,
+      "scenario_trace_hash": "d68c2c60429804d1d1779687256813c14220f80c08e11a3b2f64ac113c586316",
+      "sim_end_s": 5.520418247,
+      "tasks": 6
+    },
+    {
+      "core_digest": "684a157d4e4779c610b01af0ad1a25fcee33dce1a57f832939771d185d7e514a",
+      "data_kind": "numerical_simulation",
+      "done": 5,
+      "environment_id": "numerical-environment-1002",
+      "environment_seed": 1002,
+      "evaluation_trace_hash": "6d330789b7615adc1b7456f77cc8b61dbbe9826c5dbf7c8a89fb026eccc4c1bf",
+      "failed": 1,
+      "formal_experiment_eligible": false,
+      "invariant_checks": 75,
+      "numerical_experiment_eligible": true,
+      "output": "E:\\lun\\lun1\\artifacts\\final-v4\\paired-study\\runs\\numerical-environment-1002\\safe_lyapunov_h1",
+      "policy": "safe_lyapunov_h1",
+      "real_hardware_measurement": false,
+      "scenario_trace_hash": "d68c2c60429804d1d1779687256813c14220f80c08e11a3b2f64ac113c586316",
+      "sim_end_s": 5.520418247,
+      "tasks": 6
+    }
+  ],
+  "study_kind": "frozen_numerical_simulation"
+}

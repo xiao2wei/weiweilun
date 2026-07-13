@@ -1,0 +1,34 @@
+[
+  {
+    "environment_id": "numerical-environment-901",
+    "evaluation_trace_hash": "98a2aa5ad986d35765bc2cb497a03c9db8cd5f291b413abda26a5ed1ae9e960d",
+    "metric_value": 0.08333333333333333,
+    "pairing_id": "all_tasks",
+    "strategy": "all_local",
+    "task_identity_hash": "98a2aa5ad986d35765bc2cb497a03c9db8cd5f291b413abda26a5ed1ae9e960d"
+  },
+  {
+    "environment_id": "numerical-environment-901",
+    "evaluation_trace_hash": "98a2aa5ad986d35765bc2cb497a03c9db8cd5f291b413abda26a5ed1ae9e960d",
+    "metric_value": 0.08333333333333333,
+    "pairing_id": "all_tasks",
+    "strategy": "safe_lyapunov_h1",
+    "task_identity_hash": "98a2aa5ad986d35765bc2cb497a03c9db8cd5f291b413abda26a5ed1ae9e960d"
+  },
+  {
+    "environment_id": "numerical-environment-902",
+    "evaluation_trace_hash": "5df306f3609867364ff4af7f360ddd1840b81ac04d85fa203c2b847abf7bd48b",
+    "metric_value": 0.08333333333333333,
+    "pairing_id": "all_tasks",
+    "strategy": "all_local",
+    "task_identity_hash": "5df306f3609867364ff4af7f360ddd1840b81ac04d85fa203c2b847abf7bd48b"
+  },
+  {
+    "environment_id": "numerical-environment-902",
+    "evaluation_trace_hash": "5df306f3609867364ff4af7f360ddd1840b81ac04d85fa203c2b847abf7bd48b",
+    "metric_value": 0.08333333333333333,
+    "pairing_id": "all_tasks",
+    "strategy": "safe_lyapunov_h1",
+    "task_identity_hash": "5df306f3609867364ff4af7f360ddd1840b81ac04d85fa203c2b847abf7bd48b"
+  }
+]

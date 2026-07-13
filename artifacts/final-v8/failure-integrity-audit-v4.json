@@ -1,0 +1,402 @@
+{
+  "action_record_count": 88,
+  "analysis": "failure_cost_completeness",
+  "event_record_count": 349,
+  "input_sha256": "47f53476f4ce20a0b2218fff56a756c13eb2d75d35cda468a4663fc8cfa50a71",
+  "omissions": {
+    "anonymization_failure": {
+      "accounting": "measured_failed_attempt_components",
+      "executed_work_s": 0.330552201,
+      "failed_attempt_count": 9,
+      "reason_counts": {
+        "GUARD_REJECTED": 9
+      },
+      "tasks_affected": 9,
+      "vehicle_energy_j": 3.0806037469999996
+    },
+    "downlink": {
+      "latency_s": 0.0011975575031675234,
+      "rsu_energy_j": 0.005748276015204113,
+      "tasks_affected": 11,
+      "vehicle_energy_j": 0.0014370690038010283
+    },
+    "explicit_fail_action": {
+      "accounting": "exact_POLICY_DECISION_executed_count",
+      "decision_count": 0,
+      "task_count": 0,
+      "task_ids": []
+    },
+    "failure": {
+      "normalized_cost": 1.0,
+      "tasks_affected": 1
+    },
+    "local_fallback": {
+      "accounting": "exact_structural_count",
+      "task_count": 0,
+      "task_ids": []
+    },
+    "retry": {
+      "latency_s": 0.5747692081428608,
+      "tasks_affected": 9,
+      "vehicle_energy_j": 4.608681666000001
+    },
+    "rsu_energy": {
+      "rsu_energy_j": 10.837480142151932,
+      "tasks_affected": 11
+    }
+  },
+  "report_sha256": "bf2495d27444700fe8ec289aaf39dc4f289dbc93bf674af34b1f87e8c833bc31",
+  "schema_version": "1.0",
+  "status": "COMPLETE",
+  "task_count": 12,
+  "tasks": [
+    {
+      "delete_anonymization_failures": {
+        "failed_attempt_count": 1,
+        "omitted_executed_work_s": 0.033395879,
+        "omitted_vehicle_energy_j": 0.35970686599999996,
+        "reason_counts": {
+          "GUARD_REJECTED": 1
+        }
+      },
+      "delete_downlink": {
+        "omitted_latency_s": 6.406090254618135e-05,
+        "omitted_rsu_energy_j": 0.00030749233222167045,
+        "omitted_vehicle_energy_j": 7.687308305541761e-05
+      },
+      "delete_failure_term": {
+        "omitted_normalized_cost": 0.0
+      },
+      "delete_local_fallback": {
+        "fallback_path_present": false
+      },
+      "delete_retry": {
+        "omitted_latency_s": 0.050974298999999945,
+        "omitted_vehicle_energy_j": 0.537120237
+      },
+      "delete_rsu_energy": {
+        "omitted_rsu_energy_j": 0.9259243158062085
+      },
+      "task_id": "test-task-00000"
+    },
+    {
+      "delete_anonymization_failures": {
+        "failed_attempt_count": 1,
+        "omitted_executed_work_s": 0.040939934,
+        "omitted_vehicle_energy_j": 0.321343903,
+        "reason_counts": {
+          "GUARD_REJECTED": 1
+        }
+      },
+      "delete_downlink": {
+        "omitted_latency_s": 0.00013032205325869128,
+        "omitted_rsu_energy_j": 0.0006255458556417181,
+        "omitted_vehicle_energy_j": 0.00015638646391042952
+      },
+      "delete_failure_term": {
+        "omitted_normalized_cost": 0.0
+      },
+      "delete_local_fallback": {
+        "fallback_path_present": false
+      },
+      "delete_retry": {
+        "omitted_latency_s": 0.061452153000000065,
+        "omitted_vehicle_energy_j": 0.48231600399999996
+      },
+      "delete_rsu_energy": {
+        "omitted_rsu_energy_j": 0.9518096949884821
+      },
+      "task_id": "test-task-00001"
+    },
+    {
+      "delete_anonymization_failures": {
+        "failed_attempt_count": 0,
+        "omitted_executed_work_s": 0,
+        "omitted_vehicle_energy_j": 0,
+        "reason_counts": {}
+      },
+      "delete_downlink": {
+        "omitted_latency_s": 8.607408504746061e-05,
+        "omitted_rsu_energy_j": 0.00041315560822781096,
+        "omitted_vehicle_energy_j": 0.00010328890205695274
+      },
+      "delete_failure_term": {
+        "omitted_normalized_cost": 0.0
+      },
+      "delete_local_fallback": {
+        "fallback_path_present": false
+      },
+      "delete_retry": {
+        "omitted_latency_s": 0.0,
+        "omitted_vehicle_energy_j": 0.0
+      },
+      "delete_rsu_energy": {
+        "omitted_rsu_energy_j": 0.8709705600350864
+      },
+      "task_id": "test-task-00002"
+    },
+    {
+      "delete_anonymization_failures": {
+        "failed_attempt_count": 0,
+        "omitted_executed_work_s": 0,
+        "omitted_vehicle_energy_j": 0,
+        "reason_counts": {}
+      },
+      "delete_downlink": {
+        "omitted_latency_s": 0.0001860403542464084,
+        "omitted_rsu_energy_j": 0.0008929937003827604,
+        "omitted_vehicle_energy_j": 0.0002232484250956901
+      },
+      "delete_failure_term": {
+        "omitted_normalized_cost": 0.0
+      },
+      "delete_local_fallback": {
+        "fallback_path_present": false
+      },
+      "delete_retry": {
+        "omitted_latency_s": 0.0,
+        "omitted_vehicle_energy_j": 0.0
+      },
+      "delete_rsu_energy": {
+        "omitted_rsu_energy_j": 1.0438723865617814
+      },
+      "task_id": "test-task-00003"
+    },
+    {
+      "delete_anonymization_failures": {
+        "failed_attempt_count": 1,
+        "omitted_executed_work_s": 0.033395879,
+        "omitted_vehicle_energy_j": 0.35970686599999996,
+        "reason_counts": {
+          "GUARD_REJECTED": 1
+        }
+      },
+      "delete_downlink": {
+        "omitted_latency_s": 9.98313233564474e-05,
+        "omitted_rsu_energy_j": 0.0004791903521109475,
+        "omitted_vehicle_energy_j": 0.00011979758802773687
+      },
+      "delete_failure_term": {
+        "omitted_normalized_cost": 0.0
+      },
+      "delete_local_fallback": {
+        "fallback_path_present": false
+      },
+      "delete_retry": {
+        "omitted_latency_s": 0.050974298999999945,
+        "omitted_vehicle_energy_j": 0.537120237
+      },
+      "delete_rsu_energy": {
+        "omitted_rsu_energy_j": 0.9250228495645306
+      },
+      "task_id": "test-task-00004"
+    },
+    {
+      "delete_anonymization_failures": {
+        "failed_attempt_count": 1,
+        "omitted_executed_work_s": 0.041154057,
+        "omitted_vehicle_energy_j": 0.323113387,
+        "reason_counts": {
+          "GUARD_REJECTED": 1
+        }
+      },
+      "delete_downlink": {
+        "omitted_latency_s": 0.0001575824593986752,
+        "omitted_rsu_energy_j": 0.000756395805113641,
+        "omitted_vehicle_energy_j": 0.00018909895127841025
+      },
+      "delete_failure_term": {
+        "omitted_normalized_cost": 0.0
+      },
+      "delete_local_fallback": {
+        "fallback_path_present": false
+      },
+      "delete_retry": {
+        "omitted_latency_s": 0.08814409428571501,
+        "omitted_vehicle_energy_j": 0.48460043799999997
+      },
+      "delete_rsu_energy": {
+        "omitted_rsu_energy_j": 1.1171375947304942
+      },
+      "task_id": "test-task-00005"
+    },
+    {
+      "delete_anonymization_failures": {
+        "failed_attempt_count": 1,
+        "omitted_executed_work_s": 0.033276745999999996,
+        "omitted_vehicle_energy_j": 0.35825906199999996,
+        "reason_counts": {
+          "GUARD_REJECTED": 1
+        }
+      },
+      "delete_downlink": {
+        "omitted_latency_s": 8.37259584445249e-05,
+        "omitted_rsu_energy_j": 0.0004018846005337195,
+        "omitted_vehicle_energy_j": 0.00010047115013342988
+      },
+      "delete_failure_term": {
+        "omitted_normalized_cost": 0.0
+      },
+      "delete_local_fallback": {
+        "fallback_path_present": false
+      },
+      "delete_retry": {
+        "omitted_latency_s": 0.07251450857142938,
+        "omitted_vehicle_energy_j": 0.534808546
+      },
+      "delete_rsu_energy": {
+        "omitted_rsu_energy_j": 1.162873773489464
+      },
+      "task_id": "test-task-00006"
+    },
+    {
+      "delete_anonymization_failures": {
+        "failed_attempt_count": 1,
+        "omitted_executed_work_s": 0.041154057,
+        "omitted_vehicle_energy_j": 0.323113387,
+        "reason_counts": {
+          "GUARD_REJECTED": 1
+        }
+      },
+      "delete_downlink": {
+        "omitted_latency_s": 8.223408008767308e-05,
+        "omitted_rsu_energy_j": 0.0003947235844208308,
+        "omitted_vehicle_energy_j": 9.86808961052077e-05
+      },
+      "delete_failure_term": {
+        "omitted_normalized_cost": 0.0
+      },
+      "delete_local_fallback": {
+        "fallback_path_present": false
+      },
+      "delete_retry": {
+        "omitted_latency_s": 0.08814409428571501,
+        "omitted_vehicle_energy_j": 0.48460043799999997
+      },
+      "delete_rsu_energy": {
+        "omitted_rsu_energy_j": 1.119609303296668
+      },
+      "task_id": "test-task-00007"
+    },
+    {
+      "delete_anonymization_failures": {
+        "failed_attempt_count": 1,
+        "omitted_executed_work_s": 0.033228981000000005,
+        "omitted_vehicle_energy_j": 0.357678583,
+        "reason_counts": {
+          "GUARD_REJECTED": 1
+        }
+      },
+      "delete_downlink": {
+        "omitted_latency_s": 0.0001440593328485562,
+        "omitted_rsu_energy_j": 0.0006914847976730698,
+        "omitted_vehicle_energy_j": 0.00017287119941826744
+      },
+      "delete_failure_term": {
+        "omitted_normalized_cost": 0.0
+      },
+      "delete_local_fallback": {
+        "fallback_path_present": false
+      },
+      "delete_retry": {
+        "omitted_latency_s": 0.0506938150000007,
+        "omitted_vehicle_energy_j": 0.53397929
+      },
+      "delete_rsu_energy": {
+        "omitted_rsu_energy_j": 0.8763488463613469
+      },
+      "task_id": "test-task-00008"
+    },
+    {
+      "delete_anonymization_failures": {
+        "failed_attempt_count": 1,
+        "omitted_executed_work_s": 0.040777687,
+        "omitted_vehicle_energy_j": 0.32000311,
+        "reason_counts": {
+          "GUARD_REJECTED": 1
+        }
+      },
+      "delete_downlink": {
+        "omitted_latency_s": 9.623512128520417e-05,
+        "omitted_rsu_energy_j": 0.00046192858216898003,
+        "omitted_vehicle_energy_j": 0.00011548214554224501
+      },
+      "delete_failure_term": {
+        "omitted_normalized_cost": 0.0
+      },
+      "delete_local_fallback": {
+        "fallback_path_present": false
+      },
+      "delete_retry": {
+        "omitted_latency_s": 0.06117813000000005,
+        "omitted_vehicle_energy_j": 0.48015718599999996
+      },
+      "delete_rsu_energy": {
+        "omitted_rsu_energy_j": 0.9292115983333085
+      },
+      "task_id": "test-task-00009"
+    },
+    {
+      "delete_anonymization_failures": {
+        "failed_attempt_count": 1,
+        "omitted_executed_work_s": 0.033228981000000005,
+        "omitted_vehicle_energy_j": 0.357678583,
+        "reason_counts": {
+          "GUARD_REJECTED": 1
+        }
+      },
+      "delete_downlink": {
+        "omitted_latency_s": 6.739183264770077e-05,
+        "omitted_rsu_energy_j": 0.0003234807967089636,
+        "omitted_vehicle_energy_j": 8.08701991772409e-05
+      },
+      "delete_failure_term": {
+        "omitted_normalized_cost": 0.0
+      },
+      "delete_local_fallback": {
+        "fallback_path_present": false
+      },
+      "delete_retry": {
+        "omitted_latency_s": 0.0506938150000007,
+        "omitted_vehicle_energy_j": 0.53397929
+      },
+      "delete_rsu_energy": {
+        "omitted_rsu_energy_j": 0.9146992189845609
+      },
+      "task_id": "test-task-00010"
+    },
+    {
+      "delete_anonymization_failures": {
+        "failed_attempt_count": 0,
+        "omitted_executed_work_s": 0,
+        "omitted_vehicle_energy_j": 0,
+        "reason_counts": {}
+      },
+      "delete_downlink": {
+        "omitted_latency_s": 0.0,
+        "omitted_rsu_energy_j": 0.0,
+        "omitted_vehicle_energy_j": 0.0
+      },
+      "delete_failure_term": {
+        "omitted_normalized_cost": 1.0
+      },
+      "delete_local_fallback": {
+        "fallback_path_present": false
+      },
+      "delete_retry": {
+        "omitted_latency_s": 0.0,
+        "omitted_vehicle_energy_j": 0.0
+      },
+      "delete_rsu_energy": {
+        "omitted_rsu_energy_j": 0.0
+      },
+      "task_id": "test-task-00011"
+    }
+  ],
+  "units": {
+    "failure_penalty": "normalized_cost",
+    "latency": "s",
+    "rsu_energy": "J",
+    "vehicle_energy": "J"
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "baseline": {
+    "core_digest": "e2619d05429f2aa124a2392b391224eb952fad97a5a886409094d8d4c17e85a5",
+    "data_kind": "synthetic",
+    "done": 7,
+    "failed": 1,
+    "formal_experiment_eligible": false,
+    "invariant_checks": 59,
+    "output": "E:\\lun\\lun1\\artifacts\\final-v3\\smoke\\baseline-all-local",
+    "policy": "all_local",
+    "sim_end_s": 5.93274,
+    "tasks": 8
+  },
+  "engineering_smoke_only": true,
+  "main_policy": {
+    "core_digest": "b6187d6877392ceb0fd9557eec119d497a63048bf1f5db19c947a403e0e04f17",
+    "data_kind": "synthetic",
+    "done": 7,
+    "failed": 1,
+    "formal_experiment_eligible": false,
+    "invariant_checks": 66,
+    "output": "E:\\lun\\lun1\\artifacts\\final-v3\\smoke\\main-a",
+    "policy": "safe_lyapunov_h1",
+    "sim_end_s": 5.93274,
+    "tasks": 8
+  },
+  "repeat_policy": {
+    "core_digest": "b6187d6877392ceb0fd9557eec119d497a63048bf1f5db19c947a403e0e04f17",
+    "data_kind": "synthetic",
+    "done": 7,
+    "failed": 1,
+    "formal_experiment_eligible": false,
+    "invariant_checks": 66,
+    "output": "E:\\lun\\lun1\\artifacts\\final-v3\\smoke\\main-b",
+    "policy": "safe_lyapunov_h1",
+    "sim_end_s": 5.93274,
+    "tasks": 8
+  },
+  "same_seed_core_digest_equal": true
+}

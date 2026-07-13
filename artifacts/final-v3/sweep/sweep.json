@@ -1,0 +1,146 @@
+[
+  {
+    "case": 0,
+    "core_digest": "1ce71f4f19d726c96257cbfd7e84a898a569e1715be6d98f128b40391d66e207",
+    "data_kind": "synthetic",
+    "done": 7,
+    "failed": 1,
+    "formal_experiment_eligible": false,
+    "invariant_checks": 59,
+    "output": "E:\\lun\\lun1\\artifacts\\final-v3\\sweep\\case-0000",
+    "parameters": {
+      "controller.lyapunov_v": 6.0,
+      "privacy.risk_threshold": 0.08,
+      "rsus.0.workload_capacity_gpu_s": 15.0
+    },
+    "policy": "safe_lyapunov_h1",
+    "sim_end_s": 5.93274,
+    "tasks": 8
+  },
+  {
+    "case": 1,
+    "core_digest": "60c4b2ca4f44e3d21b7e892f7a8f29df630622781c649716db9d0b04b1dfa0e5",
+    "data_kind": "synthetic",
+    "done": 7,
+    "failed": 1,
+    "formal_experiment_eligible": false,
+    "invariant_checks": 59,
+    "output": "E:\\lun\\lun1\\artifacts\\final-v3\\sweep\\case-0001",
+    "parameters": {
+      "controller.lyapunov_v": 6.0,
+      "privacy.risk_threshold": 0.08,
+      "rsus.0.workload_capacity_gpu_s": 30.0
+    },
+    "policy": "safe_lyapunov_h1",
+    "sim_end_s": 5.93274,
+    "tasks": 8
+  },
+  {
+    "case": 2,
+    "core_digest": "0c01205de972d5c55742235780a4aa5654ade719f3f02a60a2a4492312038fb7",
+    "data_kind": "synthetic",
+    "done": 7,
+    "failed": 1,
+    "formal_experiment_eligible": false,
+    "invariant_checks": 59,
+    "output": "E:\\lun\\lun1\\artifacts\\final-v3\\sweep\\case-0002",
+    "parameters": {
+      "controller.lyapunov_v": 6.0,
+      "privacy.risk_threshold": 0.1,
+      "rsus.0.workload_capacity_gpu_s": 15.0
+    },
+    "policy": "safe_lyapunov_h1",
+    "sim_end_s": 5.93274,
+    "tasks": 8
+  },
+  {
+    "case": 3,
+    "core_digest": "af791be703cb76872ddb42890e32d9a152664678d4eb1bfcfa199dd03fe8844b",
+    "data_kind": "synthetic",
+    "done": 7,
+    "failed": 1,
+    "formal_experiment_eligible": false,
+    "invariant_checks": 59,
+    "output": "E:\\lun\\lun1\\artifacts\\final-v3\\sweep\\case-0003",
+    "parameters": {
+      "controller.lyapunov_v": 6.0,
+      "privacy.risk_threshold": 0.1,
+      "rsus.0.workload_capacity_gpu_s": 30.0
+    },
+    "policy": "safe_lyapunov_h1",
+    "sim_end_s": 5.93274,
+    "tasks": 8
+  },
+  {
+    "case": 4,
+    "core_digest": "4c8ab0d655909c4d54e3ee60fd59ed0925997b561d098a620dc7e8978dbbee2d",
+    "data_kind": "synthetic",
+    "done": 7,
+    "failed": 1,
+    "formal_experiment_eligible": false,
+    "invariant_checks": 66,
+    "output": "E:\\lun\\lun1\\artifacts\\final-v3\\sweep\\case-0004",
+    "parameters": {
+      "controller.lyapunov_v": 12.0,
+      "privacy.risk_threshold": 0.08,
+      "rsus.0.workload_capacity_gpu_s": 15.0
+    },
+    "policy": "safe_lyapunov_h1",
+    "sim_end_s": 5.93274,
+    "tasks": 8
+  },
+  {
+    "case": 5,
+    "core_digest": "360100cf636a9d195fc274598427125f08d81eb1b168f385f2e3cf94a16fcff4",
+    "data_kind": "synthetic",
+    "done": 7,
+    "failed": 1,
+    "formal_experiment_eligible": false,
+    "invariant_checks": 66,
+    "output": "E:\\lun\\lun1\\artifacts\\final-v3\\sweep\\case-0005",
+    "parameters": {
+      "controller.lyapunov_v": 12.0,
+      "privacy.risk_threshold": 0.08,
+      "rsus.0.workload_capacity_gpu_s": 30.0
+    },
+    "policy": "safe_lyapunov_h1",
+    "sim_end_s": 5.93274,
+    "tasks": 8
+  },
+  {
+    "case": 6,
+    "core_digest": "6a2818380d792ab184755b4631fb691736b08fe277786f83bbe57a0e6972d5de",
+    "data_kind": "synthetic",
+    "done": 7,
+    "failed": 1,
+    "formal_experiment_eligible": false,
+    "invariant_checks": 66,
+    "output": "E:\\lun\\lun1\\artifacts\\final-v3\\sweep\\case-0006",
+    "parameters": {
+      "controller.lyapunov_v": 12.0,
+      "privacy.risk_threshold": 0.1,
+      "rsus.0.workload_capacity_gpu_s": 15.0
+    },
+    "policy": "safe_lyapunov_h1",
+    "sim_end_s": 5.93274,
+    "tasks": 8
+  },
+  {
+    "case": 7,
+    "core_digest": "b6187d6877392ceb0fd9557eec119d497a63048bf1f5db19c947a403e0e04f17",
+    "data_kind": "synthetic",
+    "done": 7,
+    "failed": 1,
+    "formal_experiment_eligible": false,
+    "invariant_checks": 66,
+    "output": "E:\\lun\\lun1\\artifacts\\final-v3\\sweep\\case-0007",
+    "parameters": {
+      "controller.lyapunov_v": 12.0,
+      "privacy.risk_threshold": 0.1,
+      "rsus.0.workload_capacity_gpu_s": 30.0
+    },
+    "policy": "safe_lyapunov_h1",
+    "sim_end_s": 5.93274,
+    "tasks": 8
+  }
+]

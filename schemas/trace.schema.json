@@ -1,0 +1,573 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/privacy-edge-sim/trace.schema.json",
+  "title": "Joint anonymous-image edge-inference trace",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "protocol_version",
+    "trace_version",
+    "trace_hash",
+    "profile_hash",
+    "data_kind",
+    "evidence_status",
+    "seed",
+    "horizon",
+    "task_arrivals",
+    "prep",
+    "anon_transactions",
+    "local_fer",
+    "edge_fer",
+    "environment",
+    "parameter_sources",
+    "metadata"
+  ],
+  "properties": {
+    "schema_version": {"type": "string", "minLength": 1},
+    "protocol_version": {"type": "string", "minLength": 1},
+    "trace_version": {"type": "string", "minLength": 1},
+    "trace_hash": {"$ref": "#/$defs/sha256"},
+    "profile_hash": {"$ref": "#/$defs/sha256"},
+    "data_kind": {"enum": ["synthetic", "measured", "numerical_simulation"]},
+    "evidence_status": {"type": "string", "minLength": 1},
+    "seed": {"type": "integer", "minimum": 0},
+    "horizon": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["start_time_s", "end_time_s"],
+      "properties": {
+        "start_time_s": {"type": "number", "minimum": 0},
+        "end_time_s": {"type": "number", "exclusiveMinimum": 0}
+      }
+    },
+    "task_arrivals": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/task_arrival"}
+    },
+    "prep": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/prep_row"}
+    },
+    "anon_transactions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/anon_row"}
+    },
+    "local_fer": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/local_row"}
+    },
+    "edge_fer": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/edge_row"}
+    },
+    "environment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["wireless_segments", "thermal_segments", "events"],
+      "properties": {
+        "wireless_segments": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/wireless_segment"}
+        },
+        "thermal_segments": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/thermal_segment"}
+        },
+        "events": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/event"}
+        }
+      }
+    },
+    "parameter_sources": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {"$ref": "#/$defs/source"}
+    },
+    "metadata": {"type": "object"}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"data_kind": {"const": "synthetic"}}},
+      "then": {"properties": {"evidence_status": {"const": "synthetic_fixture_only"}}}
+    },
+    {
+      "if": {"properties": {"data_kind": {"const": "numerical_simulation"}}},
+      "then": {"properties": {"evidence_status": {"const": "frozen_numerical_model"}}}
+    }
+  ],
+  "$defs": {
+    "sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+    "positive_number": {"type": "number", "exclusiveMinimum": 0},
+    "nullable_positive_number": {
+      "oneOf": [{"type": "null"}, {"$ref": "#/$defs/positive_number"}]
+    },
+    "nullable_boolean": {"type": ["boolean", "null"]},
+    "nullable_string": {"type": ["string", "null"]},
+    "context": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["thermal_state", "power_mode", "memory_pressure"],
+      "properties": {
+        "thermal_state": {"type": "string", "minLength": 1},
+        "power_mode": {"type": "string", "minLength": 1},
+        "memory_pressure": {"type": "string", "minLength": 1}
+      }
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["category", "description", "unit"],
+      "properties": {
+        "category": {
+          "enum": [
+            "measured",
+            "public_specification",
+            "literature_range",
+            "engineering_assumption",
+            "stress_test_boundary"
+          ]
+        },
+        "description": {"type": "string", "minLength": 1},
+        "unit": {"type": "string", "minLength": 1}
+      }
+    },
+    "task_arrival": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "task_id",
+        "fixture_key",
+        "vehicle_id",
+        "arrival_time_s",
+        "relative_deadline_s",
+        "quality_candidates",
+        "quality_probabilities",
+        "true_quality_region",
+        "ood",
+        "quality_features"
+      ],
+      "properties": {
+        "task_id": {"type": "string", "minLength": 1},
+        "fixture_key": {"type": "string", "minLength": 1},
+        "vehicle_id": {"type": "string", "minLength": 1},
+        "arrival_time_s": {"type": "number", "minimum": 0},
+        "relative_deadline_s": {"$ref": "#/$defs/positive_number"},
+        "quality_candidates": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "quality_probabilities": {
+          "type": "object",
+          "minProperties": 1,
+          "propertyNames": {"type": "string", "minLength": 1},
+          "additionalProperties": {"type": "number", "minimum": 0, "maximum": 1}
+        },
+        "true_quality_region": {"type": "string", "minLength": 1},
+        "ood": {"type": "boolean"},
+        "quality_features": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": {"type": "number"}
+        }
+      }
+    },
+    "prep_row": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "row_id",
+        "fixture_key",
+        "quality_bin",
+        "device_type",
+        "context",
+        "service_work_s",
+        "dynamic_energy_j",
+        "memory_bytes",
+        "failed"
+      ],
+      "properties": {
+        "row_id": {"type": "string", "minLength": 1},
+        "fixture_key": {"type": "string", "minLength": 1},
+        "quality_bin": {"type": "string", "minLength": 1},
+        "device_type": {"type": "string", "minLength": 1},
+        "context": {"$ref": "#/$defs/context"},
+        "service_work_s": {"$ref": "#/$defs/positive_number"},
+        "dynamic_energy_j": {"$ref": "#/$defs/positive_number"},
+        "memory_bytes": {"type": "integer", "minimum": 1},
+        "failed": {"type": "boolean"}
+      }
+    },
+    "anon_attempt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "attempt_index",
+        "anon_work_s",
+        "anon_energy_j",
+        "peak_memory_bytes",
+        "anon_oom",
+        "guard_work_s",
+        "guard_energy_j",
+        "guard_passed",
+        "encode_work_s",
+        "encode_energy_j",
+        "encode_success",
+        "encoded_size_bytes",
+        "artifact_key"
+      ],
+      "properties": {
+        "attempt_index": {"type": "integer", "minimum": 1},
+        "anon_work_s": {"$ref": "#/$defs/positive_number"},
+        "anon_energy_j": {"$ref": "#/$defs/positive_number"},
+        "peak_memory_bytes": {"type": "integer", "minimum": 1},
+        "anon_oom": {"type": "boolean"},
+        "guard_work_s": {"$ref": "#/$defs/nullable_positive_number"},
+        "guard_energy_j": {"$ref": "#/$defs/nullable_positive_number"},
+        "guard_passed": {"$ref": "#/$defs/nullable_boolean"},
+        "encode_work_s": {"$ref": "#/$defs/nullable_positive_number"},
+        "encode_energy_j": {"$ref": "#/$defs/nullable_positive_number"},
+        "encode_success": {"$ref": "#/$defs/nullable_boolean"},
+        "encoded_size_bytes": {"type": ["integer", "null"], "minimum": 0},
+        "artifact_key": {"$ref": "#/$defs/nullable_string"}
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {"encode_success": {"const": true}},
+            "required": ["encode_success"]
+          },
+          "then": {
+            "properties": {
+              "guard_passed": {"const": true},
+              "encode_work_s": {"$ref": "#/$defs/positive_number"},
+              "encode_energy_j": {"$ref": "#/$defs/positive_number"},
+              "encoded_size_bytes": {"type": "integer", "minimum": 1},
+              "artifact_key": {"type": "string", "minLength": 1}
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {"encode_success": {"const": false}},
+            "required": ["encode_success"]
+          },
+          "then": {
+            "properties": {
+              "encoded_size_bytes": {"const": 0},
+              "artifact_key": {"type": "null"}
+            }
+          }
+        }
+      ]
+    },
+    "fer_measurement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["model_id", "model_hash", "valid", "fer_loss"],
+      "properties": {
+        "model_id": {"type": "string", "minLength": 1},
+        "model_hash": {"$ref": "#/$defs/sha256"},
+        "valid": {"type": "boolean"},
+        "fer_loss": {"type": ["number", "null"], "minimum": 0, "maximum": 1},
+        "true_label": {"type": ["string", "null"], "minLength": 1},
+        "class_probabilities": {
+          "type": ["object", "null"],
+          "minProperties": 2,
+          "propertyNames": {"type": "string", "minLength": 1},
+          "additionalProperties": {"type": "number", "minimum": 0, "maximum": 1}
+        }
+      }
+    },
+    "anon_row": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "row_id",
+        "subject_cluster_id",
+        "pipeline_id",
+        "pipeline_hash",
+        "guard_hash",
+        "encoder_hash",
+        "quality_bin",
+        "device_type",
+        "context",
+        "attempts",
+        "formed_packet",
+        "final_encoded_size_bytes",
+        "artifact_key",
+        "fer_measurements"
+      ],
+      "properties": {
+        "row_id": {"type": "string", "minLength": 1},
+        "subject_cluster_id": {"type": "string", "minLength": 1},
+        "pipeline_id": {"type": "string", "minLength": 1},
+        "pipeline_hash": {"$ref": "#/$defs/sha256"},
+        "guard_hash": {"$ref": "#/$defs/sha256"},
+        "encoder_hash": {"$ref": "#/$defs/sha256"},
+        "quality_bin": {"type": "string", "minLength": 1},
+        "device_type": {"type": "string", "minLength": 1},
+        "context": {"$ref": "#/$defs/context"},
+        "attempts": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/anon_attempt"}
+        },
+        "formed_packet": {"type": "boolean"},
+        "final_encoded_size_bytes": {"type": "integer", "minimum": 0},
+        "artifact_key": {"$ref": "#/$defs/nullable_string"},
+        "fer_measurements": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/fer_measurement"}
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {"formed_packet": {"const": true}},
+            "required": ["formed_packet"]
+          },
+          "then": {
+            "properties": {
+              "final_encoded_size_bytes": {"type": "integer", "minimum": 1},
+              "artifact_key": {"type": "string", "minLength": 1},
+              "fer_measurements": {"type": "array", "minItems": 1}
+            }
+          },
+          "else": {
+            "properties": {
+              "final_encoded_size_bytes": {"const": 0},
+              "artifact_key": {"type": "null"}
+            }
+          }
+        }
+      ]
+    },
+    "local_row": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "row_id",
+        "model_id",
+        "model_hash",
+        "quality_bin",
+        "device_type",
+        "context",
+        "service_work_s",
+        "dynamic_energy_j",
+        "memory_bytes",
+        "failed",
+        "fer_loss"
+      ],
+      "properties": {
+        "row_id": {"type": "string", "minLength": 1},
+        "subject_cluster_id": {"type": "string", "minLength": 1},
+        "model_id": {"type": "string", "minLength": 1},
+        "model_hash": {"$ref": "#/$defs/sha256"},
+        "quality_bin": {"type": "string", "minLength": 1},
+        "device_type": {"type": "string", "minLength": 1},
+        "context": {"$ref": "#/$defs/context"},
+        "service_work_s": {"$ref": "#/$defs/positive_number"},
+        "dynamic_energy_j": {"$ref": "#/$defs/positive_number"},
+        "memory_bytes": {"type": "integer", "minimum": 1},
+        "failed": {"type": "boolean"},
+        "fer_loss": {"type": ["number", "null"], "minimum": 0, "maximum": 1},
+        "true_label": {"type": ["string", "null"], "minLength": 1},
+        "class_probabilities": {
+          "type": ["object", "null"],
+          "minProperties": 2,
+          "propertyNames": {"type": "string", "minLength": 1},
+          "additionalProperties": {"type": "number", "minimum": 0, "maximum": 1}
+        }
+      }
+    },
+    "edge_row": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "row_id",
+        "artifact_key",
+        "pipeline_id",
+        "quality_bin",
+        "rsu_id",
+        "model_id",
+        "model_hash",
+        "context",
+        "ingress_work_s",
+        "ingress_energy_j",
+        "gpu_work_s",
+        "gpu_energy_j",
+        "vram_bytes",
+        "result_size_bits",
+        "ingress_failed",
+        "failed",
+        "fer_loss"
+      ],
+      "properties": {
+        "row_id": {"type": "string", "minLength": 1},
+        "artifact_key": {"type": "string", "minLength": 1},
+        "pipeline_id": {"type": "string", "minLength": 1},
+        "quality_bin": {"type": "string", "minLength": 1},
+        "rsu_id": {"type": "string", "minLength": 1},
+        "model_id": {"type": "string", "minLength": 1},
+        "model_hash": {"$ref": "#/$defs/sha256"},
+        "context": {"$ref": "#/$defs/context"},
+        "ingress_work_s": {"$ref": "#/$defs/positive_number"},
+        "ingress_energy_j": {"$ref": "#/$defs/positive_number"},
+        "gpu_work_s": {"$ref": "#/$defs/positive_number"},
+        "gpu_energy_j": {"$ref": "#/$defs/positive_number"},
+        "vram_bytes": {"type": "integer", "minimum": 1},
+        "result_size_bits": {"type": "integer", "minimum": 1},
+        "ingress_failed": {"type": "boolean"},
+        "failed": {"type": "boolean"},
+        "fer_loss": {"type": ["number", "null"], "minimum": 0, "maximum": 1},
+        "true_label": {"type": ["string", "null"], "minLength": 1},
+        "class_probabilities": {
+          "type": ["object", "null"],
+          "minProperties": 2,
+          "propertyNames": {"type": "string", "minLength": 1},
+          "additionalProperties": {"type": "number", "minimum": 0, "maximum": 1}
+        }
+      }
+    },
+    "wireless_segment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "segment_id",
+        "vehicle_id",
+        "rsu_id",
+        "direction",
+        "start_time_s",
+        "end_time_s",
+        "goodput_bps",
+        "transmitter_power_w",
+        "receiver_power_w",
+        "link_state"
+      ],
+      "properties": {
+        "segment_id": {"type": "string", "minLength": 1},
+        "vehicle_id": {"type": "string", "minLength": 1},
+        "rsu_id": {"type": "string", "minLength": 1},
+        "direction": {"enum": ["UL", "DL"]},
+        "start_time_s": {"type": "number", "minimum": 0},
+        "end_time_s": {"type": "number", "exclusiveMinimum": 0},
+        "goodput_bps": {"type": "number", "minimum": 0},
+        "transmitter_power_w": {"type": "number", "minimum": 0},
+        "receiver_power_w": {"type": "number", "minimum": 0},
+        "link_state": {"enum": ["connected", "temporary_outage", "permanent_loss", "handover"]}
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {"link_state": {"const": "connected"}},
+            "required": ["link_state"]
+          },
+          "then": {
+            "properties": {
+              "goodput_bps": {"type": "number", "exclusiveMinimum": 0},
+              "transmitter_power_w": {"type": "number", "exclusiveMinimum": 0},
+              "receiver_power_w": {"type": "number", "exclusiveMinimum": 0}
+            }
+          },
+          "else": {"properties": {"goodput_bps": {"const": 0}}}
+        }
+      ]
+    },
+    "thermal_segment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "segment_id",
+        "owner_type",
+        "owner_id",
+        "resource",
+        "start_time_s",
+        "end_time_s",
+        "state",
+        "service_rate_multiplier",
+        "dynamic_power_multiplier"
+      ],
+      "properties": {
+        "segment_id": {"type": "string", "minLength": 1},
+        "owner_type": {"enum": ["vehicle", "rsu"]},
+        "owner_id": {"type": "string", "minLength": 1},
+        "resource": {"type": "string", "minLength": 1},
+        "start_time_s": {"type": "number", "minimum": 0},
+        "end_time_s": {"type": "number", "exclusiveMinimum": 0},
+        "state": {"type": "string", "minLength": 1},
+        "service_rate_multiplier": {"type": "number", "exclusiveMinimum": 0, "maximum": 1},
+        "dynamic_power_multiplier": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "description": "Frozen thermal evidence/diagnostic field. Joint-trace stage energy is already paired actual energy and is not multiplied by this value online."
+        }
+      }
+    },
+    "event": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "event_id",
+        "time_s",
+        "event_type",
+        "target_type",
+        "target_id",
+        "resource",
+        "old_version",
+        "new_version",
+        "permanent",
+        "details"
+      ],
+      "properties": {
+        "event_id": {"type": "string", "minLength": 1},
+        "time_s": {"type": "number", "minimum": 0},
+        "event_type": {
+          "enum": [
+            "DEVICE_FAULT_START",
+            "DEVICE_FAULT_END",
+            "DEVICE_FAULT_PERMANENT",
+            "LINK_CHANGE",
+            "MODEL_VERSION",
+            "PROFILE_VERSION",
+            "PROTOCOL_VERSION",
+            "MODEL_CACHE"
+          ]
+        },
+        "target_type": {"type": "string", "minLength": 1},
+        "target_id": {"type": "string", "minLength": 1},
+        "resource": {"$ref": "#/$defs/nullable_string"},
+        "old_version": {"$ref": "#/$defs/nullable_string"},
+        "new_version": {"$ref": "#/$defs/nullable_string"},
+        "permanent": {"type": "boolean"},
+        "details": {"type": "object"},
+        "maintenance_work_s": {"type": "number", "exclusiveMinimum": 0},
+        "maintenance_energy_j": {"type": "number", "exclusiveMinimum": 0}
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "target_type": {"const": "rsu"},
+              "event_type": {"enum": ["MODEL_VERSION", "MODEL_CACHE"]}
+            },
+            "required": ["target_type", "event_type"]
+          },
+          "then": {
+            "required": ["maintenance_work_s", "maintenance_energy_j"]
+          }
+        }
+      ]
+    }
+  }
+}

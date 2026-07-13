@@ -1,0 +1,162 @@
+[
+  {
+    "case": 0,
+    "core_digest": "3e20e9375e3e90dc53712b2a42ecc445557ed24897ea53c1367fbd3e09c1dbfa",
+    "data_kind": "synthetic",
+    "done": 3,
+    "failed": 5,
+    "formal_experiment_eligible": false,
+    "invariant_checks": 52,
+    "numerical_experiment_eligible": false,
+    "output": "E:\\lun\\lun1\\artifacts\\final-v10\\sweep-small\\case-0000",
+    "parameters": {
+      "controller.lyapunov_v": 6.0,
+      "privacy.risk_threshold": 0.08,
+      "rsus.0.workload_capacity_gpu_s": 15.0
+    },
+    "policy": "safe_lyapunov_h1",
+    "real_hardware_measurement": false,
+    "sim_end_s": 5.86564,
+    "tasks": 8
+  },
+  {
+    "case": 1,
+    "core_digest": "f1f6b1c5f9d756f3129c41b36ceb1c522642c9c08f9556bd869d40c266c19ccc",
+    "data_kind": "synthetic",
+    "done": 3,
+    "failed": 5,
+    "formal_experiment_eligible": false,
+    "invariant_checks": 52,
+    "numerical_experiment_eligible": false,
+    "output": "E:\\lun\\lun1\\artifacts\\final-v10\\sweep-small\\case-0001",
+    "parameters": {
+      "controller.lyapunov_v": 6.0,
+      "privacy.risk_threshold": 0.08,
+      "rsus.0.workload_capacity_gpu_s": 30.0
+    },
+    "policy": "safe_lyapunov_h1",
+    "real_hardware_measurement": false,
+    "sim_end_s": 5.86564,
+    "tasks": 8
+  },
+  {
+    "case": 2,
+    "core_digest": "6b8b5a88e08e8b363368797650ed1e384e7be8cb6945067a4844db051b59e696",
+    "data_kind": "synthetic",
+    "done": 3,
+    "failed": 5,
+    "formal_experiment_eligible": false,
+    "invariant_checks": 64,
+    "numerical_experiment_eligible": false,
+    "output": "E:\\lun\\lun1\\artifacts\\final-v10\\sweep-small\\case-0002",
+    "parameters": {
+      "controller.lyapunov_v": 6.0,
+      "privacy.risk_threshold": 0.1,
+      "rsus.0.workload_capacity_gpu_s": 15.0
+    },
+    "policy": "safe_lyapunov_h1",
+    "real_hardware_measurement": false,
+    "sim_end_s": 5.86564,
+    "tasks": 8
+  },
+  {
+    "case": 3,
+    "core_digest": "1464160320a06ffc503b03b3241a4587f916f7221c2f09922880e1b75b65b50f",
+    "data_kind": "synthetic",
+    "done": 3,
+    "failed": 5,
+    "formal_experiment_eligible": false,
+    "invariant_checks": 64,
+    "numerical_experiment_eligible": false,
+    "output": "E:\\lun\\lun1\\artifacts\\final-v10\\sweep-small\\case-0003",
+    "parameters": {
+      "controller.lyapunov_v": 6.0,
+      "privacy.risk_threshold": 0.1,
+      "rsus.0.workload_capacity_gpu_s": 30.0
+    },
+    "policy": "safe_lyapunov_h1",
+    "real_hardware_measurement": false,
+    "sim_end_s": 5.86564,
+    "tasks": 8
+  },
+  {
+    "case": 4,
+    "core_digest": "a61e4a3d3c67e36e624fb34abf3fb7358aa7237d7076b0383ac489c3b62af737",
+    "data_kind": "synthetic",
+    "done": 3,
+    "failed": 5,
+    "formal_experiment_eligible": false,
+    "invariant_checks": 61,
+    "numerical_experiment_eligible": false,
+    "output": "E:\\lun\\lun1\\artifacts\\final-v10\\sweep-small\\case-0004",
+    "parameters": {
+      "controller.lyapunov_v": 12.0,
+      "privacy.risk_threshold": 0.08,
+      "rsus.0.workload_capacity_gpu_s": 15.0
+    },
+    "policy": "safe_lyapunov_h1",
+    "real_hardware_measurement": false,
+    "sim_end_s": 5.86564,
+    "tasks": 8
+  },
+  {
+    "case": 5,
+    "core_digest": "8aeb97cfcd457bdb81bf7b71c071781ea89aa75e2bd3a95402ec373e5975fd73",
+    "data_kind": "synthetic",
+    "done": 3,
+    "failed": 5,
+    "formal_experiment_eligible": false,
+    "invariant_checks": 61,
+    "numerical_experiment_eligible": false,
+    "output": "E:\\lun\\lun1\\artifacts\\final-v10\\sweep-small\\case-0005",
+    "parameters": {
+      "controller.lyapunov_v": 12.0,
+      "privacy.risk_threshold": 0.08,
+      "rsus.0.workload_capacity_gpu_s": 30.0
+    },
+    "policy": "safe_lyapunov_h1",
+    "real_hardware_measurement": false,
+    "sim_end_s": 5.86564,
+    "tasks": 8
+  },
+  {
+    "case": 6,
+    "core_digest": "46102143a6d3ff14e85af2eb5ce4eccc8d70435b9c0d82e4dcc4c4d007768e7a",
+    "data_kind": "synthetic",
+    "done": 3,
+    "failed": 5,
+    "formal_experiment_eligible": false,
+    "invariant_checks": 73,
+    "numerical_experiment_eligible": false,
+    "output": "E:\\lun\\lun1\\artifacts\\final-v10\\sweep-small\\case-0006",
+    "parameters": {
+      "controller.lyapunov_v": 12.0,
+      "privacy.risk_threshold": 0.1,
+      "rsus.0.workload_capacity_gpu_s": 15.0
+    },
+    "policy": "safe_lyapunov_h1",
+    "real_hardware_measurement": false,
+    "sim_end_s": 5.86564,
+    "tasks": 8
+  },
+  {
+    "case": 7,
+    "core_digest": "ba4ceafeaf8c714d97cd1fbc43ea6852da830a9a118e6b531b54bc2188d3a0cc",
+    "data_kind": "synthetic",
+    "done": 3,
+    "failed": 5,
+    "formal_experiment_eligible": false,
+    "invariant_checks": 73,
+    "numerical_experiment_eligible": false,
+    "output": "E:\\lun\\lun1\\artifacts\\final-v10\\sweep-small\\case-0007",
+    "parameters": {
+      "controller.lyapunov_v": 12.0,
+      "privacy.risk_threshold": 0.1,
+      "rsus.0.workload_capacity_gpu_s": 30.0
+    },
+    "policy": "safe_lyapunov_h1",
+    "real_hardware_measurement": false,
+    "sim_end_s": 5.86564,
+    "tasks": 8
+  }
+]

@@ -1,0 +1,304 @@
+# 匿名化图像隐私边缘推理研究仿真器
+
+本仓库实现一个由冻结 profile 与联合 trace 驱动的连续真实时间离散事件仿真器。核心用途是复现匿名化图像在车辆—RSU 路径上的安全动作过滤、有限资源竞争、上下行净服务、原子 admission、失败/重试/回退，以及事件驱动安全 Lyapunov–场景 MPC（ESL-SMPC）。
+
+仓库同时提供两种明确分离的证据层：`synthetic_fixture_only` 只用于单元测试和 smoke；`numerical_simulation/frozen_numerical_model` 用于指定数值总体下的论文仿真实验。后者包含主体互斥划分、冻结数值攻击器、FER/质量模型、主体级风险界和多环境联合过程，但仍不是实测硬件、真实人物或真实道路证据。manifest 会分别标记 `numerical_experiment_eligible` 与 `real_hardware_measurement`，不会把数值仿真冒充实测。
+
+## 规范状态
+
+- 主规范 `方案1.md` 已完整读取。它是实现的优先依据。
+- 用户已确认研究论文文件为 `论文1.md`。它已完整读取并作为研究动机、威胁模型和实验要求依据；与 `方案1.md` 冲突时仍以 `方案1.md` 为准。论文早期 RL 主方法因此不覆盖方案中最终确定的 ESL-SMPC。
+- 文本完整性、最小解释和差异见 `docs/SPEC_AUDIT.md`。
+- 数学对象—代码对象映射、实现假设和理论边界见 `docs/ARCHITECTURE_AND_ASSUMPTIONS.md`。
+- 最终测试、smoke、产物交叉校验和五类合理性审查见 `docs/FINAL_AUDIT.md`。
+
+## 环境与安装
+
+支持 Python 3.11 及以上。核心运行无第三方依赖；测试、JSON Schema 检查和 Ruff 通过可选依赖安装。
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install --upgrade pip
+python -m pip install -e ".[test]"
+```
+
+如需 Parquet：
+
+```powershell
+python -m pip install -e ".[test,parquet]"
+```
+
+不安装包时，先在仓库根目录执行 `$env:PYTHONPATH = "$PWD\src"`，再运行 `python -m privacy_edge_sim.cli ...`。`pytest` 配置会自行把 `src` 加入测试路径，但普通 Python 进程不会读取该设置。
+
+## 最快验证路径
+
+```powershell
+python -m privacy_edge_sim.cli validate --config configs/default.json
+python -m pytest -q
+python -m privacy_edge_sim.cli smoke --config configs/default.json --output-root results/smoke-20260713
+```
+
+`smoke` 会运行 H=1 主方法两次和 `all_local` 基线一次，并比较排除控制器 wall-clock 诊断后的核心摘要。输出目录必须为空，防止覆盖已有结果。
+
+## 软件结构
+
+```text
+src/privacy_edge_sim/
+  config.py       严格配置、单位、容量和来源类别校验
+  profiles.py     冻结隐私/质量/模型 profile、三类风险上界与部署资源证书
+  numerical.py    主体互斥数值总体、攻击/FER/质量证据与多环境 replication
+  statistics.py   环境级配对 bootstrap、效应量、sign-flip 与 Holm 校正
+  checkpoint.py   不序列化原图的确定性 replay checkpoint
+  adapters.py     外部冻结模型包装器的版本、执行域和权重校验注册表
+  traces.py       联合事务、配对 FER/入口失败、无线、维护、热、故障和到达 trace
+  packets.py      车辆可信域类型与唯一合法匿名上行包构造链
+  events.py       稳定复合事件堆、明确优先级与终态未来事件取消
+  state.py        闭合任务状态机、运行状态和无线传输对象
+  resources.py    非抢占 EDF 有限服务器、taskless RSU 维护与原子 admission
+  physics.py      分段常数净服务积分和精确完成时刻
+  safety.py       安全观察、hard mask、reason code、确定性修复
+  policies.py     六个共享物理环境与安全管线的两阶段策略
+  simulator.py    连续时间 DES、资源派发、入口失败、RSU 维护和不变量
+  metrics.py      CSV/JSONL/可选 Parquet、指标与核心摘要
+  manifest.py     复现 manifest、校验和与软件环境
+  cli.py          验证、数值研究、运行、统计、扫描、汇总和 smoke 入口
+```
+
+仿真钟只跳到下一个事件时刻，不使用固定时间步或高频轮询。同刻事件作为一个复合事件处理：计算/传输完成先于故障、链路/版本/热变化，随后是 deadline、到达、派发与决策。事件队列会把仅相差有限个 IEEE-754 ulp 的算术表示视为同一数学时刻，同时拒绝合并物理上可区分的近邻时刻；因此 `0.1+0.2` 的完成和 trace 中 `0.3` 的 deadline 仍遵循完成优先。
+
+任务进入 `DONE/FAIL` 时会从事件堆物理删除全部未来 task-owned 事件；已弹入当前复合批次的同刻事件仍由吸收态和 stale-token 检查保证无副作用。RSU 模型/cache 变化不是零成本瞬时写状态：事件到达时创建带冻结 work/energy 的 taskless 非抢占 GPU maintenance 作业，只有作业完成才提交版本/cache 变化；同一 `(RSU, model)` 的链式事务即使在多 GPU 上也保持 old-version 顺序，不同模型仍可竞争并行服务器。
+
+## 数据验证与生成
+
+验证默认配置、profile 和 trace 的联合兼容性：
+
+```powershell
+python -m privacy_edge_sim.cli validate --config configs/default.json
+python -m privacy_edge_sim.cli validate-profile --profile profiles/synthetic_profile.json
+python -m privacy_edge_sim.cli validate-trace --profile profiles/synthetic_profile.json --trace traces/synthetic_trace.json
+```
+
+生成相同 schema 的新 synthetic fixture：
+
+```powershell
+python -m privacy_edge_sim.cli generate-synthetic --output-root fixtures/dev-seed-73 --seed 73
+```
+
+同 seed 生成文件逐字节确定，并同时生成 evaluation trace 与使用另一固定 seed 的 training/validation scenario 随机实现。两者的匿名 artifact 命名空间不同，但为了覆盖相同开发 support cell，会复用 synthetic fixture/主体类别；因此它们**不是主体独立数据划分**。该入口只用于开发 fixture；论文数值实验使用下面的主体互斥生成器。生成器会显式写入 `data_kind=synthetic`、`evidence_status=synthetic_fixture_only` 与 `formal_experiment_eligible=false`。
+
+### 冻结数值论文研究包
+
+生成数值总体、攻击/FER/质量证据、冻结 profile、evaluation/scenario trace 和可运行配置：
+
+```powershell
+python -m privacy_edge_sim.cli generate-numerical-study `
+  --output-root studies/base `
+  --seed 20260713 `
+  --profile-subjects 256 `
+  --test-subjects 64 `
+  --scenario-subjects 48 `
+  --tasks 24 `
+  --privacy-threshold 0.35
+```
+
+数值模型覆盖 pixelate、blur、generative、diffusion 四个家族和 weak/medium/strong 三档强度；包含三个与 guard 隔离的冻结攻击器、identity/verification/link 三种协议、独立阈值校准、主体级 Bonferroni–Hoeffding UCB、split-conformal 质量候选集，以及 Accuracy、Macro-F1、balanced accuracy、NLL、ECE、逐类召回和相对本地 FER 配对差。六类 split 在主体、视频和相邻帧层面互斥，原始主体统计和所有阈值保存在 `evidence/numerical_study_evidence.json`，profile 的 UCB 可以从该文件逐项重算。
+
+默认 256 个 profile 评估主体和 0.35 风险预算用于快速数值研究。若研究预算为 0.10、0.05 或 0.01，必须相应增大 `--profile-subjects`；若有限样本同时 UCB 无法通过，正确结果是管线被 hard mask 删除，而不是降低置信要求。上述阈值都是研究预算，不是法规阈值。
+
+从同一冻结 profile/evidence/scenario 生成新的外生环境 replication：
+
+```powershell
+python -m privacy_edge_sim.cli generate-numerical-replication `
+  --base-study-root studies/base `
+  --output-root studies/environments/env-101 `
+  --environment-seed 101
+```
+
+相同 environment seed 逐字节确定；不同 seed 会改变 evaluation 到达、无线 burst、故障、热和联合事务，但 profile、攻击证据和 training/validation scenario 保持冻结。
+
+### 接入真实 profile 与 trace
+
+1. 按 `schemas/config.schema.json`、`schemas/profile.schema.json` 和 `schemas/trace.schema.json` 生成 UTF-8 JSON；禁止重复键、NaN/Inf 和异常控制字符。
+2. 冻结 profile 中的总体/划分、质量分区、三类预注册攻击器风险上界、主体数、发射覆盖、pipeline/model/protocol hash，以及 preprocessing/pipeline/local/edge 的保守 deployment resource bounds。loader 会拒绝任何超出冻结资源包络的 evaluation 或 scenario 行。
+3. 一个匿名化输出的尝试数、阶段 work/energy、OOM、guard、编码、字节数、artifact key 和同一 artifact 的 FER 必须放在同一个 `anon_transactions` 行中。外部数据的 artifact key 必须是无身份语义的 opaque 标识，不得嵌入姓名、主体 ID、原始文件路径或其他直接标识符；字符串 schema 无法自动证明这一数据治理属性。
+4. 本地/边缘 FER 必须按设备、模型、质量、热上下文、pipeline 和 artifact 精确配对。每条 edge FER 联合行还必须显式携带 `ingress_failed`；入口 work/energy、GPU/DL work/energy 和结果不能拆成独立边际随机量。缺失组合由 loader 返回或触发 structured `unsupported`，不得跨 pipeline 插值。
+5. 无线段必须覆盖 horizon、同组连续且不重叠；`goodput_bps` 是已含 MAC、协议、MCS、HARQ/重传和丢包的应用层净服务率。
+6. RSU `MODEL_VERSION` 或 `MODEL_CACHE` 事件必须提供正的 `maintenance_work_s` 和 `maintenance_energy_j`；维护与 inference 使用同一个有限 GPU，不能用无成本状态跳变替代。
+7. evaluation 与控制器 scenario 数据必须分文件：配置 `trace_path` 指向 evaluation/test split，`scenario_trace_path` 指向 training/validation split。运行会拒绝复用同一文件或缺失 split role。`ScenarioLibrary` 只从独立 scenario 数据构造去身份的联合计算/FER 行和无绝对时间锚点的相对无线、热、故障、背景负载、telemetry 场景；不暴露评价 trace 的未来游标、主体、源 row 或原 artifact 标识。文件分离和 role 校验本身不能证明主体级无重叠，数值生成器会额外审计 split，外部数据也必须提供同等审计。
+8. 更新配置中的绝对 `profile_path`、`trace_path` 和 `scenario_trace_path`，再运行 `validate`。JSON Schema 不能表达的跨数组外键、连续区间、事件配对和版本链由 Python loader 二次验证。
+
+仓库当前没有真实模型权重或真实数据；真实 trace 重放仍是性能仿真，不会在线训练或调用未提供的模型。`adapters.FrozenAdapterRegistry` 是真实包装器的接入边界：profile 的 component hash 必须等于权重文件或规范化 deployment-lock manifest 的 SHA-256；部署时同时核对 profile/protocol、车辆或 RSU 执行域和规范源文件。包装器不得暴露训练/参数更新方法；`seal()` 后只返回受控代理，每次推理前后都复验 descriptor、profile 文件、部署工件、内存状态指纹以及输入/输出类型和任务/模型/协议身份。攻击器和质量估计器属于离线 profile 构建流程，不作为在线可变适配器。只有完成数据治理、攻击器预注册、主体级校准和版本冻结后，才能把运行解释为“冻结总体与给定置信水平下的经验统计结论”，仍不能声称绝对匿名。
+
+## 单算法与全部基线
+
+单算法：
+
+```powershell
+python -m privacy_edge_sim.cli run `
+  --config configs/default.json `
+  --policy safe_lyapunov_h1 `
+  --output results/h1-seed41001
+```
+
+多步 ESL-SMPC：
+
+```powershell
+python -m privacy_edge_sim.cli run --config configs/default.json --policy esl_smpc --output results/esl-h2-s8
+```
+
+全部两阶段策略：
+
+```powershell
+python -m privacy_edge_sim.cli run-all --config configs/default.json --output-root results/all-baselines
+```
+
+策略名称：
+
+- `all_local`
+- `fixed_safe_lowest_link_cost`
+- `fixed_safe_shortest_visible_queue`
+- `safe_greedy`
+- `safe_lyapunov_h1`
+- `esl_smpc`
+
+全部策略使用同一任务、冻结 trace、hard mask、修复器、指标与外生种子。策略观察对象采用正向字段白名单，不包含真实身份、真实 `artifact_key`、FER 标签、攻击真值、evaluation 未来 trace 或 future loss；policy、HardMaskEngine 和 estimator 的可达对象图也不保存 evaluation artifact key 或完整支持索引。配对只暴露任务作用域的会话内 opaque token，registry 仅保存脱敏的 `(RSU, model, pipeline)` capability，跨任务重放会被拒绝；原始配对键只在 simulator 可信域用于 atomic admission 的再次精确复核。非零 controller overhead 后若原动作失效，执行门会用提交时 observation 和当前 hard-safe 集重新计算 H=1/ESL 分数，包括刚变得可行的动作，而不是退化为通用成本排序。H>1 的场景 RNG 与环境 RNG 分离；候选动作共享同一个外生场景 realization，分支独立推进电池、资源/虚拟队列、UL、预测原子 admission、配对入口失败、入口/GPU、DL、热、故障、背景负载和有序 taskless maintenance GPU 竞争，只执行第一动作。匿名化、本地 FER 和 edge FER 场景按 opaque 主体 cluster 后完整行两级抽样，避免多帧主体获得额外权重。
+
+默认不允许覆盖任何目标 leaf 或批处理索引。`run-all`、`multi-seed` 和 `sweep` 会在启动第一项之前预检整个批次，避免因后续目录冲突留下部分新结果。只有明确希望重算同一目录时使用 `--overwrite`；该选项只清理本工具已知布局，不应把结果目录与其他资料混用。
+
+## 多 seed、参数扫描和汇总
+
+多 seed：
+
+```powershell
+python -m privacy_edge_sim.cli multi-seed `
+  --config configs/default.json `
+  --policy esl_smpc `
+  --seeds 101,102,103,104,105 `
+  --output-root results/multiseed
+```
+
+上述 `multi-seed` 保留为“同一冻结环境下的控制/采样随机流”实验。真正的多环境数值研究使用同一 profile、攻击证据和 scenario 分布，为每个 environment seed 生成独立 evaluation trace，并在相同环境上成对运行全部策略：
+
+```powershell
+python -m privacy_edge_sim.cli run-numerical-study `
+  --base-study-root studies/base `
+  --environment-seeds 101,102,103,104,105,106,107,108,109,110 `
+  --baseline all_local `
+  --output-root results/numerical-study-10seeds
+```
+
+入口会输出每个环境/策略的 manifest、严格配对统计记录和 `study_report.json`。统计单位是 environment，不把同一 trace 内任务伪装成独立 seed；报告策略减基线的配对差、Cohen’s dz、环境 cluster bootstrap 95% CI、双侧 sign-flip p 值及 Holm 校正。关键论文结果建议至少 10 个环境 seed，最终结果宜使用 20 个，并保留全部 seed。
+
+参数扫描使用点路径；数组下标也作为路径段。示例文件见 `examples/sweep-small.json`：
+
+```powershell
+python -m privacy_edge_sim.cli sweep `
+  --config configs/default.json `
+  --policy safe_lyapunov_h1 `
+  --grid examples/sweep-small.json `
+  --output-root results/sweep-small
+```
+
+可调项目包括：
+
+- 车辆/RSU 数：编辑 `vehicles`、`rsus`，并保证 trace 引用与 profile 支持匹配；
+- 负载/到达/deadline：由 trace 的 `task_arrivals` 驱动；
+- 带宽/覆盖/中断：由 `environment.wireless_segments` 驱动；
+- 服务器、描述符、显存、workload、电池和内存：配置中的显式有限容量；
+- 隐私阈值：`privacy.risk_threshold`，但不能高于研究预注册边界后再把结果与原实验混用；
+- 控制器：`controller.horizon_events`、`scenarios`、`lyapunov_v` 和确定性开销；
+- 输出 Parquet：`output_parquet=true` 并安装 `pyarrow`。
+
+汇总多个结果树：
+
+```powershell
+python -m privacy_edge_sim.cli aggregate `
+  --inputs results/all-baselines results/multiseed results/sweep-small `
+  --output results/aggregate.csv `
+  --parquet
+```
+
+始终生成同名 `.csv` 和 `.json`；`--parquet` 额外生成扁平 `.parquet`，需要 `pyarrow`。聚合器校验每个 manifest 和 summary 校验和，并展开 `base_seed`、sweep case/参数以及全部独立 RNG 流，便于分组分析。
+
+单次 DES 支持不序列化原图的确定性 replay checkpoint：
+
+```powershell
+python -m privacy_edge_sim.cli run --config configs/default.json `
+  --policy esl_smpc --output results/run-1 `
+  --checkpoint results/run-1.replay.json --checkpoint-every 25
+
+python -m privacy_edge_sim.cli run --config configs/default.json `
+  --policy esl_smpc --output results/run-1-resumed `
+  --resume-checkpoint results/run-1.replay.json
+```
+
+checkpoint 只保存与代码、配置、profile、两份 trace 和策略绑定的复合事件计数、时钟与前缀哈希；不保存 raw/aligned bytes、句柄或可上传表示。恢复会从冻结输入确定性重放到稳定事件边界，校验前缀后继续，因此提供精确逻辑恢复，但不会省去重放前缀的 CPU 时间。代码或输入变化、文件损坏和前缀分歧都会保守拒绝。
+
+## 输出和诊断
+
+每次运行生成：
+
+- `tasks.csv`：状态、阶段时间戳、真实路径、重试、匿名包大小、FER、失败原因和任务归因能耗；
+- `events.jsonl`：复合事件以及匿名化、网络、入口失败、maintenance enqueue/start/complete 和 RSU audit；
+- `actions.jsonl`：全部候选的 hard-mask reason code、动作、修复和控制器诊断；
+- `resources.csv`：队列、残余 workload、服务器利用率、内存/描述符/显存/预留及 `system_maintenance_energy_j`；
+- `virtual_queues.csv`：车辆/RSU 功率及 timeout/failure/coverage 虚拟队列；
+- `summary.json`：DONE/FAIL/timeout、覆盖率、条件 FER、全任务损失、P50/P95/P99、能耗和资源摘要；
+- `manifest.json`：代码内容 hash、配置/hash、版本、trace 校验和、数据标签、来源、资源、网络、负载、deadline、控制器、独立种子、软件环境、仿真时间和不变量结果；
+- `tasks.parquet`：仅在请求且 `pyarrow` 可用时生成。
+
+控制器真实 wall-clock 只进入工程诊断，并从核心 digest 和仿真时间中排除。仿真中的控制开销来自配置的 `controller_overhead_s` 和 `controller_energy_j`；执行时动作修复还记录 `repair_score_source`，可区分决策时分数、当前策略重算和旧接口通用排序。
+
+失败定位优先查看：
+
+```powershell
+Import-Csv results/h1-seed41001/tasks.csv | Where-Object failed -eq 'True'
+Get-Content results/h1-seed41001/actions.jsonl | Select-String 'PRIVACY_RISK|OOD|VERSION_MISMATCH|UNSUPPORTED'
+Get-Content results/h1-seed41001/events.jsonl | Select-String 'PAUSED|INGRESS_FAIL|RSU_MODEL_MAINTENANCE|ADMISSION_REJECT|FAIL'
+$summary = Get-Content -Raw results/h1-seed41001/summary.json | ConvertFrom-Json
+$summary | Select-Object done_count,fail_count,coverage,latency_p50_s,latency_p95_s,latency_p99_s
+$summary.energy_j | ConvertTo-Json -Depth 6
+Import-Csv results/h1-seed41001/resources.csv | Sort-Object {[int]$_.waiting_jobs} -Descending | Select-Object -First 20
+```
+
+不变量失败会立即终止运行，并携带最近事件与状态快照；不会静默修正后继续出结果。终态还必须无 task-owned future event、活动 job、transfer、pending decision 或车辆/RSU reservation。
+
+## 默认 synthetic 数量级
+
+全部未引用真实测量的值（包括默认容量）明确标记为 `engineering_assumption`；故障、中断和热降频标记为 `stress_test_boundary`。只有接入可核验的具体规格来源后，使用者才应把相应字段改为 `public_specification`；默认 fixture 不作这种声明。
+
+| 项目 | 默认范围/配置 | 单位 | 来源类别 |
+|---|---:|---|---|
+| 车辆预处理 work / energy | 0.021–0.04484 / 0.2415–0.3363 | s / J | engineering_assumption |
+| 匿名化 work / energy | 0.02987–0.13790 / 0.3616–1.2403 | s / J | engineering_assumption |
+| guard work / energy | 0.008–0.010 / 0.050–0.052 | s / J | engineering_assumption |
+| 编码 work / energy | 0.0082–0.00909 / 0.04775–0.05275 | s / J | engineering_assumption |
+| 匿名包 | 54,000–101,000 | byte | engineering_assumption |
+| 本地 FER work / energy | 0.033–0.0671 / 0.396–0.52338 | s / J | engineering_assumption |
+| RSU ingress / GPU work | 0.0032 / 0.015–0.02352 | s | engineering_assumption |
+| synthetic / numerical RSU maintenance | 0.18 / 0.22；12.6 / 18 | busy-s；J | engineering_assumption |
+| 单任务 RSU 显存 | 671,088,640 | byte | engineering_assumption |
+| 联网净 goodput | 3.48192–28.32 | Mbit/s | engineering_assumption |
+| 无线发/收功率 | 3.2–4.6 / 1.15–1.4 | W | engineering_assumption |
+| 车辆 idle/hold 功率 | 6.5–8.0 / 0.12–0.15 | W | engineering_assumption |
+| RSU idle/hold 功率 | 58–72 / 0.4–0.5 | W | engineering_assumption |
+| deadline | 0.62–1.35 | s | engineering_assumption |
+| 热降频服务倍率 | 0.68 | 1 | stress_test_boundary |
+
+数值研究配置另外启用 40 ms telemetry 交付延迟、0.001 GPU-work-s 量化以及每 7 个样本一次的确定性丢失，用于验证 stale snapshot 与真实原子 admission 分离；这些同样是冻结数值假设，不是设备实测。
+
+联合 trace 的 stage energy 是相应设备/质量/热上下文下已经配对的完整事务动态能量。服务率降低会延长 wall time 和增加 idle/hold 能量，但在线执行只按已完成 busy-work 比例结算该 stage energy，不再乘 `dynamic_power_multiplier`；该字段保留为冻结热证据/诊断，避免双重缩放。
+
+## 计算成本提示
+
+`all_local` 和固定基线成本最低。`esl_smpc` 的控制计算量近似随候选动作数 × `scenarios` × `horizon_events` 增长；每个隔离 rollout 的可变预测状态、联合 scenario 行和事件审计记录也会随这些维度增加内存。大车辆数、密集到达、长 horizon、多 RSU、多模型和高场景数会显著增加 CPU、内存与日志体积。Parquet 可减小分析 I/O，但不会降低 DES 或场景 rollout 的计算量。
+
+## 理论与结论边界
+
+- 隐私只作为 hard mask，不在时延/能耗/FER 的软目标中抵消。
+- H=1 实现的是规范中的安全漂移—成本比结构；本仓库的小规模测试不证明真实道路上的 Slater 条件、稳定性或长期界。
+- H>1 是经验增强，不能声称自动继承 H=1 的全部理论保证，也不声称全局最优。
+- synthetic smoke 只证明软件入口和不变量在所测 fixture 上运行；不评价算法优劣。
+- `numerical_simulation` 可以支撑“指定数值总体、冻结攻击器和冻结物理过程条件下”的论文仿真实验，并已提供独立划分、多环境 seed 与配对统计；它不能被写成真实硬件测量或真实道路外推。
+- 绝对匿名、未知攻击器、conformal 对单个任务必然覆盖、Slater/无限时域稳定性、H>1 理论继承和全局最优仍只能依赖严格假设或数学证明，不能由有限数值实验证明。

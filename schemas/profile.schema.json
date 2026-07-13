@@ -1,0 +1,312 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/privacy-edge-sim/profile.schema.json",
+  "title": "Frozen anonymous-image privacy profile",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "protocol_version",
+    "profile_version",
+    "profile_hash",
+    "data_kind",
+    "evidence_status",
+    "online_mutable",
+    "quality_bins",
+    "preprocessing_resource_bounds",
+    "privacy_policy",
+    "pipelines",
+    "local_models",
+    "edge_models",
+    "privacy_cells",
+    "parameter_sources",
+    "metadata"
+  ],
+  "properties": {
+    "schema_version": {"$ref": "#/$defs/version"},
+    "protocol_version": {"$ref": "#/$defs/version"},
+    "profile_version": {"$ref": "#/$defs/version"},
+    "profile_hash": {"$ref": "#/$defs/sha256"},
+    "data_kind": {"enum": ["synthetic", "measured", "numerical_simulation"]},
+    "evidence_status": {"type": "string", "minLength": 1},
+    "online_mutable": {"const": false},
+    "quality_bins": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1}
+    },
+    "preprocessing_resource_bounds": {"$ref": "#/$defs/local_resource_bounds"},
+    "privacy_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "registered_risk_types",
+        "risk_threshold",
+        "confidence_error",
+        "min_subjects",
+        "min_emission_lcb",
+        "interpretation"
+      ],
+      "properties": {
+        "registered_risk_types": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 3,
+          "uniqueItems": true,
+          "items": {"enum": ["identity", "verification", "link"]}
+        },
+        "risk_threshold": {"$ref": "#/$defs/probability"},
+        "confidence_error": {"type": "number", "exclusiveMinimum": 0, "maximum": 1},
+        "min_subjects": {"type": "integer", "minimum": 1},
+        "min_emission_lcb": {"$ref": "#/$defs/probability"},
+        "interpretation": {"type": "string", "minLength": 1}
+      }
+    },
+    "pipelines": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/pipeline"}
+    },
+    "local_models": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/model"}
+    },
+    "edge_models": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/model"}
+    },
+    "privacy_cells": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/privacy_cell"}
+    },
+    "parameter_sources": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {"$ref": "#/$defs/source"}
+    },
+    "metadata": {"type": "object"}
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"data_kind": {"const": "synthetic"}}},
+      "then": {"properties": {"evidence_status": {"const": "synthetic_fixture_only"}}}
+    },
+    {
+      "if": {"properties": {"data_kind": {"const": "numerical_simulation"}}},
+      "then": {"properties": {"evidence_status": {"const": "frozen_numerical_model"}}}
+    }
+  ],
+  "$defs": {
+    "version": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._+/\\-]{0,127}$"
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "probability": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["category", "description", "unit"],
+      "properties": {
+        "category": {
+          "enum": [
+            "measured",
+            "public_specification",
+            "literature_range",
+            "engineering_assumption",
+            "stress_test_boundary"
+          ]
+        },
+        "description": {"type": "string", "minLength": 1},
+        "unit": {"type": "string", "minLength": 1}
+      }
+    },
+    "pipeline": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "pipeline_id",
+        "pipeline_hash",
+        "guard_id",
+        "guard_hash",
+        "encoder_id",
+        "encoder_hash",
+        "protocol_version",
+        "max_attempts",
+        "fallback_local_model",
+        "supported_devices",
+        "retryable_reasons",
+        "deployment_resource_bounds"
+      ],
+      "properties": {
+        "pipeline_id": {"type": "string", "minLength": 1},
+        "pipeline_hash": {"$ref": "#/$defs/sha256"},
+        "guard_id": {"type": "string", "minLength": 1},
+        "guard_hash": {"$ref": "#/$defs/sha256"},
+        "encoder_id": {"type": "string", "minLength": 1},
+        "encoder_hash": {"$ref": "#/$defs/sha256"},
+        "protocol_version": {"$ref": "#/$defs/version"},
+        "max_attempts": {"type": "integer", "minimum": 1},
+        "fallback_local_model": {"type": ["string", "null"]},
+        "supported_devices": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "retryable_reasons": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "deployment_resource_bounds": {"$ref": "#/$defs/pipeline_resource_bounds"}
+      }
+    },
+    "model": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "model_id",
+        "model_hash",
+        "model_kind",
+        "protocol_version",
+        "supported_devices",
+        "supported_rsus",
+        "supported_pipelines",
+        "deployment_resource_bounds"
+      ],
+      "properties": {
+        "model_id": {"type": "string", "minLength": 1},
+        "model_hash": {"$ref": "#/$defs/sha256"},
+        "model_kind": {"enum": ["local", "edge"]},
+        "protocol_version": {"$ref": "#/$defs/version"},
+        "supported_devices": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "supported_rsus": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "supported_pipelines": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "deployment_resource_bounds": {"type": "object"}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"model_kind": {"const": "local"}}},
+          "then": {"properties": {"deployment_resource_bounds": {"$ref": "#/$defs/local_resource_bounds"}}}
+        },
+        {
+          "if": {"properties": {"model_kind": {"const": "edge"}}},
+          "then": {"properties": {"deployment_resource_bounds": {"$ref": "#/$defs/edge_resource_bounds"}}}
+        }
+      ]
+    },
+    "pipeline_resource_bounds": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "max_peak_memory_bytes", "max_anon_work_s", "max_anon_energy_j",
+        "max_guard_work_s", "max_guard_energy_j", "max_encode_work_s",
+        "max_encode_energy_j", "max_output_bytes"
+      ],
+      "properties": {
+        "max_peak_memory_bytes": {"type": "integer", "minimum": 1},
+        "max_anon_work_s": {"type": "number", "exclusiveMinimum": 0},
+        "max_anon_energy_j": {"type": "number", "exclusiveMinimum": 0},
+        "max_guard_work_s": {"type": "number", "exclusiveMinimum": 0},
+        "max_guard_energy_j": {"type": "number", "exclusiveMinimum": 0},
+        "max_encode_work_s": {"type": "number", "exclusiveMinimum": 0},
+        "max_encode_energy_j": {"type": "number", "exclusiveMinimum": 0},
+        "max_output_bytes": {"type": "integer", "minimum": 1}
+      }
+    },
+    "local_resource_bounds": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["max_memory_bytes", "max_service_work_s", "max_dynamic_energy_j"],
+      "properties": {
+        "max_memory_bytes": {"type": "integer", "minimum": 1},
+        "max_service_work_s": {"type": "number", "exclusiveMinimum": 0},
+        "max_dynamic_energy_j": {"type": "number", "exclusiveMinimum": 0}
+      }
+    },
+    "edge_resource_bounds": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "max_vram_bytes", "max_ingress_work_s", "max_ingress_energy_j",
+        "max_gpu_work_s", "max_gpu_energy_j", "max_result_size_bits"
+      ],
+      "properties": {
+        "max_vram_bytes": {"type": "integer", "minimum": 1},
+        "max_ingress_work_s": {"type": "number", "exclusiveMinimum": 0},
+        "max_ingress_energy_j": {"type": "number", "exclusiveMinimum": 0},
+        "max_gpu_work_s": {"type": "number", "exclusiveMinimum": 0},
+        "max_gpu_energy_j": {"type": "number", "exclusiveMinimum": 0},
+        "max_result_size_bits": {"type": "integer", "minimum": 1}
+      }
+    },
+    "risk_bound": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "risk_type",
+        "attacker_id",
+        "threshold_id",
+        "ucb",
+        "subject_count",
+        "emission_lcb",
+        "confidence_error"
+      ],
+      "properties": {
+        "risk_type": {"enum": ["identity", "verification", "link"]},
+        "attacker_id": {"type": "string", "minLength": 1},
+        "threshold_id": {"type": "string", "minLength": 1},
+        "ucb": {"$ref": "#/$defs/probability"},
+        "subject_count": {"type": "integer", "minimum": 1},
+        "emission_lcb": {"$ref": "#/$defs/probability"},
+        "confidence_error": {"type": "number", "exclusiveMinimum": 0, "maximum": 1}
+      }
+    },
+    "privacy_cell": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "pipeline_id",
+        "quality_bin",
+        "device_type",
+        "joint_trace_supported",
+        "bounds"
+      ],
+      "properties": {
+        "pipeline_id": {"type": "string", "minLength": 1},
+        "quality_bin": {"type": "string", "minLength": 1},
+        "device_type": {"type": "string", "minLength": 1},
+        "joint_trace_supported": {"type": "boolean"},
+        "bounds": {
+          "type": "array",
+          "minItems": 3,
+          "items": {"$ref": "#/$defs/risk_bound"}
+        }
+      }
+    }
+  }
+}

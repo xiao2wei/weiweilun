@@ -1,0 +1,46 @@
+{
+  "baseline": {
+    "core_digest": "5deae3438cb845707ca7e7e979841372c68c95ba55a3356fc3b9d0b2ee53febc",
+    "data_kind": "synthetic",
+    "done": 7,
+    "failed": 1,
+    "formal_experiment_eligible": false,
+    "invariant_checks": 56,
+    "numerical_experiment_eligible": false,
+    "output": "E:\\lun\\lun1\\artifacts\\final-v10\\smoke-default\\baseline-all-local",
+    "policy": "all_local",
+    "real_hardware_measurement": false,
+    "sim_end_s": 5.93274,
+    "tasks": 8
+  },
+  "engineering_smoke_only": true,
+  "main_policy": {
+    "core_digest": "ba4ceafeaf8c714d97cd1fbc43ea6852da830a9a118e6b531b54bc2188d3a0cc",
+    "data_kind": "synthetic",
+    "done": 3,
+    "failed": 5,
+    "formal_experiment_eligible": false,
+    "invariant_checks": 73,
+    "numerical_experiment_eligible": false,
+    "output": "E:\\lun\\lun1\\artifacts\\final-v10\\smoke-default\\main-a",
+    "policy": "safe_lyapunov_h1",
+    "real_hardware_measurement": false,
+    "sim_end_s": 5.86564,
+    "tasks": 8
+  },
+  "repeat_policy": {
+    "core_digest": "ba4ceafeaf8c714d97cd1fbc43ea6852da830a9a118e6b531b54bc2188d3a0cc",
+    "data_kind": "synthetic",
+    "done": 3,
+    "failed": 5,
+    "formal_experiment_eligible": false,
+    "invariant_checks": 73,
+    "numerical_experiment_eligible": false,
+    "output": "E:\\lun\\lun1\\artifacts\\final-v10\\smoke-default\\main-b",
+    "policy": "safe_lyapunov_h1",
+    "real_hardware_measurement": false,
+    "sim_end_s": 5.86564,
+    "tasks": 8
+  },
+  "same_seed_core_digest_equal": true
+}

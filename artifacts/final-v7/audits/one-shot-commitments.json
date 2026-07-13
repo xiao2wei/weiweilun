@@ -1,0 +1,124 @@
+{
+  "analysis": "preregistered_one_shot_commitments",
+  "commitments": {
+    "test-task-00000": {
+      "action_priority": [
+        "READY|EDGE|||rsu-1|edge_fer_numerical_v1",
+        "READY|EDGE|||rsu-2|edge_fer_numerical_v1",
+        "READY|LOCAL|local_fer_numerical_v1|||",
+        "READY|FAIL||||"
+      ],
+      "source_vehicle_id": "veh-1"
+    },
+    "test-task-00001": {
+      "action_priority": [
+        "READY|EDGE|||rsu-1|edge_fer_numerical_v1",
+        "READY|EDGE|||rsu-2|edge_fer_numerical_v1",
+        "READY|LOCAL|local_fer_numerical_v1|||",
+        "READY|FAIL||||"
+      ],
+      "source_vehicle_id": "veh-2"
+    },
+    "test-task-00002": {
+      "action_priority": [
+        "READY|EDGE|||rsu-1|edge_fer_numerical_v1",
+        "READY|EDGE|||rsu-2|edge_fer_numerical_v1",
+        "READY|LOCAL|local_fer_numerical_v1|||",
+        "READY|FAIL||||"
+      ],
+      "source_vehicle_id": "veh-1"
+    },
+    "test-task-00003": {
+      "action_priority": [
+        "READY|EDGE|||rsu-1|edge_fer_numerical_v1",
+        "READY|EDGE|||rsu-2|edge_fer_numerical_v1",
+        "READY|LOCAL|local_fer_numerical_v1|||",
+        "READY|FAIL||||"
+      ],
+      "source_vehicle_id": "veh-2"
+    },
+    "test-task-00004": {
+      "action_priority": [
+        "READY|EDGE|||rsu-1|edge_fer_numerical_v1",
+        "READY|EDGE|||rsu-2|edge_fer_numerical_v1",
+        "READY|LOCAL|local_fer_numerical_v1|||",
+        "READY|FAIL||||"
+      ],
+      "source_vehicle_id": "veh-1"
+    },
+    "test-task-00005": {
+      "action_priority": [
+        "READY|EDGE|||rsu-1|edge_fer_numerical_v1",
+        "READY|EDGE|||rsu-2|edge_fer_numerical_v1",
+        "READY|LOCAL|local_fer_numerical_v1|||",
+        "READY|FAIL||||"
+      ],
+      "source_vehicle_id": "veh-2"
+    },
+    "test-task-00006": {
+      "action_priority": [
+        "READY|EDGE|||rsu-1|edge_fer_numerical_v1",
+        "READY|EDGE|||rsu-2|edge_fer_numerical_v1",
+        "READY|LOCAL|local_fer_numerical_v1|||",
+        "READY|FAIL||||"
+      ],
+      "source_vehicle_id": "veh-1"
+    },
+    "test-task-00007": {
+      "action_priority": [
+        "READY|EDGE|||rsu-1|edge_fer_numerical_v1",
+        "READY|EDGE|||rsu-2|edge_fer_numerical_v1",
+        "READY|LOCAL|local_fer_numerical_v1|||",
+        "READY|FAIL||||"
+      ],
+      "source_vehicle_id": "veh-2"
+    },
+    "test-task-00008": {
+      "action_priority": [
+        "READY|EDGE|||rsu-1|edge_fer_numerical_v1",
+        "READY|EDGE|||rsu-2|edge_fer_numerical_v1",
+        "READY|LOCAL|local_fer_numerical_v1|||",
+        "READY|FAIL||||"
+      ],
+      "source_vehicle_id": "veh-1"
+    },
+    "test-task-00009": {
+      "action_priority": [
+        "READY|EDGE|||rsu-1|edge_fer_numerical_v1",
+        "READY|EDGE|||rsu-2|edge_fer_numerical_v1",
+        "READY|LOCAL|local_fer_numerical_v1|||",
+        "READY|FAIL||||"
+      ],
+      "source_vehicle_id": "veh-2"
+    },
+    "test-task-00010": {
+      "action_priority": [
+        "READY|EDGE|||rsu-1|edge_fer_numerical_v1",
+        "READY|EDGE|||rsu-2|edge_fer_numerical_v1",
+        "READY|LOCAL|local_fer_numerical_v1|||",
+        "READY|FAIL||||"
+      ],
+      "source_vehicle_id": "veh-1"
+    }
+  },
+  "hard_mask_fallback_only": true,
+  "policy": "static_ready_action_priority_with_hard_mask_fallback",
+  "raw_visible_input_sha256": "75eb0a7253fcb5bd695020a4569f83f3b5d7da5108ec9a62a86f45d1179b4119",
+  "registered_plan": {
+    "by_vehicle": {},
+    "default_action_priority": [
+      "READY|EDGE|||rsu-1|edge_fer_numerical_v1",
+      "READY|EDGE|||rsu-2|edge_fer_numerical_v1",
+      "READY|LOCAL|local_fer_numerical_v1|||",
+      "READY|FAIL||||"
+    ]
+  },
+  "registered_plan_sha256": "7537b8251a85c72bafadc248c7d1b621dc4fc245b20522c2147d00f5f151fee4",
+  "report_sha256": "8cd18f75fabd89a7fa05a1cef2016698105bb3f52af03b49fb65d6891fa66250",
+  "schema_version": "1.0",
+  "source_stage": "RAW",
+  "uses_output_size": false,
+  "uses_queue_freshness": false,
+  "uses_ready_expected_cost": false,
+  "uses_ready_records": false
+}

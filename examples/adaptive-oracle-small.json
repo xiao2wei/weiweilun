@@ -1,0 +1,73 @@
+{
+  "scenario_tree": {
+    "root_id": "raw",
+    "nodes": [
+      {
+        "node_id": "raw",
+        "actions": {
+          "pipeline-a": {
+            "hard_safe": true,
+            "cost": 0.35,
+            "duration_s": 0.08,
+            "branches": [
+              {
+                "probability": 0.65,
+                "next_node_id": "ready-small"
+              },
+              {
+                "probability": 0.35,
+                "next_node_id": "ready-large"
+              }
+            ]
+          },
+          "local": {
+            "hard_safe": true,
+            "cost": 0.9,
+            "duration_s": 0.16,
+            "branches": []
+          }
+        }
+      },
+      {
+        "node_id": "ready-small",
+        "actions": {
+          "edge": {
+            "hard_safe": true,
+            "cost": 0.25,
+            "duration_s": 0.07,
+            "branches": []
+          },
+          "fallback-local": {
+            "hard_safe": true,
+            "cost": 0.7,
+            "duration_s": 0.13,
+            "branches": []
+          }
+        }
+      },
+      {
+        "node_id": "ready-large",
+        "actions": {
+          "edge": {
+            "hard_safe": true,
+            "cost": 0.95,
+            "duration_s": 0.22,
+            "branches": []
+          },
+          "fallback-local": {
+            "hard_safe": true,
+            "cost": 0.72,
+            "duration_s": 0.14,
+            "branches": []
+          }
+        }
+      }
+    ]
+  },
+  "esl_contingent_policy": {
+    "raw": "pipeline-a",
+    "ready-small": "edge",
+    "ready-large": "fallback-local"
+  },
+  "max_policies": 64
+}

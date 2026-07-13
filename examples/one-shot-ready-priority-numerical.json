@@ -1,0 +1,9 @@
+{
+  "default_action_priority": [
+    "READY|EDGE|||rsu-1|edge_fer_numerical_v1",
+    "READY|EDGE|||rsu-2|edge_fer_numerical_v1",
+    "READY|LOCAL|local_fer_numerical_v1|||",
+    "READY|FAIL||||"
+  ],
+  "by_vehicle": {}
+}

@@ -1,0 +1,145 @@
+{
+  "controller": {
+    "controller_energy_j": 0.004,
+    "controller_overhead_s": 0.0008,
+    "horizon_events": 2,
+    "lyapunov_v": 12.0,
+    "physical_queue_weight": 1.0,
+    "policy": "esl_smpc",
+    "rollout_policy": "safe_greedy",
+    "rsu_resource_theta": {
+      "gpu": 1.0,
+      "ingress": 1.0
+    },
+    "scenarios": 8,
+    "vehicle_resource_theta": {
+      "accelerator": 1.0,
+      "cpu": 1.0,
+      "encoder": 1.0
+    }
+  },
+  "cost": {
+    "failure_loss": 1.0,
+    "latency_scale_s": 0.146075484,
+    "rsu_energy_scale_j": 0.801582454,
+    "utility_scale": 0.309723557,
+    "vehicle_energy_scale_j": 1.173018463,
+    "weights": {
+      "failure": 2.0,
+      "latency": 1.0,
+      "rsu_energy": 0.15,
+      "utility": 1.0,
+      "vehicle_energy": 0.25
+    }
+  },
+  "downlink_pause_limit_s": 2.0,
+  "evidence_path": "../evidence/numerical_study_evidence.json",
+  "long_term": {
+    "coverage_rate_minimum": 0.75,
+    "failure_rate_limit": 0.25,
+    "timeout_rate_limit": 0.15
+  },
+  "max_snapshot_age_s": 0.5,
+  "metadata_bits": 2048,
+  "output_parquet": false,
+  "parameter_sources": {
+    "anonymous_transaction": "engineering_assumption",
+    "arrival_load": "engineering_assumption",
+    "deadlines": "engineering_assumption",
+    "encoded_output_size": "engineering_assumption",
+    "faults": "stress_test_boundary",
+    "interruptions_and_recovery": "stress_test_boundary",
+    "privacy_risk_values": "engineering_assumption",
+    "resource_capacity": "engineering_assumption",
+    "rsu_power": "engineering_assumption",
+    "task_buffer_hold_power": "engineering_assumption",
+    "thermal_throttling": "stress_test_boundary",
+    "vehicle_compute_latency_energy": "engineering_assumption",
+    "vehicle_power": "engineering_assumption",
+    "wireless_goodput": "engineering_assumption",
+    "wireless_link_packet_sharing": "engineering_assumption"
+  },
+  "privacy": {
+    "confidence_error": 0.05,
+    "min_emission_lcb": 0.5,
+    "min_subjects": 64,
+    "quality_miscoverage": 0.1,
+    "risk_threshold": 0.35
+  },
+  "profile_path": "../profiles/numerical_profile.json",
+  "protocol_version": "anon-fer/1.0",
+  "rsu_snapshot_period_s": 0.25,
+  "rsu_telemetry_delay_s": 0.04,
+  "rsu_telemetry_drop_every": 7,
+  "rsu_telemetry_quantum_work_s": 0.001,
+  "rsus": [
+    {
+      "average_power_budget_w": 128.0,
+      "cached_models": [
+        "edge_fer_numerical_v1"
+      ],
+      "descriptor_capacity": 16,
+      "gpu_servers": 2,
+      "hold_power_w": 0.5,
+      "idle_power_w": 72.0,
+      "rsu_id": "rsu-1",
+      "vram_capacity_bytes": 8589934592,
+      "workload_capacity_gpu_s": 30.0
+    },
+    {
+      "average_power_budget_w": 108.0,
+      "cached_models": [
+        "edge_fer_numerical_v1"
+      ],
+      "descriptor_capacity": 10,
+      "gpu_servers": 1,
+      "hold_power_w": 0.4,
+      "idle_power_w": 58.0,
+      "rsu_id": "rsu-2",
+      "vram_capacity_bytes": 6442450944,
+      "workload_capacity_gpu_s": 18.0
+    }
+  ],
+  "scenario_trace_path": "../traces/numerical_scenario_trace.json",
+  "schema_version": "1.0",
+  "seeds": {
+    "arrivals": 716,
+    "environment": 715,
+    "fault": 721,
+    "mobility": 717,
+    "rsu": 720,
+    "scenario": 722,
+    "vehicle": 719,
+    "wireless": 718
+  },
+  "trace_path": "../traces/numerical_evaluation_trace.json",
+  "uplink_pause_limit_s": 2.0,
+  "vehicles": [
+    {
+      "accelerator_descriptors": 8,
+      "average_power_budget_w": 24.0,
+      "battery_capacity_j": 5000.0,
+      "cpu_descriptors": 8,
+      "device_type": "vehicle_gpu_class_a",
+      "encoder_descriptors": 8,
+      "hold_power_w": 0.15,
+      "idle_power_w": 8.0,
+      "initial_battery_j": 5000.0,
+      "memory_capacity_bytes": 1073741824,
+      "vehicle_id": "veh-1"
+    },
+    {
+      "accelerator_descriptors": 6,
+      "average_power_budget_w": 20.0,
+      "battery_capacity_j": 4200.0,
+      "cpu_descriptors": 6,
+      "device_type": "vehicle_cpu_class_b",
+      "encoder_descriptors": 6,
+      "hold_power_w": 0.12,
+      "idle_power_w": 6.5,
+      "initial_battery_j": 4200.0,
+      "memory_capacity_bytes": 805306368,
+      "vehicle_id": "veh-2"
+    }
+  ]
+}

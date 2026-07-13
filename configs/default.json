@@ -1,0 +1,137 @@
+{
+  "schema_version": "1.0",
+  "protocol_version": "anon-fer/1.0",
+  "profile_path": "../profiles/synthetic_profile.json",
+  "trace_path": "../traces/synthetic_trace.json",
+  "scenario_trace_path": "../traces/synthetic_scenario_trace.json",
+  "max_snapshot_age_s": 0.5,
+  "rsu_snapshot_period_s": 0.25,
+  "uplink_pause_limit_s": 2.0,
+  "downlink_pause_limit_s": 2.0,
+  "metadata_bits": 2048,
+  "vehicles": [
+    {
+      "vehicle_id": "veh-1",
+      "device_type": "vehicle_gpu_class_a",
+      "battery_capacity_j": 2400.0,
+      "initial_battery_j": 2400.0,
+      "memory_capacity_bytes": 536870912,
+      "accelerator_descriptors": 8,
+      "cpu_descriptors": 8,
+      "encoder_descriptors": 8,
+      "idle_power_w": 8.0,
+      "hold_power_w": 0.15,
+      "average_power_budget_w": 22.0
+    },
+    {
+      "vehicle_id": "veh-2",
+      "device_type": "vehicle_cpu_class_b",
+      "battery_capacity_j": 1800.0,
+      "initial_battery_j": 1800.0,
+      "memory_capacity_bytes": 268435456,
+      "accelerator_descriptors": 6,
+      "cpu_descriptors": 6,
+      "encoder_descriptors": 6,
+      "idle_power_w": 6.5,
+      "hold_power_w": 0.12,
+      "average_power_budget_w": 18.0
+    }
+  ],
+  "rsus": [
+    {
+      "rsu_id": "rsu-1",
+      "descriptor_capacity": 16,
+      "vram_capacity_bytes": 8589934592,
+      "workload_capacity_gpu_s": 30.0,
+      "gpu_servers": 2,
+      "idle_power_w": 72.0,
+      "hold_power_w": 0.50,
+      "cached_models": ["edge_fer_full_v1"],
+      "average_power_budget_w": 128.0
+    },
+    {
+      "rsu_id": "rsu-2",
+      "descriptor_capacity": 10,
+      "vram_capacity_bytes": 6442450944,
+      "workload_capacity_gpu_s": 18.0,
+      "gpu_servers": 1,
+      "idle_power_w": 58.0,
+      "hold_power_w": 0.40,
+      "cached_models": ["edge_fer_full_v1"],
+      "average_power_budget_w": 108.0
+    }
+  ],
+  "controller": {
+    "policy": "esl_smpc",
+    "horizon_events": 2,
+    "scenarios": 8,
+    "lyapunov_v": 12.0,
+    "controller_overhead_s": 0.0008,
+    "controller_energy_j": 0.004,
+    "rollout_policy": "safe_greedy",
+    "physical_queue_weight": 1.0,
+    "vehicle_resource_theta": {
+      "accelerator": 1.0,
+      "cpu": 1.0,
+      "encoder": 1.0
+    },
+    "rsu_resource_theta": {
+      "ingress": 1.0,
+      "gpu": 1.0
+    }
+  },
+  "privacy": {
+    "risk_threshold": 0.10,
+    "confidence_error": 0.05,
+    "quality_miscoverage": 0.10,
+    "min_subjects": 30,
+    "min_emission_lcb": 0.50
+  },
+  "cost": {
+    "latency_scale_s": 1.0,
+    "vehicle_energy_scale_j": 25.0,
+    "rsu_energy_scale_j": 40.0,
+    "utility_scale": 1.0,
+    "failure_loss": 1.0,
+    "weights": {
+      "latency": 1.0,
+      "vehicle_energy": 0.25,
+      "rsu_energy": 0.15,
+      "utility": 1.0,
+      "failure": 2.0
+    }
+  },
+  "long_term": {
+    "timeout_rate_limit": 0.15,
+    "failure_rate_limit": 0.25,
+    "coverage_rate_minimum": 0.75
+  },
+  "seeds": {
+    "environment": 41001,
+    "arrivals": 41002,
+    "mobility": 41003,
+    "wireless": 41004,
+    "vehicle": 41000,
+    "rsu": 41006,
+    "fault": 41007,
+    "scenario": 51001
+  },
+  "parameter_sources": {
+    "vehicle_compute_latency_energy": "engineering_assumption",
+    "anonymous_transaction": "engineering_assumption",
+    "encoded_output_size": "engineering_assumption",
+    "vehicle_power": "engineering_assumption",
+    "rsu_power": "engineering_assumption",
+    "task_buffer_hold_power": "engineering_assumption",
+    "wireless_goodput": "engineering_assumption",
+    "wireless_link_packet_sharing": "engineering_assumption",
+    "interruptions_and_recovery": "stress_test_boundary",
+    "resource_capacity": "engineering_assumption",
+    "arrival_load": "engineering_assumption",
+    "deadlines": "engineering_assumption",
+    "thermal_throttling": "stress_test_boundary",
+    "faults": "stress_test_boundary",
+    "privacy_risk_values": "engineering_assumption"
+  },
+  "output_parquet": false
+}

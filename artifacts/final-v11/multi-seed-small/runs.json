@@ -1,0 +1,32 @@
+[
+  {
+    "core_digest": "1359ada3d71fcf2ececa27605167fbc757585219501bd6beb95e15bf00df6af3",
+    "data_kind": "synthetic",
+    "done": 3,
+    "failed": 5,
+    "formal_experiment_eligible": false,
+    "invariant_checks": 74,
+    "numerical_experiment_eligible": false,
+    "output": "E:\\lun\\lun1\\artifacts\\final-v11\\multi-seed-small\\safe_lyapunov_h1\\seed-41",
+    "policy": "safe_lyapunov_h1",
+    "real_hardware_measurement": false,
+    "seed": 41,
+    "sim_end_s": 5.86564,
+    "tasks": 8
+  },
+  {
+    "core_digest": "432b0fc3e8580d7dbff7a46714de0d6dc50327110983f1e0fb72e71ff79ae637",
+    "data_kind": "synthetic",
+    "done": 3,
+    "failed": 5,
+    "formal_experiment_eligible": false,
+    "invariant_checks": 73,
+    "numerical_experiment_eligible": false,
+    "output": "E:\\lun\\lun1\\artifacts\\final-v11\\multi-seed-small\\safe_lyapunov_h1\\seed-42",
+    "policy": "safe_lyapunov_h1",
+    "real_hardware_measurement": false,
+    "seed": 42,
+    "sim_end_s": 5.86564,
+    "tasks": 8
+  }
+]

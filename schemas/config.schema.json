@@ -1,0 +1,240 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/privacy-edge-sim/config.schema.json",
+  "title": "Privacy edge simulation configuration",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "protocol_version",
+    "profile_path",
+    "trace_path",
+    "scenario_trace_path",
+    "max_snapshot_age_s",
+    "rsu_snapshot_period_s",
+    "uplink_pause_limit_s",
+    "downlink_pause_limit_s",
+    "metadata_bits",
+    "vehicles",
+    "rsus",
+    "controller",
+    "privacy",
+    "cost",
+    "long_term",
+    "seeds",
+    "parameter_sources"
+  ],
+  "properties": {
+    "schema_version": {"type": "string", "minLength": 1},
+    "protocol_version": {"type": "string", "minLength": 1},
+    "profile_path": {"type": "string", "minLength": 1},
+    "trace_path": {"type": "string", "minLength": 1},
+    "scenario_trace_path": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Frozen training/validation scenario trace; distinct from the evaluation trace for measured runs"
+    },
+    "evidence_path": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Frozen evidence document; mandatory at runtime for numerical-simulation inputs"
+    },
+    "max_snapshot_age_s": {"type": "number", "minimum": 0, "description": "seconds"},
+    "rsu_snapshot_period_s": {"type": "number", "exclusiveMinimum": 0, "description": "seconds between causal public RSU telemetry samples"},
+    "rsu_telemetry_delay_s": {"type": "number", "minimum": 0, "description": "frozen numerical delivery delay for public telemetry"},
+    "rsu_telemetry_quantum_work_s": {"type": "number", "minimum": 0, "description": "optional public residual-work quantization quantum"},
+    "rsu_telemetry_drop_every": {"type": "integer", "minimum": 0, "description": "drop each Nth telemetry sample; zero disables deterministic drops"},
+    "uplink_pause_limit_s": {"type": "number", "minimum": 0, "description": "seconds"},
+    "downlink_pause_limit_s": {"type": "number", "minimum": 0, "description": "seconds"},
+    "metadata_bits": {"type": "integer", "minimum": 0, "description": "bits"},
+    "vehicles": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/vehicle"}
+    },
+    "rsus": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/rsu"}
+    },
+    "controller": {"$ref": "#/$defs/controller"},
+    "privacy": {"$ref": "#/$defs/privacy"},
+    "cost": {"$ref": "#/$defs/cost"},
+    "long_term": {"$ref": "#/$defs/long_term"},
+    "seeds": {"$ref": "#/$defs/seeds"},
+    "parameter_sources": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": {"$ref": "#/$defs/source_category"}
+    },
+    "output_parquet": {"type": "boolean", "default": false}
+  },
+  "$defs": {
+    "positive_number": {"type": "number", "exclusiveMinimum": 0},
+    "nonnegative_number": {"type": "number", "minimum": 0},
+    "positive_integer": {"type": "integer", "minimum": 1},
+    "probability": {"type": "number", "minimum": 0, "maximum": 1},
+    "source_category": {
+      "enum": [
+        "measured",
+        "public_specification",
+        "literature_range",
+        "engineering_assumption",
+        "stress_test_boundary"
+      ]
+    },
+    "vehicle": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "vehicle_id",
+        "device_type",
+        "battery_capacity_j",
+        "initial_battery_j",
+        "memory_capacity_bytes",
+        "accelerator_descriptors",
+        "cpu_descriptors",
+        "encoder_descriptors",
+        "idle_power_w",
+        "hold_power_w",
+        "average_power_budget_w"
+      ],
+      "properties": {
+        "vehicle_id": {"type": "string", "minLength": 1},
+        "device_type": {"type": "string", "minLength": 1},
+        "battery_capacity_j": {"$ref": "#/$defs/positive_number", "description": "joules"},
+        "initial_battery_j": {"$ref": "#/$defs/nonnegative_number", "description": "joules"},
+        "memory_capacity_bytes": {"$ref": "#/$defs/positive_integer", "description": "bytes"},
+        "accelerator_descriptors": {"$ref": "#/$defs/positive_integer"},
+        "cpu_descriptors": {"$ref": "#/$defs/positive_integer"},
+        "encoder_descriptors": {"$ref": "#/$defs/positive_integer"},
+        "idle_power_w": {"$ref": "#/$defs/nonnegative_number", "description": "watts"},
+        "hold_power_w": {"$ref": "#/$defs/nonnegative_number", "description": "watts per active task"},
+        "average_power_budget_w": {"$ref": "#/$defs/positive_number", "description": "watts"}
+      }
+    },
+    "rsu": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "rsu_id",
+        "descriptor_capacity",
+        "vram_capacity_bytes",
+        "workload_capacity_gpu_s",
+        "gpu_servers",
+        "idle_power_w",
+        "hold_power_w",
+        "cached_models",
+        "average_power_budget_w"
+      ],
+      "properties": {
+        "rsu_id": {"type": "string", "minLength": 1},
+        "descriptor_capacity": {"$ref": "#/$defs/positive_integer"},
+        "vram_capacity_bytes": {"$ref": "#/$defs/positive_integer", "description": "bytes"},
+        "workload_capacity_gpu_s": {"$ref": "#/$defs/positive_number", "description": "GPU busy seconds"},
+        "gpu_servers": {"$ref": "#/$defs/positive_integer"},
+        "idle_power_w": {"$ref": "#/$defs/nonnegative_number", "description": "watts"},
+        "hold_power_w": {"$ref": "#/$defs/nonnegative_number", "description": "watts per admitted task"},
+        "cached_models": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1},
+          "uniqueItems": true
+        },
+        "average_power_budget_w": {"$ref": "#/$defs/positive_number", "description": "watts"}
+      }
+    },
+    "controller": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "policy",
+        "horizon_events",
+        "scenarios",
+        "lyapunov_v",
+        "controller_overhead_s",
+        "controller_energy_j",
+        "rollout_policy"
+      ],
+      "properties": {
+        "policy": {"$ref": "#/$defs/policy_name"},
+        "horizon_events": {"$ref": "#/$defs/positive_integer"},
+        "scenarios": {"$ref": "#/$defs/positive_integer"},
+        "lyapunov_v": {"$ref": "#/$defs/positive_number"},
+        "controller_overhead_s": {"$ref": "#/$defs/nonnegative_number", "description": "simulated seconds"},
+        "controller_energy_j": {"$ref": "#/$defs/nonnegative_number", "description": "joules"},
+        "rollout_policy": {
+          "enum": [
+            "all_local",
+            "fixed_safe_lowest_link_cost",
+            "fixed_safe_shortest_visible_queue",
+            "safe_greedy"
+          ]
+        }
+      }
+    },
+    "policy_name": {
+      "enum": [
+        "all_local",
+        "fixed_safe_lowest_link_cost",
+        "fixed_safe_shortest_visible_queue",
+        "safe_greedy",
+        "safe_lyapunov_h1",
+        "esl_smpc"
+      ]
+    },
+    "privacy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["risk_threshold", "confidence_error", "quality_miscoverage", "min_subjects", "min_emission_lcb"],
+      "properties": {
+        "risk_threshold": {"$ref": "#/$defs/probability"},
+        "confidence_error": {"type": "number", "exclusiveMinimum": 0, "maximum": 1},
+        "quality_miscoverage": {"type": "number", "exclusiveMinimum": 0, "maximum": 1},
+        "min_subjects": {"$ref": "#/$defs/positive_integer"},
+        "min_emission_lcb": {"$ref": "#/$defs/probability"}
+      }
+    },
+    "cost": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["latency_scale_s", "vehicle_energy_scale_j", "rsu_energy_scale_j", "utility_scale", "failure_loss", "weights"],
+      "properties": {
+        "latency_scale_s": {"$ref": "#/$defs/positive_number", "description": "seconds"},
+        "vehicle_energy_scale_j": {"$ref": "#/$defs/positive_number", "description": "joules"},
+        "rsu_energy_scale_j": {"$ref": "#/$defs/positive_number", "description": "joules"},
+        "utility_scale": {"$ref": "#/$defs/positive_number"},
+        "failure_loss": {"$ref": "#/$defs/nonnegative_number"},
+        "weights": {
+          "type": "object",
+          "minProperties": 1,
+          "additionalProperties": {"$ref": "#/$defs/nonnegative_number"}
+        }
+      }
+    },
+    "long_term": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["timeout_rate_limit", "failure_rate_limit", "coverage_rate_minimum"],
+      "properties": {
+        "timeout_rate_limit": {"$ref": "#/$defs/probability"},
+        "failure_rate_limit": {"$ref": "#/$defs/probability"},
+        "coverage_rate_minimum": {"$ref": "#/$defs/probability"}
+      }
+    },
+    "seeds": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["environment", "arrivals", "mobility", "wireless", "vehicle", "rsu", "fault", "scenario"],
+      "properties": {
+        "environment": {"type": "integer", "minimum": 0},
+        "arrivals": {"type": "integer", "minimum": 0},
+        "mobility": {"type": "integer", "minimum": 0},
+        "wireless": {"type": "integer", "minimum": 0},
+        "vehicle": {"type": "integer", "minimum": 0},
+        "rsu": {"type": "integer", "minimum": 0},
+        "fault": {"type": "integer", "minimum": 0},
+        "scenario": {"type": "integer", "minimum": 0}
+      }
+    }
+  }
+}

@@ -1,0 +1,309 @@
+{
+  "analysis": "two_stage_information_ablation",
+  "hard_mask_bypassed": false,
+  "input_sha256": "a9c9d12759113e8e4f106a7a8e0df85d9d89ce50b4b4699be39ff3d193366b36",
+  "one_shot_commitment_provenance": {
+    "commitment_report_sha256": "8cd18f75fabd89a7fa05a1cef2016698105bb3f52af03b49fb65d6891fa66250",
+    "legacy_unregistered_mapping": false,
+    "raw_visible_input_sha256": "75eb0a7253fcb5bd695020a4569f83f3b5d7da5108ec9a62a86f45d1179b4119",
+    "registered_plan_sha256": "7537b8251a85c72bafadc248c7d1b621dc4fc245b20522c2147d00f5f151fee4",
+    "uses_ready_expected_cost": false,
+    "uses_ready_records": false
+  },
+  "only_allowed_actions_compared": true,
+  "pair_count": 11,
+  "paired_unit": "task",
+  "pairs": [
+    {
+      "one_shot": {
+        "action_id": "READY|EDGE|||rsu-1|edge_fer_numerical_v1",
+        "expected_cost": 1.8321050160523675,
+        "hard_mask_fallback_applied": false,
+        "paired_excess_cost": 0.6341401790802896,
+        "primary_action_id": "READY|EDGE|||rsu-1|edge_fer_numerical_v1"
+      },
+      "ready_recourse": {
+        "action_id": "READY|LOCAL|local_fer_numerical_v1|||",
+        "expected_cost": 1.197964836972078
+      },
+      "task_id": "test-task-00000",
+      "without_fresh_queue": {
+        "action_id": "READY|LOCAL|local_fer_numerical_v1|||",
+        "expected_cost": 1.197964836972078,
+        "paired_excess_cost": 0.0,
+        "replacement": "registered_conservative_stale_queue_bound"
+      },
+      "without_output_size": {
+        "action_id": "READY|LOCAL|local_fer_numerical_v1|||",
+        "expected_cost": 1.197964836972078,
+        "paired_excess_cost": 0.0,
+        "replacement": "registered_conservative_output_size_bound"
+      }
+    },
+    {
+      "one_shot": {
+        "action_id": "READY|EDGE|||rsu-1|edge_fer_numerical_v1",
+        "expected_cost": 1.9903289647093905,
+        "hard_mask_fallback_applied": false,
+        "paired_excess_cost": 0.40347339300065044,
+        "primary_action_id": "READY|EDGE|||rsu-1|edge_fer_numerical_v1"
+      },
+      "ready_recourse": {
+        "action_id": "READY|LOCAL|local_fer_numerical_v1|||",
+        "expected_cost": 1.58685557170874
+      },
+      "task_id": "test-task-00001",
+      "without_fresh_queue": {
+        "action_id": "READY|LOCAL|local_fer_numerical_v1|||",
+        "expected_cost": 1.58685557170874,
+        "paired_excess_cost": 0.0,
+        "replacement": "registered_conservative_stale_queue_bound"
+      },
+      "without_output_size": {
+        "action_id": "READY|LOCAL|local_fer_numerical_v1|||",
+        "expected_cost": 1.58685557170874,
+        "paired_excess_cost": 0.0,
+        "replacement": "registered_conservative_output_size_bound"
+      }
+    },
+    {
+      "one_shot": {
+        "action_id": "READY|EDGE|||rsu-1|edge_fer_numerical_v1",
+        "expected_cost": 1.8377602481320305,
+        "hard_mask_fallback_applied": false,
+        "paired_excess_cost": 0.6397954111599526,
+        "primary_action_id": "READY|EDGE|||rsu-1|edge_fer_numerical_v1"
+      },
+      "ready_recourse": {
+        "action_id": "READY|LOCAL|local_fer_numerical_v1|||",
+        "expected_cost": 1.197964836972078
+      },
+      "task_id": "test-task-00002",
+      "without_fresh_queue": {
+        "action_id": "READY|LOCAL|local_fer_numerical_v1|||",
+        "expected_cost": 1.197964836972078,
+        "paired_excess_cost": 0.0,
+        "replacement": "registered_conservative_stale_queue_bound"
+      },
+      "without_output_size": {
+        "action_id": "READY|LOCAL|local_fer_numerical_v1|||",
+        "expected_cost": 1.197964836972078,
+        "paired_excess_cost": 0.0,
+        "replacement": "registered_conservative_output_size_bound"
+      }
+    },
+    {
+      "one_shot": {
+        "action_id": "READY|EDGE|||rsu-1|edge_fer_numerical_v1",
+        "expected_cost": 2.227906953150602,
+        "hard_mask_fallback_applied": false,
+        "paired_excess_cost": 0.6410513814418619,
+        "primary_action_id": "READY|EDGE|||rsu-1|edge_fer_numerical_v1"
+      },
+      "ready_recourse": {
+        "action_id": "READY|LOCAL|local_fer_numerical_v1|||",
+        "expected_cost": 1.58685557170874
+      },
+      "task_id": "test-task-00003",
+      "without_fresh_queue": {
+        "action_id": "READY|LOCAL|local_fer_numerical_v1|||",
+        "expected_cost": 1.58685557170874,
+        "paired_excess_cost": 0.0,
+        "replacement": "registered_conservative_stale_queue_bound"
+      },
+      "without_output_size": {
+        "action_id": "READY|LOCAL|local_fer_numerical_v1|||",
+        "expected_cost": 1.58685557170874,
+        "paired_excess_cost": 0.0,
+        "replacement": "registered_conservative_output_size_bound"
+      }
+    },
+    {
+      "one_shot": {
+        "action_id": "READY|EDGE|||rsu-1|edge_fer_numerical_v1",
+        "expected_cost": 1.8261957093244627,
+        "hard_mask_fallback_applied": false,
+        "paired_excess_cost": 0.6282308723523848,
+        "primary_action_id": "READY|EDGE|||rsu-1|edge_fer_numerical_v1"
+      },
+      "ready_recourse": {
+        "action_id": "READY|LOCAL|local_fer_numerical_v1|||",
+        "expected_cost": 1.197964836972078
+      },
+      "task_id": "test-task-00004",
+      "without_fresh_queue": {
+        "action_id": "READY|LOCAL|local_fer_numerical_v1|||",
+        "expected_cost": 1.197964836972078,
+        "paired_excess_cost": 0.0,
+        "replacement": "registered_conservative_stale_queue_bound"
+      },
+      "without_output_size": {
+        "action_id": "READY|LOCAL|local_fer_numerical_v1|||",
+        "expected_cost": 1.197964836972078,
+        "paired_excess_cost": 0.0,
+        "replacement": "registered_conservative_output_size_bound"
+      }
+    },
+    {
+      "one_shot": {
+        "action_id": "READY|EDGE|||rsu-1|edge_fer_numerical_v1",
+        "expected_cost": 1.9124847249416472,
+        "hard_mask_fallback_applied": false,
+        "paired_excess_cost": 0.3601794338241555,
+        "primary_action_id": "READY|EDGE|||rsu-1|edge_fer_numerical_v1"
+      },
+      "ready_recourse": {
+        "action_id": "READY|LOCAL|local_fer_numerical_v1|||",
+        "expected_cost": 1.5523052911174917
+      },
+      "task_id": "test-task-00005",
+      "without_fresh_queue": {
+        "action_id": "READY|LOCAL|local_fer_numerical_v1|||",
+        "expected_cost": 1.5523052911174917,
+        "paired_excess_cost": 0.0,
+        "replacement": "registered_conservative_stale_queue_bound"
+      },
+      "without_output_size": {
+        "action_id": "READY|LOCAL|local_fer_numerical_v1|||",
+        "expected_cost": 1.5523052911174917,
+        "paired_excess_cost": 0.0,
+        "replacement": "registered_conservative_output_size_bound"
+      }
+    },
+    {
+      "one_shot": {
+        "action_id": "READY|EDGE|||rsu-1|edge_fer_numerical_v1",
+        "expected_cost": 2.178001687898743,
+        "hard_mask_fallback_applied": false,
+        "paired_excess_cost": 0.980036850926665,
+        "primary_action_id": "READY|EDGE|||rsu-1|edge_fer_numerical_v1"
+      },
+      "ready_recourse": {
+        "action_id": "READY|LOCAL|local_fer_numerical_v1|||",
+        "expected_cost": 1.197964836972078
+      },
+      "task_id": "test-task-00006",
+      "without_fresh_queue": {
+        "action_id": "READY|LOCAL|local_fer_numerical_v1|||",
+        "expected_cost": 1.197964836972078,
+        "paired_excess_cost": 0.0,
+        "replacement": "registered_conservative_stale_queue_bound"
+      },
+      "without_output_size": {
+        "action_id": "READY|LOCAL|local_fer_numerical_v1|||",
+        "expected_cost": 1.197964836972078,
+        "paired_excess_cost": 0.0,
+        "replacement": "registered_conservative_output_size_bound"
+      }
+    },
+    {
+      "one_shot": {
+        "action_id": "READY|EDGE|||rsu-1|edge_fer_numerical_v1",
+        "expected_cost": 1.9282395810602189,
+        "hard_mask_fallback_applied": false,
+        "paired_excess_cost": 0.37593428994272715,
+        "primary_action_id": "READY|EDGE|||rsu-1|edge_fer_numerical_v1"
+      },
+      "ready_recourse": {
+        "action_id": "READY|LOCAL|local_fer_numerical_v1|||",
+        "expected_cost": 1.5523052911174917
+      },
+      "task_id": "test-task-00007",
+      "without_fresh_queue": {
+        "action_id": "READY|LOCAL|local_fer_numerical_v1|||",
+        "expected_cost": 1.5523052911174917,
+        "paired_excess_cost": 0.0,
+        "replacement": "registered_conservative_stale_queue_bound"
+      },
+      "without_output_size": {
+        "action_id": "READY|LOCAL|local_fer_numerical_v1|||",
+        "expected_cost": 1.5523052911174917,
+        "paired_excess_cost": 0.0,
+        "replacement": "registered_conservative_output_size_bound"
+      }
+    },
+    {
+      "one_shot": {
+        "action_id": "READY|EDGE|||rsu-1|edge_fer_numerical_v1",
+        "expected_cost": 1.8676700962572657,
+        "hard_mask_fallback_applied": false,
+        "paired_excess_cost": 0.6697052592851878,
+        "primary_action_id": "READY|EDGE|||rsu-1|edge_fer_numerical_v1"
+      },
+      "ready_recourse": {
+        "action_id": "READY|LOCAL|local_fer_numerical_v1|||",
+        "expected_cost": 1.197964836972078
+      },
+      "task_id": "test-task-00008",
+      "without_fresh_queue": {
+        "action_id": "READY|LOCAL|local_fer_numerical_v1|||",
+        "expected_cost": 1.197964836972078,
+        "paired_excess_cost": 0.0,
+        "replacement": "registered_conservative_stale_queue_bound"
+      },
+      "without_output_size": {
+        "action_id": "READY|LOCAL|local_fer_numerical_v1|||",
+        "expected_cost": 1.197964836972078,
+        "paired_excess_cost": 0.0,
+        "replacement": "registered_conservative_output_size_bound"
+      }
+    },
+    {
+      "one_shot": {
+        "action_id": "READY|EDGE|||rsu-1|edge_fer_numerical_v1",
+        "expected_cost": 2.1838977035712075,
+        "hard_mask_fallback_applied": false,
+        "paired_excess_cost": 0.5970421318624675,
+        "primary_action_id": "READY|EDGE|||rsu-1|edge_fer_numerical_v1"
+      },
+      "ready_recourse": {
+        "action_id": "READY|LOCAL|local_fer_numerical_v1|||",
+        "expected_cost": 1.58685557170874
+      },
+      "task_id": "test-task-00009",
+      "without_fresh_queue": {
+        "action_id": "READY|LOCAL|local_fer_numerical_v1|||",
+        "expected_cost": 1.58685557170874,
+        "paired_excess_cost": 0.0,
+        "replacement": "registered_conservative_stale_queue_bound"
+      },
+      "without_output_size": {
+        "action_id": "READY|LOCAL|local_fer_numerical_v1|||",
+        "expected_cost": 1.58685557170874,
+        "paired_excess_cost": 0.0,
+        "replacement": "registered_conservative_output_size_bound"
+      }
+    },
+    {
+      "one_shot": {
+        "action_id": "READY|EDGE|||rsu-1|edge_fer_numerical_v1",
+        "expected_cost": 2.090599782914656,
+        "hard_mask_fallback_applied": false,
+        "paired_excess_cost": 0.892634945942578,
+        "primary_action_id": "READY|EDGE|||rsu-1|edge_fer_numerical_v1"
+      },
+      "ready_recourse": {
+        "action_id": "READY|LOCAL|local_fer_numerical_v1|||",
+        "expected_cost": 1.197964836972078
+      },
+      "task_id": "test-task-00010",
+      "without_fresh_queue": {
+        "action_id": "READY|LOCAL|local_fer_numerical_v1|||",
+        "expected_cost": 1.197964836972078,
+        "paired_excess_cost": 0.0,
+        "replacement": "registered_conservative_stale_queue_bound"
+      },
+      "without_output_size": {
+        "action_id": "READY|LOCAL|local_fer_numerical_v1|||",
+        "expected_cost": 1.197964836972078,
+        "paired_excess_cost": 0.0,
+        "replacement": "registered_conservative_output_size_bound"
+      }
+    }
+  ],
+  "report_sha256": "f207917e6d8c9c450eede29fc14b7b5d1491663fcd1ebcd04a8a25a98c02db94",
+  "schema_version": "1.0",
+  "units": {
+    "expected_cost": "normalized_cost"
+  }
+}

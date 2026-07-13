@@ -1,0 +1,677 @@
+{
+  "code_version": {
+    "kind": "source_tree_sha256",
+    "source_file_count": 25,
+    "source_tree_sha256": "d484d19faecb49b0a64f38953f03bcd9b6b7be5fbe8d2377171a98660e3c0cf0",
+    "value": "d484d19faecb49b0a64f38953f03bcd9b6b7be5fbe8d2377171a98660e3c0cf0"
+  },
+  "configuration": {
+    "canonical_sha256": "e21dda5ba2eff78086bff9a75747005b28b23009b4bee498159742013479c87a",
+    "content": {
+      "controller": {
+        "controller_energy_j": 0.004,
+        "controller_overhead_s": 0.0008,
+        "horizon_events": 2,
+        "lyapunov_v": 12.0,
+        "policy": "all_local",
+        "rollout_policy": "safe_greedy",
+        "scenarios": 8
+      },
+      "cost": {
+        "failure_loss": 1.0,
+        "latency_scale_s": 1.0,
+        "rsu_energy_scale_j": 40.0,
+        "utility_scale": 1.0,
+        "vehicle_energy_scale_j": 25.0,
+        "weights": {
+          "failure": 2.0,
+          "latency": 1.0,
+          "rsu_energy": 0.15,
+          "utility": 1.0,
+          "vehicle_energy": 0.25
+        }
+      },
+      "downlink_pause_limit_s": 2.0,
+      "long_term": {
+        "coverage_rate_minimum": 0.75,
+        "failure_rate_limit": 0.25,
+        "timeout_rate_limit": 0.15
+      },
+      "max_snapshot_age_s": 0.5,
+      "metadata_bits": 2048,
+      "output_parquet": false,
+      "parameter_sources": {
+        "anonymous_transaction": "engineering_assumption",
+        "arrival_load": "engineering_assumption",
+        "deadlines": "engineering_assumption",
+        "encoded_output_size": "engineering_assumption",
+        "faults": "stress_test_boundary",
+        "interruptions_and_recovery": "stress_test_boundary",
+        "privacy_risk_values": "engineering_assumption",
+        "resource_capacity": "engineering_assumption",
+        "rsu_power": "engineering_assumption",
+        "task_buffer_hold_power": "engineering_assumption",
+        "thermal_throttling": "stress_test_boundary",
+        "vehicle_compute_latency_energy": "engineering_assumption",
+        "vehicle_power": "engineering_assumption",
+        "wireless_goodput": "engineering_assumption"
+      },
+      "privacy": {
+        "confidence_error": 0.05,
+        "min_emission_lcb": 0.5,
+        "min_subjects": 32,
+        "quality_miscoverage": 0.1,
+        "risk_threshold": 0.8
+      },
+      "profile_path": "E:\\lun\\lun1\\artifacts\\final-v5\\paired-study\\inputs\\environment-1001\\profiles\\numerical_profile.json",
+      "protocol_version": "anon-fer/1.0",
+      "rsu_snapshot_period_s": 0.25,
+      "rsu_telemetry_delay_s": 0.04,
+      "rsu_telemetry_drop_every": 7,
+      "rsu_telemetry_quantum_work_s": 0.001,
+      "rsus": [
+        {
+          "average_power_budget_w": 128.0,
+          "cached_models": [
+            "edge_fer_numerical_v1"
+          ],
+          "descriptor_capacity": 16,
+          "gpu_servers": 2,
+          "hold_power_w": 0.5,
+          "idle_power_w": 72.0,
+          "rsu_id": "rsu-1",
+          "vram_capacity_bytes": 8589934592,
+          "workload_capacity_gpu_s": 30.0
+        },
+        {
+          "average_power_budget_w": 108.0,
+          "cached_models": [
+            "edge_fer_numerical_v1"
+          ],
+          "descriptor_capacity": 10,
+          "gpu_servers": 1,
+          "hold_power_w": 0.4,
+          "idle_power_w": 58.0,
+          "rsu_id": "rsu-2",
+          "vram_capacity_bytes": 6442450944,
+          "workload_capacity_gpu_s": 18.0
+        }
+      ],
+      "scenario_trace_path": "E:\\lun\\lun1\\artifacts\\final-v5\\paired-study\\inputs\\environment-1001\\traces\\numerical_scenario_trace.json",
+      "schema_version": "1.0",
+      "seeds": {
+        "arrivals": 17529503421266700291,
+        "environment": 9443829756340366992,
+        "fault": 12766816382276466128,
+        "mobility": 14391678513325365241,
+        "rsu": 395151990169341791,
+        "scenario": 721,
+        "vehicle": 10331189180506328535,
+        "wireless": 3568444732200457592
+      },
+      "trace_path": "E:\\lun\\lun1\\artifacts\\final-v5\\paired-study\\inputs\\environment-1001\\traces\\numerical_evaluation_trace.json",
+      "uplink_pause_limit_s": 2.0,
+      "vehicles": [
+        {
+          "accelerator_descriptors": 8,
+          "average_power_budget_w": 24.0,
+          "battery_capacity_j": 5000.0,
+          "cpu_descriptors": 8,
+          "device_type": "vehicle_gpu_class_a",
+          "encoder_descriptors": 8,
+          "hold_power_w": 0.15,
+          "idle_power_w": 8.0,
+          "initial_battery_j": 5000.0,
+          "memory_capacity_bytes": 1073741824,
+          "vehicle_id": "veh-1"
+        },
+        {
+          "accelerator_descriptors": 6,
+          "average_power_budget_w": 20.0,
+          "battery_capacity_j": 4200.0,
+          "cpu_descriptors": 6,
+          "device_type": "vehicle_cpu_class_b",
+          "encoder_descriptors": 6,
+          "hold_power_w": 0.12,
+          "idle_power_w": 6.5,
+          "initial_battery_j": 4200.0,
+          "memory_capacity_bytes": 805306368,
+          "vehicle_id": "veh-2"
+        }
+      ]
+    }
+  },
+  "controller": {
+    "controller_energy_j": 0.004,
+    "controller_overhead_s": 0.0008,
+    "horizon_events": 2,
+    "lyapunov_v": 12.0,
+    "policy": "all_local",
+    "rollout_policy": "safe_greedy",
+    "scenarios": 8
+  },
+  "controller_diagnostics": {
+    "note": "engineering diagnostic only; excluded from simulated time and core_digest",
+    "sample_count": 5,
+    "wall_clock_max_s": 0.0121543,
+    "wall_clock_mean_s": 0.00870196,
+    "wall_clock_p50_s": 0.0075946,
+    "wall_clock_p95_s": 0.011862319999999999,
+    "wall_clock_total_s": 0.0435098
+  },
+  "core_digest": "c3ecf59c78c7b29b6cfe124875e918b696da607b1c927faba63b610f58472f45",
+  "data_provenance": {
+    "evidence_status": "frozen_numerical_model",
+    "formal_experiment_eligible": false,
+    "numerical_experiment_eligible": true,
+    "profile_data_kind": "numerical_simulation",
+    "real_hardware_measurement": false,
+    "result_label": "numerical_model_conditional",
+    "scenario_trace_data_kind": "numerical_simulation",
+    "trace_data_kind": "numerical_simulation"
+  },
+  "data_split": {
+    "evaluation": {
+      "artifact_namespace_disjoint": true,
+      "role": "evaluation",
+      "seed": 1001,
+      "subject_population_disjoint": true,
+      "subject_population_hash": "7a47abf40d54e09811a11ab99ea852fc5bd103aa4d8d332d0d4cb3ff0cd4cb93"
+    },
+    "scenario_training_validation": {
+      "artifact_namespace_disjoint": true,
+      "role": "training_validation",
+      "seed": 40714,
+      "subject_population_disjoint": true,
+      "subject_population_hash": "56306a71528c2279e1f87781e989afecb26f1d530bf879f6e54bb449af790463"
+    }
+  },
+  "deadline": {
+    "count": 6,
+    "relative_deadline_max_s": 1.172196452,
+    "relative_deadline_mean_s": 1.0915849431666667,
+    "relative_deadline_min_s": 0.997787976
+  },
+  "generated_at_utc": "2026-07-13T02:36:27.646953+00:00",
+  "invariants": {
+    "check_count": 76,
+    "failure_count": 0,
+    "failures": [],
+    "passed": true,
+    "status": "passed"
+  },
+  "manifest_schema_version": "1.0",
+  "manifest_sha256": "06e603bcc0fe5ca0164b03bec7e5ce9fb224ca4321a6d7f6cc60f08a99584e4b",
+  "network": {
+    "downlink_pause_limit_s": 2.0,
+    "max_snapshot_age_s": 0.5,
+    "metadata_bits": 2048,
+    "rsu_snapshot_period_s": 0.25,
+    "rsu_telemetry_delay_s": 0.04,
+    "rsu_telemetry_drop_every": 7,
+    "rsu_telemetry_quantum_work_s": 0.001,
+    "uplink_pause_limit_s": 2.0
+  },
+  "outputs": {
+    "files": {
+      "actions.jsonl": {
+        "filename": "actions.jsonl",
+        "row_count": 20,
+        "sha256": "1e34844b7793aa5245fa95f13530016b805ff9a637ea567eab87e6009cece4ee",
+        "size_bytes": 76145
+      },
+      "events.jsonl": {
+        "filename": "events.jsonl",
+        "row_count": 82,
+        "sha256": "ba54a07c0c3221185ed988ee6c4274d7f12fc1ae626fc19d91faf8479d990f78",
+        "size_bytes": 27334
+      },
+      "resources.csv": {
+        "filename": "resources.csv",
+        "row_count": 760,
+        "sha256": "e9c9f938e04e05db14609dada656ae120569412e948bda332fe8eb1b80a6d9f8",
+        "size_bytes": 124561
+      },
+      "summary.json": {
+        "filename": "summary.json",
+        "row_count": null,
+        "sha256": "e8cd2020c1d47b78561540af95aeec061c1c0e80a319436787fd483c789d8bc5",
+        "size_bytes": 11776
+      },
+      "tasks.csv": {
+        "filename": "tasks.csv",
+        "row_count": 6,
+        "sha256": "951b0061c0ed7a393716f6a964e2830775ce9355ad331d59212c459a9784277a",
+        "size_bytes": 8157
+      },
+      "virtual_queues.csv": {
+        "filename": "virtual_queues.csv",
+        "row_count": 532,
+        "sha256": "00f28b36321303420edaa30cec2fe2b73d7436b1256c70e2281b2bd471d75813",
+        "size_bytes": 13984
+      }
+    },
+    "parquet": {
+      "available": true,
+      "filename": null,
+      "generated": false,
+      "requested": false,
+      "status": "not_requested"
+    }
+  },
+  "parameter_sources": {
+    "configuration": {
+      "anonymous_transaction": "engineering_assumption",
+      "arrival_load": "engineering_assumption",
+      "deadlines": "engineering_assumption",
+      "encoded_output_size": "engineering_assumption",
+      "faults": "stress_test_boundary",
+      "interruptions_and_recovery": "stress_test_boundary",
+      "privacy_risk_values": "engineering_assumption",
+      "resource_capacity": "engineering_assumption",
+      "rsu_power": "engineering_assumption",
+      "task_buffer_hold_power": "engineering_assumption",
+      "thermal_throttling": "stress_test_boundary",
+      "vehicle_compute_latency_energy": "engineering_assumption",
+      "vehicle_power": "engineering_assumption",
+      "wireless_goodput": "engineering_assumption"
+    },
+    "profile": {
+      "emission_support": {
+        "category": "engineering_assumption",
+        "description": "Numerical guard emission lower confidence bounds.",
+        "unit": "probability"
+      },
+      "privacy_bounds": {
+        "category": "engineering_assumption",
+        "description": "Recomputed from stored numerical subject outcomes using simultaneous Bonferroni-Hoeffding bounds.",
+        "unit": "probability"
+      },
+      "retry_limits": {
+        "category": "engineering_assumption",
+        "description": "Finite numerical transaction retry cap.",
+        "unit": "attempts"
+      },
+      "subject_support": {
+        "category": "engineering_assumption",
+        "description": "Mutually exclusive numerical profile-evaluation subjects.",
+        "unit": "subjects"
+      }
+    },
+    "scenario_trace": {
+      "anonymization_transactions": {
+        "category": "engineering_assumption",
+        "description": "Correlated numerical retries, guard, encoding, size, energy and artifact FER outcomes.",
+        "unit": "resource_busy_s,J,bytes"
+      },
+      "arrivals_deadlines": {
+        "category": "engineering_assumption",
+        "description": "Seeded finite arrival and deadline process.",
+        "unit": "s"
+      },
+      "faults": {
+        "category": "stress_test_boundary",
+        "description": "Seeded transient RSU fault process.",
+        "unit": "event"
+      },
+      "fer_compute": {
+        "category": "engineering_assumption",
+        "description": "Numerical local and edge FER service, energy and paired bounded loss.",
+        "unit": "resource_busy_s,J,bytes,probability"
+      },
+      "prep_compute": {
+        "category": "engineering_assumption",
+        "description": "Numerical finite vehicle preprocessing service and energy model.",
+        "unit": "resource_busy_s,J,bytes"
+      },
+      "thermal": {
+        "category": "stress_test_boundary",
+        "description": "Seeded bounded thermal throttling interval.",
+        "unit": "dimensionless"
+      },
+      "wireless": {
+        "category": "engineering_assumption",
+        "description": "Seeded piecewise application-goodput and paired radio-power process.",
+        "unit": "bit/s,W"
+      }
+    },
+    "trace": {
+      "anonymization_transactions": {
+        "category": "engineering_assumption",
+        "description": "Correlated numerical retries, guard, encoding, size, energy and artifact FER outcomes.",
+        "unit": "resource_busy_s,J,bytes"
+      },
+      "arrivals_deadlines": {
+        "category": "engineering_assumption",
+        "description": "Seeded finite arrival and deadline process.",
+        "unit": "s"
+      },
+      "faults": {
+        "category": "stress_test_boundary",
+        "description": "Seeded transient RSU fault process.",
+        "unit": "event"
+      },
+      "fer_compute": {
+        "category": "engineering_assumption",
+        "description": "Numerical local and edge FER service, energy and paired bounded loss.",
+        "unit": "resource_busy_s,J,bytes,probability"
+      },
+      "prep_compute": {
+        "category": "engineering_assumption",
+        "description": "Numerical finite vehicle preprocessing service and energy model.",
+        "unit": "resource_busy_s,J,bytes"
+      },
+      "thermal": {
+        "category": "stress_test_boundary",
+        "description": "Seeded bounded thermal throttling interval.",
+        "unit": "dimensionless"
+      },
+      "wireless": {
+        "category": "engineering_assumption",
+        "description": "Seeded piecewise application-goodput and paired radio-power process.",
+        "unit": "bit/s,W"
+      }
+    }
+  },
+  "profile_metadata": {
+    "contains_real_images": false,
+    "contains_real_measurements": false,
+    "evidence_hash": "c46d0d0193afe8106cafcbfd8ffc781997791723bef8afee459e25a47d2f5f4b",
+    "formal_experiment_eligible": false,
+    "generator": "privacy_edge_sim.numerical.generate_numerical_study",
+    "numerical_experiment_eligible": true,
+    "split_manifest_hash": "74195d079c1d6ccb612391f99ca59e0b903f2f876899f91d0d6b63dcbdb775b8",
+    "warning": "FROZEN NUMERICAL MODEL - NOT HARDWARE OR ATTACK MEASUREMENT"
+  },
+  "protocol_version": "anon-fer/1.0",
+  "resources": {
+    "rsus": [
+      {
+        "average_power_budget_w": 128.0,
+        "cached_models": [
+          "edge_fer_numerical_v1"
+        ],
+        "descriptor_capacity": 16,
+        "gpu_servers": 2,
+        "hold_power_w": 0.5,
+        "idle_power_w": 72.0,
+        "rsu_id": "rsu-1",
+        "vram_capacity_bytes": 8589934592,
+        "workload_capacity_gpu_s": 30.0
+      },
+      {
+        "average_power_budget_w": 108.0,
+        "cached_models": [
+          "edge_fer_numerical_v1"
+        ],
+        "descriptor_capacity": 10,
+        "gpu_servers": 1,
+        "hold_power_w": 0.4,
+        "idle_power_w": 58.0,
+        "rsu_id": "rsu-2",
+        "vram_capacity_bytes": 6442450944,
+        "workload_capacity_gpu_s": 18.0
+      }
+    ],
+    "vehicles": [
+      {
+        "accelerator_descriptors": 8,
+        "average_power_budget_w": 24.0,
+        "battery_capacity_j": 5000.0,
+        "cpu_descriptors": 8,
+        "device_type": "vehicle_gpu_class_a",
+        "encoder_descriptors": 8,
+        "hold_power_w": 0.15,
+        "idle_power_w": 8.0,
+        "initial_battery_j": 5000.0,
+        "memory_capacity_bytes": 1073741824,
+        "vehicle_id": "veh-1"
+      },
+      {
+        "accelerator_descriptors": 6,
+        "average_power_budget_w": 20.0,
+        "battery_capacity_j": 4200.0,
+        "cpu_descriptors": 6,
+        "device_type": "vehicle_cpu_class_b",
+        "encoder_descriptors": 6,
+        "hold_power_w": 0.12,
+        "idle_power_w": 6.5,
+        "initial_battery_j": 4200.0,
+        "memory_capacity_bytes": 805306368,
+        "vehicle_id": "veh-2"
+      }
+    ]
+  },
+  "run_metadata": {
+    "environment_replication_id": "numerical-environment-1001",
+    "environment_seed": 1001,
+    "pairing_id": "all_tasks",
+    "policy": "all_local",
+    "replay_checkpoint_mode": "deterministic_replay",
+    "replay_checkpoint_resumed": false,
+    "study_id": "paired-study"
+  },
+  "scenario_trace_identity": {
+    "evidence_status": "frozen_numerical_model",
+    "profile_hash": "c352d3a21a150e47f2fa8d0827edede61d43f89e6acad4ccfe8ed621b1545e83",
+    "protocol_version": "anon-fer/1.0",
+    "schema_version": "1.1.0",
+    "seed": 40714,
+    "trace_hash": "d68c2c60429804d1d1779687256813c14220f80c08e11a3b2f64ac113c586316",
+    "trace_version": "numerical-scenario-1.0.0"
+  },
+  "scenario_trace_metadata": {
+    "contains_real_measurements": false,
+    "data_split": {
+      "artifact_namespace_disjoint": true,
+      "role": "training_validation",
+      "seed": 40714,
+      "subject_population_disjoint": true,
+      "subject_population_hash": "56306a71528c2279e1f87781e989afecb26f1d530bf879f6e54bb449af790463"
+    },
+    "formal_experiment_eligible": false,
+    "generator": "privacy_edge_sim.numerical._build_trace",
+    "joint_rows_must_not_be_split": true,
+    "numerical_experiment_eligible": true,
+    "warning": "FROZEN NUMERICAL MODEL - NOT HARDWARE OR ATTACK MEASUREMENT"
+  },
+  "seeds": {
+    "arrivals": 17529503421266700291,
+    "environment": 9443829756340366992,
+    "fault": 12766816382276466128,
+    "mobility": 14391678513325365241,
+    "rsu": 395151990169341791,
+    "scenario": 721,
+    "vehicle": 10331189180506328535,
+    "wireless": 3568444732200457592
+  },
+  "simulation": {
+    "duration_s": 5.541927009999999,
+    "end_time_s": 5.541927009999999,
+    "start_time_s": 0.0,
+    "task_count": 6,
+    "terminal_task_count": 6
+  },
+  "software_environment": {
+    "dependencies": {
+      "privacy-edge-sim": "0.1.0",
+      "pyarrow": "21.0.0"
+    },
+    "machine": "AMD64",
+    "os_name": "nt",
+    "platform": "Windows-11-10.0.22000-SP0",
+    "processor": "Intel64 Family 6 Model 154 Stepping 3, GenuineIntel",
+    "python_executable": "D:\\anaconda\\python.exe",
+    "python_implementation": "CPython",
+    "python_version": "3.13.9"
+  },
+  "trace_checksums": [
+    {
+      "aggregate_sha256": "f2ae2f27772b4c351830c99b2a0b82257b0fec0671c0e928819bf2512f2e8429",
+      "files": {
+        "numerical_evaluation_trace.json": "2d2e48af186a80a53e50340b2a482d5bc943709298f73d60931ac9c30f069b02"
+      },
+      "kind": "file",
+      "path": "E:\\lun\\lun1\\artifacts\\final-v5\\paired-study\\inputs\\environment-1001\\traces\\numerical_evaluation_trace.json"
+    },
+    {
+      "aggregate_sha256": "d69de0cd16402ca9dd3ca1a594bf1545cec7245e0065225cf8c7309629bb052b",
+      "files": {
+        "numerical_scenario_trace.json": "bb889e0eda96738bc1648f6427dadec3f48d93fe844f6a3a40d6e2e41e709b3d"
+      },
+      "kind": "file",
+      "path": "E:\\lun\\lun1\\artifacts\\final-v5\\paired-study\\inputs\\environment-1001\\traces\\numerical_scenario_trace.json"
+    }
+  ],
+  "trace_identity": {
+    "evidence_status": "frozen_numerical_model",
+    "horizon_end_s": 8.0,
+    "horizon_start_s": 0.0,
+    "profile_hash": "c352d3a21a150e47f2fa8d0827edede61d43f89e6acad4ccfe8ed621b1545e83",
+    "protocol_version": "anon-fer/1.0",
+    "schema_version": "1.1.0",
+    "seed": 1001,
+    "trace_hash": "fb9540cb7356d7b18b1e5677e2a28fc7a43c1db56306df8eea3a69cab413eb62",
+    "trace_version": "numerical-test-1.0.0"
+  },
+  "trace_metadata": {
+    "contains_real_measurements": false,
+    "data_split": {
+      "artifact_namespace_disjoint": true,
+      "role": "evaluation",
+      "seed": 1001,
+      "subject_population_disjoint": true,
+      "subject_population_hash": "7a47abf40d54e09811a11ab99ea852fc5bd103aa4d8d332d0d4cb3ff0cd4cb93"
+    },
+    "formal_experiment_eligible": false,
+    "generator": "privacy_edge_sim.numerical._build_trace",
+    "joint_rows_must_not_be_split": true,
+    "numerical_experiment_eligible": true,
+    "warning": "FROZEN NUMERICAL MODEL - NOT HARDWARE OR ATTACK MEASUREMENT"
+  },
+  "versions": {
+    "edge_models": {
+      "edge_fer_numerical_v1": {
+        "model_hash": "a267279c18000843a2aa284f93d6d6cd5cacfa8094448a035ddefc1097a57fbe",
+        "protocol_version": "anon-fer/1.0"
+      }
+    },
+    "local_models": {
+      "local_fer_numerical_v1": {
+        "model_hash": "d83b5434a3f5e843305c9e0f14902865f8127c22812266b41cb0f9ed0ebc782a",
+        "protocol_version": "anon-fer/1.0"
+      }
+    },
+    "pipelines": {
+      "blur_medium_numerical_v1": {
+        "encoder_hash": "e161ec96de027271c055140ea3b3a2e801ca73cbe8d4f54762a581ad30abcedf",
+        "encoder_id": "jpeg_numerical_v1",
+        "guard_hash": "a4d5e33c71adea61801a472fe159dc8101883214a69c012f606fa6b767296f9a",
+        "guard_id": "guard_numerical_v1",
+        "pipeline_hash": "937091eb635d4f1b8cf6e5851e2b933228f86644e8302bab09a7270b71b43869"
+      },
+      "blur_strong_numerical_v1": {
+        "encoder_hash": "e161ec96de027271c055140ea3b3a2e801ca73cbe8d4f54762a581ad30abcedf",
+        "encoder_id": "jpeg_numerical_v1",
+        "guard_hash": "a4d5e33c71adea61801a472fe159dc8101883214a69c012f606fa6b767296f9a",
+        "guard_id": "guard_numerical_v1",
+        "pipeline_hash": "62afc8a13337956a548b0503f7af33ece299e815796943866e2534b9ebbe64d9"
+      },
+      "blur_weak_numerical_v1": {
+        "encoder_hash": "e161ec96de027271c055140ea3b3a2e801ca73cbe8d4f54762a581ad30abcedf",
+        "encoder_id": "jpeg_numerical_v1",
+        "guard_hash": "a4d5e33c71adea61801a472fe159dc8101883214a69c012f606fa6b767296f9a",
+        "guard_id": "guard_numerical_v1",
+        "pipeline_hash": "37c438f917a9f24460ff3d41765f47ebff2e467cf701c9c8761930efe0178829"
+      },
+      "diffusion_medium_numerical_v1": {
+        "encoder_hash": "e161ec96de027271c055140ea3b3a2e801ca73cbe8d4f54762a581ad30abcedf",
+        "encoder_id": "jpeg_numerical_v1",
+        "guard_hash": "a4d5e33c71adea61801a472fe159dc8101883214a69c012f606fa6b767296f9a",
+        "guard_id": "guard_numerical_v1",
+        "pipeline_hash": "e0f133897f61e01f93aa6110ff01cbe357884702d59352c3630f5bee914d4c27"
+      },
+      "diffusion_strong_numerical_v1": {
+        "encoder_hash": "e161ec96de027271c055140ea3b3a2e801ca73cbe8d4f54762a581ad30abcedf",
+        "encoder_id": "jpeg_numerical_v1",
+        "guard_hash": "a4d5e33c71adea61801a472fe159dc8101883214a69c012f606fa6b767296f9a",
+        "guard_id": "guard_numerical_v1",
+        "pipeline_hash": "207a82cd7e772f80037829e3b358cd8d34adc89b835a40572554e3d2c106cab8"
+      },
+      "diffusion_weak_numerical_v1": {
+        "encoder_hash": "e161ec96de027271c055140ea3b3a2e801ca73cbe8d4f54762a581ad30abcedf",
+        "encoder_id": "jpeg_numerical_v1",
+        "guard_hash": "a4d5e33c71adea61801a472fe159dc8101883214a69c012f606fa6b767296f9a",
+        "guard_id": "guard_numerical_v1",
+        "pipeline_hash": "1ceae41805fc79cacac7d54ca71f4534484e0dbfa489319bb425c573ab8921b0"
+      },
+      "generative_medium_numerical_v1": {
+        "encoder_hash": "e161ec96de027271c055140ea3b3a2e801ca73cbe8d4f54762a581ad30abcedf",
+        "encoder_id": "jpeg_numerical_v1",
+        "guard_hash": "a4d5e33c71adea61801a472fe159dc8101883214a69c012f606fa6b767296f9a",
+        "guard_id": "guard_numerical_v1",
+        "pipeline_hash": "d95503ef93c4216559b14933882578886584ce72425284a31b796e90f5786c72"
+      },
+      "generative_strong_numerical_v1": {
+        "encoder_hash": "e161ec96de027271c055140ea3b3a2e801ca73cbe8d4f54762a581ad30abcedf",
+        "encoder_id": "jpeg_numerical_v1",
+        "guard_hash": "a4d5e33c71adea61801a472fe159dc8101883214a69c012f606fa6b767296f9a",
+        "guard_id": "guard_numerical_v1",
+        "pipeline_hash": "e8c082f28aa0b730f9502de227b27a61b0d39eecf3683ada59fd34bcc7c4dce4"
+      },
+      "generative_weak_numerical_v1": {
+        "encoder_hash": "e161ec96de027271c055140ea3b3a2e801ca73cbe8d4f54762a581ad30abcedf",
+        "encoder_id": "jpeg_numerical_v1",
+        "guard_hash": "a4d5e33c71adea61801a472fe159dc8101883214a69c012f606fa6b767296f9a",
+        "guard_id": "guard_numerical_v1",
+        "pipeline_hash": "92028c3d1c37051d9fec5ea65b0904f3edf380ff8402e947c26c4cb63a82297d"
+      },
+      "pixelate_medium_numerical_v1": {
+        "encoder_hash": "e161ec96de027271c055140ea3b3a2e801ca73cbe8d4f54762a581ad30abcedf",
+        "encoder_id": "jpeg_numerical_v1",
+        "guard_hash": "a4d5e33c71adea61801a472fe159dc8101883214a69c012f606fa6b767296f9a",
+        "guard_id": "guard_numerical_v1",
+        "pipeline_hash": "a892a11d660d3751288169c7cb7fdef533dfdbe84ee69b8301e8e636381e3206"
+      },
+      "pixelate_strong_numerical_v1": {
+        "encoder_hash": "e161ec96de027271c055140ea3b3a2e801ca73cbe8d4f54762a581ad30abcedf",
+        "encoder_id": "jpeg_numerical_v1",
+        "guard_hash": "a4d5e33c71adea61801a472fe159dc8101883214a69c012f606fa6b767296f9a",
+        "guard_id": "guard_numerical_v1",
+        "pipeline_hash": "06992e3be6e741c9d0076933644e2fc542d47636a5c5c33a24f129b6ed7775ab"
+      },
+      "pixelate_weak_numerical_v1": {
+        "encoder_hash": "e161ec96de027271c055140ea3b3a2e801ca73cbe8d4f54762a581ad30abcedf",
+        "encoder_id": "jpeg_numerical_v1",
+        "guard_hash": "a4d5e33c71adea61801a472fe159dc8101883214a69c012f606fa6b767296f9a",
+        "guard_id": "guard_numerical_v1",
+        "pipeline_hash": "a6c4c7611f6395d2a20aada95baba09729e9e4d4f90044cd005574398f21aa1b"
+      }
+    },
+    "privacy_policy": {
+      "confidence_error": 0.05,
+      "min_emission_lcb": 0.5,
+      "min_subjects": 32,
+      "quality_bins": [
+        "clear",
+        "challenging"
+      ],
+      "risk_threshold": 0.8
+    },
+    "profile_hash": "c352d3a21a150e47f2fa8d0827edede61d43f89e6acad4ccfe8ed621b1545e83",
+    "profile_version": "numerical-1.0.0",
+    "protocol_version": "anon-fer/1.0",
+    "schema_version": "1.1.0"
+  },
+  "workload": {
+    "arrival_end_s": 5.50292701,
+    "arrival_span_s": 4.622140119999999,
+    "arrival_start_s": 0.88078689,
+    "empirical_arrival_rate_tasks_per_s": 1.081749983814857,
+    "task_count": 6,
+    "tasks_by_vehicle": {
+      "veh-1": 3,
+      "veh-2": 3
+    }
+  }
+}

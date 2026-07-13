@@ -1,0 +1,74 @@
+[
+  {
+    "core_digest": "e2619d05429f2aa124a2392b391224eb952fad97a5a886409094d8d4c17e85a5",
+    "data_kind": "synthetic",
+    "done": 7,
+    "failed": 1,
+    "formal_experiment_eligible": false,
+    "invariant_checks": 59,
+    "output": "E:\\lun\\lun1\\artifacts\\final-v3\\run-all\\all_local",
+    "policy": "all_local",
+    "sim_end_s": 5.93274,
+    "tasks": 8
+  },
+  {
+    "core_digest": "b2fa6f14eaa21bb89adc05d563d1ca1f2052a88a2e5b6b2078b733917c0e57e6",
+    "data_kind": "synthetic",
+    "done": 7,
+    "failed": 1,
+    "formal_experiment_eligible": false,
+    "invariant_checks": 75,
+    "output": "E:\\lun\\lun1\\artifacts\\final-v3\\run-all\\fixed_safe_lowest_link_cost",
+    "policy": "fixed_safe_lowest_link_cost",
+    "sim_end_s": 5.93274,
+    "tasks": 8
+  },
+  {
+    "core_digest": "fc94e7bc4fa1867d18a429cf296c2b40500d593544f8c8df2bd1b65465c497dd",
+    "data_kind": "synthetic",
+    "done": 7,
+    "failed": 1,
+    "formal_experiment_eligible": false,
+    "invariant_checks": 75,
+    "output": "E:\\lun\\lun1\\artifacts\\final-v3\\run-all\\fixed_safe_shortest_visible_queue",
+    "policy": "fixed_safe_shortest_visible_queue",
+    "sim_end_s": 5.93274,
+    "tasks": 8
+  },
+  {
+    "core_digest": "4fc9a2d4234da3d8772bac5882cac1b86cd0d7baf19fc588acdeacca77e76ce2",
+    "data_kind": "synthetic",
+    "done": 7,
+    "failed": 1,
+    "formal_experiment_eligible": false,
+    "invariant_checks": 72,
+    "output": "E:\\lun\\lun1\\artifacts\\final-v3\\run-all\\safe_greedy",
+    "policy": "safe_greedy",
+    "sim_end_s": 5.93274,
+    "tasks": 8
+  },
+  {
+    "core_digest": "b6187d6877392ceb0fd9557eec119d497a63048bf1f5db19c947a403e0e04f17",
+    "data_kind": "synthetic",
+    "done": 7,
+    "failed": 1,
+    "formal_experiment_eligible": false,
+    "invariant_checks": 66,
+    "output": "E:\\lun\\lun1\\artifacts\\final-v3\\run-all\\safe_lyapunov_h1",
+    "policy": "safe_lyapunov_h1",
+    "sim_end_s": 5.93274,
+    "tasks": 8
+  },
+  {
+    "core_digest": "17d5d17d45c4128f20c3909ccd12badca2a669e6f710c1b34e953e05f360776a",
+    "data_kind": "synthetic",
+    "done": 7,
+    "failed": 1,
+    "formal_experiment_eligible": false,
+    "invariant_checks": 66,
+    "output": "E:\\lun\\lun1\\artifacts\\final-v3\\run-all\\esl_smpc",
+    "policy": "esl_smpc",
+    "sim_end_s": 5.93274,
+    "tasks": 8
+  }
+]

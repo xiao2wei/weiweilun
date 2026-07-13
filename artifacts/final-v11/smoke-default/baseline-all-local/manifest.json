@@ -1,0 +1,688 @@
+{
+  "code_version": {
+    "kind": "source_tree_sha256",
+    "source_file_count": 31,
+    "source_tree_sha256": "110d9f98a97876871526552bb635350fc05d7a677b4944e67a339f20da4d5b01",
+    "value": "110d9f98a97876871526552bb635350fc05d7a677b4944e67a339f20da4d5b01"
+  },
+  "configuration": {
+    "canonical_sha256": "28524ef661c938a5bb6dce0d222a40f1332400d48e4fe2fa8dab7a9846775296",
+    "content": {
+      "controller": {
+        "controller_energy_j": 0.004,
+        "controller_overhead_s": 0.0008,
+        "horizon_events": 2,
+        "lyapunov_v": 12.0,
+        "physical_queue_weight": 1.0,
+        "policy": "all_local",
+        "rollout_policy": "safe_greedy",
+        "rsu_resource_theta": {
+          "gpu": 1.0,
+          "ingress": 1.0
+        },
+        "scenarios": 8,
+        "vehicle_resource_theta": {
+          "accelerator": 1.0,
+          "cpu": 1.0,
+          "encoder": 1.0
+        }
+      },
+      "cost": {
+        "failure_loss": 1.0,
+        "latency_scale_s": 1.0,
+        "rsu_energy_scale_j": 40.0,
+        "utility_scale": 1.0,
+        "vehicle_energy_scale_j": 25.0,
+        "weights": {
+          "failure": 2.0,
+          "latency": 1.0,
+          "rsu_energy": 0.15,
+          "utility": 1.0,
+          "vehicle_energy": 0.25
+        }
+      },
+      "downlink_pause_limit_s": 2.0,
+      "evidence_path": null,
+      "long_term": {
+        "coverage_rate_minimum": 0.75,
+        "failure_rate_limit": 0.25,
+        "timeout_rate_limit": 0.15
+      },
+      "max_snapshot_age_s": 0.5,
+      "metadata_bits": 2048,
+      "output_parquet": false,
+      "parameter_sources": {
+        "anonymous_transaction": "engineering_assumption",
+        "arrival_load": "engineering_assumption",
+        "deadlines": "engineering_assumption",
+        "encoded_output_size": "engineering_assumption",
+        "faults": "stress_test_boundary",
+        "interruptions_and_recovery": "stress_test_boundary",
+        "privacy_risk_values": "engineering_assumption",
+        "resource_capacity": "engineering_assumption",
+        "rsu_power": "engineering_assumption",
+        "task_buffer_hold_power": "engineering_assumption",
+        "thermal_throttling": "stress_test_boundary",
+        "vehicle_compute_latency_energy": "engineering_assumption",
+        "vehicle_power": "engineering_assumption",
+        "wireless_goodput": "engineering_assumption",
+        "wireless_link_packet_sharing": "engineering_assumption"
+      },
+      "privacy": {
+        "confidence_error": 0.05,
+        "min_emission_lcb": 0.5,
+        "min_subjects": 30,
+        "quality_miscoverage": 0.1,
+        "risk_threshold": 0.1
+      },
+      "profile_path": "E:\\lun\\lun1\\profiles\\synthetic_profile.json",
+      "protocol_version": "anon-fer/1.0",
+      "rsu_snapshot_period_s": 0.25,
+      "rsu_telemetry_delay_s": 0.0,
+      "rsu_telemetry_drop_every": 0,
+      "rsu_telemetry_quantum_work_s": 0.0,
+      "rsus": [
+        {
+          "average_power_budget_w": 128.0,
+          "cached_models": [
+            "edge_fer_full_v1"
+          ],
+          "descriptor_capacity": 16,
+          "gpu_servers": 2,
+          "hold_power_w": 0.5,
+          "idle_power_w": 72.0,
+          "rsu_id": "rsu-1",
+          "vram_capacity_bytes": 8589934592,
+          "workload_capacity_gpu_s": 30.0
+        },
+        {
+          "average_power_budget_w": 108.0,
+          "cached_models": [
+            "edge_fer_full_v1"
+          ],
+          "descriptor_capacity": 10,
+          "gpu_servers": 1,
+          "hold_power_w": 0.4,
+          "idle_power_w": 58.0,
+          "rsu_id": "rsu-2",
+          "vram_capacity_bytes": 6442450944,
+          "workload_capacity_gpu_s": 18.0
+        }
+      ],
+      "scenario_trace_path": "E:\\lun\\lun1\\traces\\synthetic_scenario_trace.json",
+      "schema_version": "1.0",
+      "seeds": {
+        "arrivals": 41002,
+        "environment": 41001,
+        "fault": 41007,
+        "mobility": 41003,
+        "rsu": 41006,
+        "scenario": 51001,
+        "vehicle": 41000,
+        "wireless": 41004
+      },
+      "trace_path": "E:\\lun\\lun1\\traces\\synthetic_trace.json",
+      "uplink_pause_limit_s": 2.0,
+      "vehicles": [
+        {
+          "accelerator_descriptors": 8,
+          "average_power_budget_w": 22.0,
+          "battery_capacity_j": 2400.0,
+          "cpu_descriptors": 8,
+          "device_type": "vehicle_gpu_class_a",
+          "encoder_descriptors": 8,
+          "hold_power_w": 0.15,
+          "idle_power_w": 8.0,
+          "initial_battery_j": 2400.0,
+          "memory_capacity_bytes": 536870912,
+          "vehicle_id": "veh-1"
+        },
+        {
+          "accelerator_descriptors": 6,
+          "average_power_budget_w": 18.0,
+          "battery_capacity_j": 1800.0,
+          "cpu_descriptors": 6,
+          "device_type": "vehicle_cpu_class_b",
+          "encoder_descriptors": 6,
+          "hold_power_w": 0.12,
+          "idle_power_w": 6.5,
+          "initial_battery_j": 1800.0,
+          "memory_capacity_bytes": 268435456,
+          "vehicle_id": "veh-2"
+        }
+      ]
+    }
+  },
+  "controller": {
+    "controller_energy_j": 0.004,
+    "controller_overhead_s": 0.0008,
+    "horizon_events": 2,
+    "lyapunov_v": 12.0,
+    "physical_queue_weight": 1.0,
+    "policy": "all_local",
+    "rollout_policy": "safe_greedy",
+    "rsu_resource_theta": {
+      "gpu": 1.0,
+      "ingress": 1.0
+    },
+    "scenarios": 8,
+    "vehicle_resource_theta": {
+      "accelerator": 1.0,
+      "cpu": 1.0,
+      "encoder": 1.0
+    }
+  },
+  "controller_diagnostics": {
+    "note": "engineering diagnostic only; excluded from simulated time and core_digest",
+    "sample_count": 7,
+    "wall_clock_max_s": 0.0060177,
+    "wall_clock_mean_s": 0.005022085714285715,
+    "wall_clock_p50_s": 0.005286,
+    "wall_clock_p95_s": 0.005868869999999999,
+    "wall_clock_total_s": 0.0351546
+  },
+  "core_digest": "54dc98166fe71ed23732f04c775ddefa8d467838a17b4b48970853b15988c84b",
+  "data_provenance": {
+    "evidence_status": "synthetic_fixture_only",
+    "formal_experiment_eligible": false,
+    "numerical_experiment_eligible": false,
+    "profile_data_kind": "synthetic",
+    "real_hardware_measurement": false,
+    "result_label": "synthetic_engineering_only",
+    "scenario_trace_data_kind": "synthetic",
+    "trace_data_kind": "synthetic"
+  },
+  "data_split": {
+    "evaluation": {
+      "artifact_namespace_disjoint": true,
+      "fixture_namespace_disjoint": false,
+      "independence_scope": "independent_random_realization_only",
+      "role": "evaluation",
+      "seed": 20260712,
+      "subject_population_disjoint": false
+    },
+    "scenario_training_validation": {
+      "artifact_namespace_disjoint": true,
+      "fixture_namespace_disjoint": false,
+      "independence_scope": "independent_random_realization_only",
+      "role": "training_validation",
+      "seed": 20260713,
+      "subject_population_disjoint": false
+    }
+  },
+  "deadline": {
+    "count": 8,
+    "relative_deadline_max_s": 1.35,
+    "relative_deadline_mean_s": 1.015,
+    "relative_deadline_min_s": 0.62
+  },
+  "event_priority": {
+    "ARRIVAL": 30,
+    "BATTERY_GUARD": 10,
+    "COMPUTE_COMPLETE": 0,
+    "DEADLINE": 20,
+    "DEVICE_FAULT": 10,
+    "DISPATCH_DECISION": 40,
+    "LINK_CHANGE": 10,
+    "MODEL_VERSION": 10,
+    "PROFILE_VERSION": 10,
+    "RSU_SNAPSHOT": 10,
+    "THERMAL_CHANGE": 10,
+    "TRANSFER_COMPLETE": 0
+  },
+  "frozen_evidence": {
+    "required": false,
+    "status": "not_required",
+    "verified": true
+  },
+  "generated_at_utc": "2026-07-13T09:30:41.791790+00:00",
+  "invariants": {
+    "check_count": 56,
+    "failure_count": 0,
+    "failures": [],
+    "passed": true,
+    "status": "passed"
+  },
+  "manifest_schema_version": "1.0",
+  "manifest_sha256": "4a3efbb61fc75d2051856a6c0a09107ddc0df670aee708b0554ece5caafe9bcb",
+  "network": {
+    "downlink_pause_limit_s": 2.0,
+    "max_snapshot_age_s": 0.5,
+    "metadata_bits": 2048,
+    "rsu_snapshot_period_s": 0.25,
+    "rsu_telemetry_delay_s": 0.0,
+    "rsu_telemetry_drop_every": 0,
+    "rsu_telemetry_quantum_work_s": 0.0,
+    "uplink_pause_limit_s": 2.0
+  },
+  "outputs": {
+    "files": {
+      "actions.jsonl": {
+        "filename": "actions.jsonl",
+        "row_count": 35,
+        "sha256": "60255d30fcdc37d511e8c82d75f3b8b11d9033f8de2d5ed87bb89e2dddbfabd4",
+        "size_bytes": 42144
+      },
+      "events.jsonl": {
+        "filename": "events.jsonl",
+        "row_count": 59,
+        "sha256": "d2cf18a4c29c361f04d5d36e82f0c9b8040f5f864292328146078abfc6c3fbe5",
+        "size_bytes": 21318
+      },
+      "resources.csv": {
+        "filename": "resources.csv",
+        "row_count": 560,
+        "sha256": "934e31b73378db66220fbf009af34ca34335ef7b4944de9a9a6f731a3b335c2b",
+        "size_bytes": 94242
+      },
+      "summary.json": {
+        "filename": "summary.json",
+        "row_count": null,
+        "sha256": "bea42f6e4daf14be0e41ebeb7391aa90361d360ea584774fece713510bddd3ab",
+        "size_bytes": 12919
+      },
+      "tasks.csv": {
+        "filename": "tasks.csv",
+        "row_count": 8,
+        "sha256": "a78bcdededfd10bdee6e6d6efe4a93eab79529a5759e9c16f13a49bace3c62ac",
+        "size_bytes": 10097
+      },
+      "virtual_queues.csv": {
+        "filename": "virtual_queues.csv",
+        "row_count": 392,
+        "sha256": "41f85b8d7d0b1dcf5bc54825f064ea32abab1f4bb02ca03c23c9cac60fef28ab",
+        "size_bytes": 10260
+      }
+    },
+    "parquet": {
+      "available": true,
+      "filename": null,
+      "generated": false,
+      "requested": false,
+      "status": "not_requested"
+    }
+  },
+  "parameter_sources": {
+    "configuration": {
+      "anonymous_transaction": "engineering_assumption",
+      "arrival_load": "engineering_assumption",
+      "deadlines": "engineering_assumption",
+      "encoded_output_size": "engineering_assumption",
+      "faults": "stress_test_boundary",
+      "interruptions_and_recovery": "stress_test_boundary",
+      "privacy_risk_values": "engineering_assumption",
+      "resource_capacity": "engineering_assumption",
+      "rsu_power": "engineering_assumption",
+      "task_buffer_hold_power": "engineering_assumption",
+      "thermal_throttling": "stress_test_boundary",
+      "vehicle_compute_latency_energy": "engineering_assumption",
+      "vehicle_power": "engineering_assumption",
+      "wireless_goodput": "engineering_assumption",
+      "wireless_link_packet_sharing": "engineering_assumption"
+    },
+    "profile": {
+      "deployment_resource_bounds": {
+        "category": "engineering_assumption",
+        "description": "Preregistered finite physical envelopes used for online reservation and trace OOD rejection.",
+        "unit": "resource_busy_s,J,bytes,bit"
+      },
+      "emission_support": {
+        "category": "engineering_assumption",
+        "description": "Synthetic lower bounds used to exercise guard-emission support filtering.",
+        "unit": "probability"
+      },
+      "privacy_bounds": {
+        "category": "engineering_assumption",
+        "description": "Fabricated bounded values chosen only to exercise all three hard-risk checks; not attack measurements.",
+        "unit": "probability"
+      },
+      "retry_limits": {
+        "category": "engineering_assumption",
+        "description": "Small finite attempt limits for deterministic smoke and boundary tests.",
+        "unit": "attempts"
+      },
+      "subject_support": {
+        "category": "engineering_assumption",
+        "description": "Synthetic cluster counts used to exercise minimum subject support.",
+        "unit": "subjects"
+      }
+    },
+    "scenario_trace": {
+      "anonymization_transactions": {
+        "category": "engineering_assumption",
+        "description": "Joint retry/guard/encode rows, including correlated tail attempts and an OOM prefix.",
+        "unit": "resource_busy_s,J,bytes"
+      },
+      "arrivals_deadlines": {
+        "category": "engineering_assumption",
+        "description": "Small bursty workload with 0.62-1.35 second deadlines for smoke tests.",
+        "unit": "s"
+      },
+      "faults_versions": {
+        "category": "stress_test_boundary",
+        "description": "Transient RSU fault and an incompatible cached-model version event.",
+        "unit": "event"
+      },
+      "fer_compute": {
+        "category": "engineering_assumption",
+        "description": "Compact local and server FER service/energy orders of magnitude; no model was run.",
+        "unit": "resource_busy_s,J,bytes"
+      },
+      "prep_compute": {
+        "category": "engineering_assumption",
+        "description": "Detection/alignment/quality preprocessing fixture at 21-45 ms and sub-joule dynamic energy.",
+        "unit": "resource_busy_s,J,bytes"
+      },
+      "thermal": {
+        "category": "stress_test_boundary",
+        "description": "A finite hot interval reduces effective compute rate to 0.68; it never raises capacity.",
+        "unit": "dimensionless"
+      },
+      "wireless": {
+        "category": "engineering_assumption",
+        "description": "4G/5G-class application-goodput fixture with bursts, pauses, handover and permanent loss.",
+        "unit": "bit/s,W"
+      }
+    },
+    "trace": {
+      "anonymization_transactions": {
+        "category": "engineering_assumption",
+        "description": "Joint retry/guard/encode rows, including correlated tail attempts and an OOM prefix.",
+        "unit": "resource_busy_s,J,bytes"
+      },
+      "arrivals_deadlines": {
+        "category": "engineering_assumption",
+        "description": "Small bursty workload with 0.62-1.35 second deadlines for smoke tests.",
+        "unit": "s"
+      },
+      "faults_versions": {
+        "category": "stress_test_boundary",
+        "description": "Transient RSU fault and an incompatible cached-model version event.",
+        "unit": "event"
+      },
+      "fer_compute": {
+        "category": "engineering_assumption",
+        "description": "Compact local and server FER service/energy orders of magnitude; no model was run.",
+        "unit": "resource_busy_s,J,bytes"
+      },
+      "prep_compute": {
+        "category": "engineering_assumption",
+        "description": "Detection/alignment/quality preprocessing fixture at 21-45 ms and sub-joule dynamic energy.",
+        "unit": "resource_busy_s,J,bytes"
+      },
+      "thermal": {
+        "category": "stress_test_boundary",
+        "description": "A finite hot interval reduces effective compute rate to 0.68; it never raises capacity.",
+        "unit": "dimensionless"
+      },
+      "wireless": {
+        "category": "engineering_assumption",
+        "description": "4G/5G-class application-goodput fixture with bursts, pauses, handover and permanent loss.",
+        "unit": "bit/s,W"
+      }
+    }
+  },
+  "profile_metadata": {
+    "contains_real_images": false,
+    "contains_trained_models": false,
+    "formal_experiment_eligible": false,
+    "generator": "privacy_edge_sim.synthetic.generate_synthetic_profile",
+    "seed": 20260712,
+    "warning": "SYNTHETIC ENGINEERING FIXTURE - NOT A MEASUREMENT OR PAPER RESULT"
+  },
+  "protocol_version": "anon-fer/1.0",
+  "resources": {
+    "rsus": [
+      {
+        "average_power_budget_w": 128.0,
+        "cached_models": [
+          "edge_fer_full_v1"
+        ],
+        "descriptor_capacity": 16,
+        "gpu_servers": 2,
+        "hold_power_w": 0.5,
+        "idle_power_w": 72.0,
+        "rsu_id": "rsu-1",
+        "vram_capacity_bytes": 8589934592,
+        "workload_capacity_gpu_s": 30.0
+      },
+      {
+        "average_power_budget_w": 108.0,
+        "cached_models": [
+          "edge_fer_full_v1"
+        ],
+        "descriptor_capacity": 10,
+        "gpu_servers": 1,
+        "hold_power_w": 0.4,
+        "idle_power_w": 58.0,
+        "rsu_id": "rsu-2",
+        "vram_capacity_bytes": 6442450944,
+        "workload_capacity_gpu_s": 18.0
+      }
+    ],
+    "vehicles": [
+      {
+        "accelerator_descriptors": 8,
+        "average_power_budget_w": 22.0,
+        "battery_capacity_j": 2400.0,
+        "cpu_descriptors": 8,
+        "device_type": "vehicle_gpu_class_a",
+        "encoder_descriptors": 8,
+        "hold_power_w": 0.15,
+        "idle_power_w": 8.0,
+        "initial_battery_j": 2400.0,
+        "memory_capacity_bytes": 536870912,
+        "vehicle_id": "veh-1"
+      },
+      {
+        "accelerator_descriptors": 6,
+        "average_power_budget_w": 18.0,
+        "battery_capacity_j": 1800.0,
+        "cpu_descriptors": 6,
+        "device_type": "vehicle_cpu_class_b",
+        "encoder_descriptors": 6,
+        "hold_power_w": 0.12,
+        "idle_power_w": 6.5,
+        "initial_battery_j": 1800.0,
+        "memory_capacity_bytes": 268435456,
+        "vehicle_id": "veh-2"
+      }
+    ]
+  },
+  "run_metadata": {
+    "policy": "all_local",
+    "replay_checkpoint_mode": "deterministic_replay",
+    "replay_checkpoint_resumed": false
+  },
+  "scenario_trace_identity": {
+    "evidence_status": "synthetic_fixture_only",
+    "profile_hash": "7856f2b965123b4dcf3462863b671491c3d0fb62d3ea3bea811fd312a5bb996d",
+    "protocol_version": "anon-fer/1.0",
+    "schema_version": "1.1.0",
+    "seed": 20260713,
+    "trace_hash": "d9a223287ce1cfc14c98123df6e586ddd638078fbfa430257bf38ceba6da50d7",
+    "trace_version": "synthetic-1.1.0"
+  },
+  "scenario_trace_metadata": {
+    "contains_real_measurements": false,
+    "data_split": {
+      "artifact_namespace_disjoint": true,
+      "fixture_namespace_disjoint": false,
+      "independence_scope": "independent_random_realization_only",
+      "role": "training_validation",
+      "seed": 20260713,
+      "subject_population_disjoint": false
+    },
+    "formal_experiment_eligible": false,
+    "generator": "privacy_edge_sim.synthetic.generate_synthetic_trace",
+    "joint_rows_must_not_be_split": true,
+    "warning": "SYNTHETIC ENGINEERING FIXTURE - NOT A MEASUREMENT OR PAPER RESULT"
+  },
+  "seeds": {
+    "arrivals": 41002,
+    "environment": 41001,
+    "fault": 41007,
+    "mobility": 41003,
+    "rsu": 41006,
+    "scenario": 51001,
+    "vehicle": 41000,
+    "wireless": 41004
+  },
+  "simulation": {
+    "duration_s": 5.93274,
+    "end_time_s": 5.93274,
+    "start_time_s": 0.0,
+    "task_count": 8,
+    "terminal_task_count": 8
+  },
+  "software_environment": {
+    "dependencies": {
+      "privacy-edge-sim": "0.1.0",
+      "pyarrow": "21.0.0"
+    },
+    "machine": "AMD64",
+    "os_name": "nt",
+    "platform": "Windows-11-10.0.22000-SP0",
+    "processor": "Intel64 Family 6 Model 154 Stepping 3, GenuineIntel",
+    "python_executable": "D:\\anaconda\\python.exe",
+    "python_implementation": "CPython",
+    "python_version": "3.13.9"
+  },
+  "trace_checksums": [
+    {
+      "aggregate_sha256": "6d8088abde3591e9a01993ce9790f9b2a6b806b388dc452bf07135579d82f8ef",
+      "files": {
+        "synthetic_trace.json": "53727f11427e277f8f4789990287c09bef29a828ebdefa723f3dfaf2726cb4ac"
+      },
+      "kind": "file",
+      "path": "E:\\lun\\lun1\\traces\\synthetic_trace.json"
+    },
+    {
+      "aggregate_sha256": "2f0afc100d23c55b40dbe8c0ab7bc2332de685316f33bba96a6b2753f44fde0b",
+      "files": {
+        "synthetic_scenario_trace.json": "1ce6316f3181c6bb7d761b131c09ddcce7f6a038e8f1c849367dfe49fa6bd6be"
+      },
+      "kind": "file",
+      "path": "E:\\lun\\lun1\\traces\\synthetic_scenario_trace.json"
+    }
+  ],
+  "trace_identity": {
+    "evidence_status": "synthetic_fixture_only",
+    "horizon_end_s": 8.0,
+    "horizon_start_s": 0.0,
+    "profile_hash": "7856f2b965123b4dcf3462863b671491c3d0fb62d3ea3bea811fd312a5bb996d",
+    "protocol_version": "anon-fer/1.0",
+    "schema_version": "1.1.0",
+    "seed": 20260712,
+    "trace_hash": "c19ba865599869793be260d8eaf4e70a492b51cf68649f61daf9ac3f2973ae62",
+    "trace_version": "synthetic-1.1.0"
+  },
+  "trace_metadata": {
+    "contains_real_measurements": false,
+    "data_split": {
+      "artifact_namespace_disjoint": true,
+      "fixture_namespace_disjoint": false,
+      "independence_scope": "independent_random_realization_only",
+      "role": "evaluation",
+      "seed": 20260712,
+      "subject_population_disjoint": false
+    },
+    "formal_experiment_eligible": false,
+    "generator": "privacy_edge_sim.synthetic.generate_synthetic_trace",
+    "joint_rows_must_not_be_split": true,
+    "warning": "SYNTHETIC ENGINEERING FIXTURE - NOT A MEASUREMENT OR PAPER RESULT"
+  },
+  "versions": {
+    "edge_models": {
+      "edge_fer_full_v1": {
+        "deployment_resource_bounds": {
+          "max_gpu_energy_j": 1.2,
+          "max_gpu_work_s": 0.03,
+          "max_ingress_energy_j": 0.08,
+          "max_ingress_work_s": 0.005,
+          "max_result_size_bits": 4096,
+          "max_vram_bytes": 805306368
+        },
+        "model_hash": "cff94c9fa50bda3fe3cdc393316ccad4236fbfa43b8f77d33678eb333522f371",
+        "protocol_version": "anon-fer/1.0"
+      }
+    },
+    "local_models": {
+      "local_fer_compact_v1": {
+        "deployment_resource_bounds": {
+          "max_dynamic_energy_j": 0.7,
+          "max_memory_bytes": 268435456,
+          "max_service_work_s": 0.08
+        },
+        "model_hash": "cca191aa51bbed34cc39b22777bc172b68c6b6aa4ac54221509cbc52916f94e9",
+        "protocol_version": "anon-fer/1.0"
+      }
+    },
+    "pipelines": {
+      "blur_balanced_v1": {
+        "deployment_resource_bounds": {
+          "max_anon_energy_j": 0.8,
+          "max_anon_work_s": 0.08,
+          "max_encode_energy_j": 0.06,
+          "max_encode_work_s": 0.012,
+          "max_guard_energy_j": 0.06,
+          "max_guard_work_s": 0.012,
+          "max_output_bytes": 128000,
+          "max_peak_memory_bytes": 100663296
+        },
+        "encoder_hash": "4b6ceb2892370e04f6ab02924d1039ae41dd2118eaff8ebd4db134b640b0e758",
+        "encoder_id": "synthetic_jpeg_encoder_v1",
+        "guard_hash": "5127f79741938b0526535c259bf5a9f3d4ddee667bc11f9c7c66ba0cbb508fd4",
+        "guard_id": "synthetic_guard_v1",
+        "pipeline_hash": "a7a1dacde8174940445b7165cc5f92edb381060f10e1f5b071b6e5341da10a65"
+      },
+      "pixelate_strong_v1": {
+        "deployment_resource_bounds": {
+          "max_anon_energy_j": 1.5,
+          "max_anon_work_s": 0.16,
+          "max_encode_energy_j": 0.06,
+          "max_encode_work_s": 0.012,
+          "max_guard_energy_j": 0.06,
+          "max_guard_work_s": 0.012,
+          "max_output_bytes": 128000,
+          "max_peak_memory_bytes": 167772160
+        },
+        "encoder_hash": "4b6ceb2892370e04f6ab02924d1039ae41dd2118eaff8ebd4db134b640b0e758",
+        "encoder_id": "synthetic_jpeg_encoder_v1",
+        "guard_hash": "5127f79741938b0526535c259bf5a9f3d4ddee667bc11f9c7c66ba0cbb508fd4",
+        "guard_id": "synthetic_guard_v1",
+        "pipeline_hash": "dc193b7023f4e00cc68007be1aa1881dec56aebf8491e90fb2848387f13bc253"
+      }
+    },
+    "preprocessing_resource_bounds": {
+      "max_dynamic_energy_j": 0.7,
+      "max_memory_bytes": 67108864,
+      "max_service_work_s": 0.06
+    },
+    "privacy_policy": {
+      "confidence_error": 0.05,
+      "min_emission_lcb": 0.6,
+      "min_subjects": 64,
+      "quality_bins": [
+        "clear",
+        "challenging"
+      ],
+      "risk_threshold": 0.1
+    },
+    "profile_hash": "7856f2b965123b4dcf3462863b671491c3d0fb62d3ea3bea811fd312a5bb996d",
+    "profile_version": "synthetic-1.1.0",
+    "protocol_version": "anon-fer/1.0",
+    "schema_version": "1.1.0"
+  },
+  "workload": {
+    "arrival_end_s": 5.82,
+    "arrival_span_s": 5.720000000000001,
+    "arrival_start_s": 0.1,
+    "empirical_arrival_rate_tasks_per_s": 1.2237762237762237,
+    "task_count": 8,
+    "tasks_by_vehicle": {
+      "veh-1": 4,
+      "veh-2": 4
+    }
+  }
+}

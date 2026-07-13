@@ -1,0 +1,28 @@
+[
+  {
+    "core_digest": "4e6be191a2ef81f292af6e1f664e162edaf4cbb85e5998a0601677477d007158",
+    "data_kind": "synthetic",
+    "done": 7,
+    "failed": 1,
+    "formal_experiment_eligible": false,
+    "invariant_checks": 66,
+    "output": "E:\\lun\\lun1\\artifacts\\final-v2\\multiseed\\esl_smpc\\seed-101",
+    "policy": "esl_smpc",
+    "seed": 101,
+    "sim_end_s": 5.93274,
+    "tasks": 8
+  },
+  {
+    "core_digest": "90832060e17b8aea633c7a8f2945f8d28234dd49ea2207c826f39b1612422059",
+    "data_kind": "synthetic",
+    "done": 7,
+    "failed": 1,
+    "formal_experiment_eligible": false,
+    "invariant_checks": 66,
+    "output": "E:\\lun\\lun1\\artifacts\\final-v2\\multiseed\\esl_smpc\\seed-102",
+    "policy": "esl_smpc",
+    "seed": 102,
+    "sim_end_s": 5.92664,
+    "tasks": 8
+  }
+]

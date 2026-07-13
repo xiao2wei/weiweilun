@@ -1,0 +1,412 @@
+{
+  "data_kind": "synthetic",
+  "edge_models": [
+    {
+      "model_hash": "cff94c9fa50bda3fe3cdc393316ccad4236fbfa43b8f77d33678eb333522f371",
+      "model_id": "edge_fer_full_v1",
+      "model_kind": "edge",
+      "protocol_version": "anon-fer/1.0",
+      "supported_devices": [],
+      "supported_pipelines": [
+        "pixelate_strong_v1",
+        "blur_balanced_v1"
+      ],
+      "supported_rsus": [
+        "rsu-1",
+        "rsu-2"
+      ]
+    }
+  ],
+  "evidence_status": "synthetic_fixture_only",
+  "local_models": [
+    {
+      "model_hash": "cca191aa51bbed34cc39b22777bc172b68c6b6aa4ac54221509cbc52916f94e9",
+      "model_id": "local_fer_compact_v1",
+      "model_kind": "local",
+      "protocol_version": "anon-fer/1.0",
+      "supported_devices": [
+        "vehicle_gpu_class_a",
+        "vehicle_cpu_class_b"
+      ],
+      "supported_pipelines": [],
+      "supported_rsus": []
+    }
+  ],
+  "metadata": {
+    "contains_real_images": false,
+    "contains_trained_models": false,
+    "formal_experiment_eligible": false,
+    "generator": "privacy_edge_sim.synthetic.generate_synthetic_profile",
+    "seed": 73,
+    "warning": "SYNTHETIC ENGINEERING FIXTURE - NOT A MEASUREMENT OR PAPER RESULT"
+  },
+  "online_mutable": false,
+  "parameter_sources": {
+    "emission_support": {
+      "category": "engineering_assumption",
+      "description": "Synthetic lower bounds used to exercise guard-emission support filtering.",
+      "unit": "probability"
+    },
+    "privacy_bounds": {
+      "category": "engineering_assumption",
+      "description": "Fabricated bounded values chosen only to exercise all three hard-risk checks; not attack measurements.",
+      "unit": "probability"
+    },
+    "retry_limits": {
+      "category": "engineering_assumption",
+      "description": "Small finite attempt limits for deterministic smoke and boundary tests.",
+      "unit": "attempts"
+    },
+    "subject_support": {
+      "category": "engineering_assumption",
+      "description": "Synthetic cluster counts used to exercise minimum subject support.",
+      "unit": "subjects"
+    }
+  },
+  "pipelines": [
+    {
+      "encoder_hash": "4b6ceb2892370e04f6ab02924d1039ae41dd2118eaff8ebd4db134b640b0e758",
+      "encoder_id": "synthetic_jpeg_encoder_v1",
+      "fallback_local_model": "local_fer_compact_v1",
+      "guard_hash": "5127f79741938b0526535c259bf5a9f3d4ddee667bc11f9c7c66ba0cbb508fd4",
+      "guard_id": "synthetic_guard_v1",
+      "max_attempts": 3,
+      "pipeline_hash": "dc193b7023f4e00cc68007be1aa1881dec56aebf8491e90fb2848387f13bc253",
+      "pipeline_id": "pixelate_strong_v1",
+      "protocol_version": "anon-fer/1.0",
+      "retryable_reasons": [
+        "ANON_OOM",
+        "ANON_FAILED",
+        "GUARD_REJECTED",
+        "ENCODE_FAILED"
+      ],
+      "supported_devices": [
+        "vehicle_gpu_class_a",
+        "vehicle_cpu_class_b"
+      ]
+    },
+    {
+      "encoder_hash": "4b6ceb2892370e04f6ab02924d1039ae41dd2118eaff8ebd4db134b640b0e758",
+      "encoder_id": "synthetic_jpeg_encoder_v1",
+      "fallback_local_model": "local_fer_compact_v1",
+      "guard_hash": "5127f79741938b0526535c259bf5a9f3d4ddee667bc11f9c7c66ba0cbb508fd4",
+      "guard_id": "synthetic_guard_v1",
+      "max_attempts": 2,
+      "pipeline_hash": "a7a1dacde8174940445b7165cc5f92edb381060f10e1f5b071b6e5341da10a65",
+      "pipeline_id": "blur_balanced_v1",
+      "protocol_version": "anon-fer/1.0",
+      "retryable_reasons": [
+        "ANON_OOM",
+        "ANON_FAILED",
+        "GUARD_REJECTED",
+        "ENCODE_FAILED"
+      ],
+      "supported_devices": [
+        "vehicle_gpu_class_a",
+        "vehicle_cpu_class_b"
+      ]
+    }
+  ],
+  "privacy_cells": [
+    {
+      "bounds": [
+        {
+          "attacker_id": "synthetic_identity_attacker_fixture",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.82,
+          "risk_type": "identity",
+          "subject_count": 96,
+          "threshold_id": "synthetic_pre_registered_threshold_v1",
+          "ucb": 0.04
+        },
+        {
+          "attacker_id": "synthetic_verification_attacker_fixture",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.82,
+          "risk_type": "verification",
+          "subject_count": 96,
+          "threshold_id": "synthetic_pre_registered_threshold_v1",
+          "ucb": 0.048
+        },
+        {
+          "attacker_id": "synthetic_link_attacker_fixture",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.82,
+          "risk_type": "link",
+          "subject_count": 96,
+          "threshold_id": "synthetic_pre_registered_threshold_v1",
+          "ucb": 0.058
+        }
+      ],
+      "device_type": "vehicle_gpu_class_a",
+      "joint_trace_supported": true,
+      "pipeline_id": "pixelate_strong_v1",
+      "quality_bin": "clear"
+    },
+    {
+      "bounds": [
+        {
+          "attacker_id": "synthetic_identity_attacker_fixture",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.81,
+          "risk_type": "identity",
+          "subject_count": 96,
+          "threshold_id": "synthetic_pre_registered_threshold_v1",
+          "ucb": 0.042
+        },
+        {
+          "attacker_id": "synthetic_verification_attacker_fixture",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.81,
+          "risk_type": "verification",
+          "subject_count": 96,
+          "threshold_id": "synthetic_pre_registered_threshold_v1",
+          "ucb": 0.05
+        },
+        {
+          "attacker_id": "synthetic_link_attacker_fixture",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.81,
+          "risk_type": "link",
+          "subject_count": 96,
+          "threshold_id": "synthetic_pre_registered_threshold_v1",
+          "ucb": 0.06
+        }
+      ],
+      "device_type": "vehicle_cpu_class_b",
+      "joint_trace_supported": true,
+      "pipeline_id": "pixelate_strong_v1",
+      "quality_bin": "clear"
+    },
+    {
+      "bounds": [
+        {
+          "attacker_id": "synthetic_identity_attacker_fixture",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.71,
+          "risk_type": "identity",
+          "subject_count": 84,
+          "threshold_id": "synthetic_pre_registered_threshold_v1",
+          "ucb": 0.064
+        },
+        {
+          "attacker_id": "synthetic_verification_attacker_fixture",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.71,
+          "risk_type": "verification",
+          "subject_count": 84,
+          "threshold_id": "synthetic_pre_registered_threshold_v1",
+          "ucb": 0.073
+        },
+        {
+          "attacker_id": "synthetic_link_attacker_fixture",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.71,
+          "risk_type": "link",
+          "subject_count": 84,
+          "threshold_id": "synthetic_pre_registered_threshold_v1",
+          "ucb": 0.088
+        }
+      ],
+      "device_type": "vehicle_gpu_class_a",
+      "joint_trace_supported": true,
+      "pipeline_id": "pixelate_strong_v1",
+      "quality_bin": "challenging"
+    },
+    {
+      "bounds": [
+        {
+          "attacker_id": "synthetic_identity_attacker_fixture",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.7,
+          "risk_type": "identity",
+          "subject_count": 84,
+          "threshold_id": "synthetic_pre_registered_threshold_v1",
+          "ucb": 0.066
+        },
+        {
+          "attacker_id": "synthetic_verification_attacker_fixture",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.7,
+          "risk_type": "verification",
+          "subject_count": 84,
+          "threshold_id": "synthetic_pre_registered_threshold_v1",
+          "ucb": 0.075
+        },
+        {
+          "attacker_id": "synthetic_link_attacker_fixture",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.7,
+          "risk_type": "link",
+          "subject_count": 84,
+          "threshold_id": "synthetic_pre_registered_threshold_v1",
+          "ucb": 0.09
+        }
+      ],
+      "device_type": "vehicle_cpu_class_b",
+      "joint_trace_supported": true,
+      "pipeline_id": "pixelate_strong_v1",
+      "quality_bin": "challenging"
+    },
+    {
+      "bounds": [
+        {
+          "attacker_id": "synthetic_identity_attacker_fixture",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.82,
+          "risk_type": "identity",
+          "subject_count": 96,
+          "threshold_id": "synthetic_pre_registered_threshold_v1",
+          "ucb": 0.06
+        },
+        {
+          "attacker_id": "synthetic_verification_attacker_fixture",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.82,
+          "risk_type": "verification",
+          "subject_count": 96,
+          "threshold_id": "synthetic_pre_registered_threshold_v1",
+          "ucb": 0.07
+        },
+        {
+          "attacker_id": "synthetic_link_attacker_fixture",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.82,
+          "risk_type": "link",
+          "subject_count": 96,
+          "threshold_id": "synthetic_pre_registered_threshold_v1",
+          "ucb": 0.082
+        }
+      ],
+      "device_type": "vehicle_gpu_class_a",
+      "joint_trace_supported": true,
+      "pipeline_id": "blur_balanced_v1",
+      "quality_bin": "clear"
+    },
+    {
+      "bounds": [
+        {
+          "attacker_id": "synthetic_identity_attacker_fixture",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.81,
+          "risk_type": "identity",
+          "subject_count": 96,
+          "threshold_id": "synthetic_pre_registered_threshold_v1",
+          "ucb": 0.062
+        },
+        {
+          "attacker_id": "synthetic_verification_attacker_fixture",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.81,
+          "risk_type": "verification",
+          "subject_count": 96,
+          "threshold_id": "synthetic_pre_registered_threshold_v1",
+          "ucb": 0.072
+        },
+        {
+          "attacker_id": "synthetic_link_attacker_fixture",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.81,
+          "risk_type": "link",
+          "subject_count": 96,
+          "threshold_id": "synthetic_pre_registered_threshold_v1",
+          "ucb": 0.084
+        }
+      ],
+      "device_type": "vehicle_cpu_class_b",
+      "joint_trace_supported": true,
+      "pipeline_id": "blur_balanced_v1",
+      "quality_bin": "clear"
+    },
+    {
+      "bounds": [
+        {
+          "attacker_id": "synthetic_identity_attacker_fixture",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.71,
+          "risk_type": "identity",
+          "subject_count": 84,
+          "threshold_id": "synthetic_pre_registered_threshold_v1",
+          "ucb": 0.125
+        },
+        {
+          "attacker_id": "synthetic_verification_attacker_fixture",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.71,
+          "risk_type": "verification",
+          "subject_count": 84,
+          "threshold_id": "synthetic_pre_registered_threshold_v1",
+          "ucb": 0.142
+        },
+        {
+          "attacker_id": "synthetic_link_attacker_fixture",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.71,
+          "risk_type": "link",
+          "subject_count": 84,
+          "threshold_id": "synthetic_pre_registered_threshold_v1",
+          "ucb": 0.168
+        }
+      ],
+      "device_type": "vehicle_gpu_class_a",
+      "joint_trace_supported": true,
+      "pipeline_id": "blur_balanced_v1",
+      "quality_bin": "challenging"
+    },
+    {
+      "bounds": [
+        {
+          "attacker_id": "synthetic_identity_attacker_fixture",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.7,
+          "risk_type": "identity",
+          "subject_count": 84,
+          "threshold_id": "synthetic_pre_registered_threshold_v1",
+          "ucb": 0.127
+        },
+        {
+          "attacker_id": "synthetic_verification_attacker_fixture",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.7,
+          "risk_type": "verification",
+          "subject_count": 84,
+          "threshold_id": "synthetic_pre_registered_threshold_v1",
+          "ucb": 0.144
+        },
+        {
+          "attacker_id": "synthetic_link_attacker_fixture",
+          "confidence_error": 0.05,
+          "emission_lcb": 0.7,
+          "risk_type": "link",
+          "subject_count": 84,
+          "threshold_id": "synthetic_pre_registered_threshold_v1",
+          "ucb": 0.17
+        }
+      ],
+      "device_type": "vehicle_cpu_class_b",
+      "joint_trace_supported": true,
+      "pipeline_id": "blur_balanced_v1",
+      "quality_bin": "challenging"
+    }
+  ],
+  "privacy_policy": {
+    "confidence_error": 0.05,
+    "interpretation": "Synthetic development fixture only. Even for measured profiles, a safe result would mean only an empirical subject-level bound for the frozen population and pre-registered attackers.",
+    "min_emission_lcb": 0.6,
+    "min_subjects": 64,
+    "registered_risk_types": [
+      "identity",
+      "verification",
+      "link"
+    ],
+    "risk_threshold": 0.1
+  },
+  "profile_hash": "d33e14fbfaf7e8a36211b8a546f3441bcd9733bb0f59602aeccc7dd5c50641d0",
+  "profile_version": "synthetic-1.0.0",
+  "protocol_version": "anon-fer/1.0",
+  "quality_bins": [
+    "clear",
+    "challenging"
+  ],
+  "schema_version": "1.0.0"
+}

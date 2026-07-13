@@ -1,0 +1,881 @@
+{
+  "analysis": "hard_mask_safety_counterfactual",
+  "counterfactual_only": true,
+  "decisions": [
+    {
+      "allowed_reference_action_id": "RAW|LOCAL|local_fer_numerical_v1|||",
+      "allowed_reference_expected_cost": 1.4622419520334966,
+      "comparison_status": "COMPARED",
+      "rejected_seemingly_better": [
+        {
+          "action_id": "RAW|PIPE||pixelate_weak_numerical_v1||",
+          "cost_advantage": 1.0541001558699639,
+          "expected_cost": 0.40814179616353274,
+          "reason_codes": [
+            "OOD"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||pixelate_medium_numerical_v1||",
+          "cost_advantage": 1.0316204625469492,
+          "expected_cost": 0.43062148948654744,
+          "reason_codes": [
+            "OOD"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||blur_weak_numerical_v1||",
+          "cost_advantage": 0.9779987326894877,
+          "expected_cost": 0.48424321934400893,
+          "reason_codes": [
+            "OOD"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||pixelate_strong_numerical_v1||",
+          "cost_advantage": 0.954482582753767,
+          "expected_cost": 0.5077593692797296,
+          "reason_codes": [
+            "OOD"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||blur_medium_numerical_v1||",
+          "cost_advantage": 0.9210255747213794,
+          "expected_cost": 0.5412163773121172,
+          "reason_codes": [
+            "OOD"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||blur_strong_numerical_v1||",
+          "cost_advantage": 0.8552498063049429,
+          "expected_cost": 0.6069921457285538,
+          "reason_codes": [
+            "OOD"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||generative_weak_numerical_v1||",
+          "cost_advantage": 0.436588612157911,
+          "expected_cost": 1.0256533398755856,
+          "reason_codes": [
+            "OOD"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||generative_medium_numerical_v1||",
+          "cost_advantage": 0.33170101001962693,
+          "expected_cost": 1.1305409420138697,
+          "reason_codes": [
+            "OOD"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||generative_strong_numerical_v1||",
+          "cost_advantage": 0.17408489430211915,
+          "expected_cost": 1.2881570577313775,
+          "reason_codes": [
+            "OOD"
+          ]
+        }
+      ],
+      "stage": "RAW",
+      "task_id": "test-task-00000"
+    },
+    {
+      "allowed_reference_action_id": "RAW|LOCAL|local_fer_numerical_v1|||",
+      "allowed_reference_expected_cost": 1.447404193215498,
+      "comparison_status": "COMPARED",
+      "rejected_seemingly_better": [
+        {
+          "action_id": "RAW|PIPE||pixelate_weak_numerical_v1||",
+          "cost_advantage": 1.0326472241335336,
+          "expected_cost": 0.4147569690819643,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||pixelate_medium_numerical_v1||",
+          "cost_advantage": 0.971275346705872,
+          "expected_cost": 0.47612884650962595,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||blur_weak_numerical_v1||",
+          "cost_advantage": 0.9455743731824127,
+          "expected_cost": 0.5018298200330853,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||pixelate_strong_numerical_v1||",
+          "cost_advantage": 0.8978293254983075,
+          "expected_cost": 0.5495748677171904,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||blur_medium_numerical_v1||",
+          "cost_advantage": 0.8816252708335709,
+          "expected_cost": 0.5657789223819271,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||blur_strong_numerical_v1||",
+          "cost_advantage": 0.7752963155102316,
+          "expected_cost": 0.6721078777052664,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||generative_weak_numerical_v1||",
+          "cost_advantage": 0.42102659560000655,
+          "expected_cost": 1.0263775976154914,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||generative_medium_numerical_v1||",
+          "cost_advantage": 0.2092387055082936,
+          "expected_cost": 1.2381654877072044,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        }
+      ],
+      "stage": "RAW",
+      "task_id": "test-task-00001"
+    },
+    {
+      "allowed_reference_action_id": "RAW|LOCAL|local_fer_numerical_v1|||",
+      "allowed_reference_expected_cost": 1.298208840200466,
+      "comparison_status": "COMPARED",
+      "rejected_seemingly_better": [
+        {
+          "action_id": "RAW|PIPE||pixelate_weak_numerical_v1||",
+          "cost_advantage": 0.904993597127231,
+          "expected_cost": 0.39321524307323485,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||pixelate_medium_numerical_v1||",
+          "cost_advantage": 0.8734236258043802,
+          "expected_cost": 0.4247852143960858,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||blur_weak_numerical_v1||",
+          "cost_advantage": 0.8218051100705429,
+          "expected_cost": 0.476403730129923,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||pixelate_strong_numerical_v1||",
+          "cost_advantage": 0.8119549384485606,
+          "expected_cost": 0.4862539017519053,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||blur_medium_numerical_v1||",
+          "cost_advantage": 0.7603013890602044,
+          "expected_cost": 0.5379074511402615,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||blur_strong_numerical_v1||",
+          "cost_advantage": 0.6878324054115218,
+          "expected_cost": 0.6103764347889441,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||generative_weak_numerical_v1||",
+          "cost_advantage": 0.38362484986826584,
+          "expected_cost": 0.9145839903322001,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||generative_medium_numerical_v1||",
+          "cost_advantage": 0.20642017284112502,
+          "expected_cost": 1.0917886673593409,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||generative_strong_numerical_v1||",
+          "cost_advantage": 0.04969509689305074,
+          "expected_cost": 1.2485137433074152,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        }
+      ],
+      "stage": "RAW",
+      "task_id": "test-task-00002"
+    },
+    {
+      "allowed_reference_action_id": "RAW|LOCAL|local_fer_numerical_v1|||",
+      "allowed_reference_expected_cost": 1.447404193215498,
+      "comparison_status": "COMPARED",
+      "rejected_seemingly_better": [
+        {
+          "action_id": "RAW|PIPE||pixelate_weak_numerical_v1||",
+          "cost_advantage": 1.0326472241335336,
+          "expected_cost": 0.4147569690819643,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||pixelate_medium_numerical_v1||",
+          "cost_advantage": 0.971275346705872,
+          "expected_cost": 0.47612884650962595,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||blur_weak_numerical_v1||",
+          "cost_advantage": 0.9455743731824127,
+          "expected_cost": 0.5018298200330853,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||pixelate_strong_numerical_v1||",
+          "cost_advantage": 0.8978293254983075,
+          "expected_cost": 0.5495748677171904,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||blur_medium_numerical_v1||",
+          "cost_advantage": 0.8816252708335709,
+          "expected_cost": 0.5657789223819271,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||blur_strong_numerical_v1||",
+          "cost_advantage": 0.7752963155102316,
+          "expected_cost": 0.6721078777052664,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||generative_weak_numerical_v1||",
+          "cost_advantage": 0.42102659560000655,
+          "expected_cost": 1.0263775976154914,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||generative_medium_numerical_v1||",
+          "cost_advantage": 0.2092387055082936,
+          "expected_cost": 1.2381654877072044,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        }
+      ],
+      "stage": "RAW",
+      "task_id": "test-task-00003"
+    },
+    {
+      "allowed_reference_action_id": "RAW|LOCAL|local_fer_numerical_v1|||",
+      "allowed_reference_expected_cost": 1.4622419520334966,
+      "comparison_status": "COMPARED",
+      "rejected_seemingly_better": [
+        {
+          "action_id": "RAW|PIPE||pixelate_weak_numerical_v1||",
+          "cost_advantage": 1.0541001558699639,
+          "expected_cost": 0.40814179616353274,
+          "reason_codes": [
+            "OOD"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||pixelate_medium_numerical_v1||",
+          "cost_advantage": 1.0316204625469492,
+          "expected_cost": 0.43062148948654744,
+          "reason_codes": [
+            "OOD"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||blur_weak_numerical_v1||",
+          "cost_advantage": 0.9779987326894877,
+          "expected_cost": 0.48424321934400893,
+          "reason_codes": [
+            "OOD"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||pixelate_strong_numerical_v1||",
+          "cost_advantage": 0.954482582753767,
+          "expected_cost": 0.5077593692797296,
+          "reason_codes": [
+            "OOD"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||blur_medium_numerical_v1||",
+          "cost_advantage": 0.9210255747213794,
+          "expected_cost": 0.5412163773121172,
+          "reason_codes": [
+            "OOD"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||blur_strong_numerical_v1||",
+          "cost_advantage": 0.8552498063049429,
+          "expected_cost": 0.6069921457285538,
+          "reason_codes": [
+            "OOD"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||generative_weak_numerical_v1||",
+          "cost_advantage": 0.436588612157911,
+          "expected_cost": 1.0256533398755856,
+          "reason_codes": [
+            "OOD"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||generative_medium_numerical_v1||",
+          "cost_advantage": 0.33170101001962693,
+          "expected_cost": 1.1305409420138697,
+          "reason_codes": [
+            "OOD"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||generative_strong_numerical_v1||",
+          "cost_advantage": 0.17408489430211915,
+          "expected_cost": 1.2881570577313775,
+          "reason_codes": [
+            "OOD"
+          ]
+        }
+      ],
+      "stage": "RAW",
+      "task_id": "test-task-00004"
+    },
+    {
+      "allowed_reference_action_id": "RAW|LOCAL|local_fer_numerical_v1|||",
+      "allowed_reference_expected_cost": 1.447404193215498,
+      "comparison_status": "COMPARED",
+      "rejected_seemingly_better": [
+        {
+          "action_id": "RAW|PIPE||pixelate_weak_numerical_v1||",
+          "cost_advantage": 1.0310676348048156,
+          "expected_cost": 0.4163365584106823,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||pixelate_medium_numerical_v1||",
+          "cost_advantage": 0.9944493992509569,
+          "expected_cost": 0.45295479396454114,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||blur_weak_numerical_v1||",
+          "cost_advantage": 0.9123377501144958,
+          "expected_cost": 0.5350664431010022,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||pixelate_strong_numerical_v1||",
+          "cost_advantage": 0.90797389628941,
+          "expected_cost": 0.5394302969260879,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||blur_medium_numerical_v1||",
+          "cost_advantage": 0.8605509462025948,
+          "expected_cost": 0.5868532470129032,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||blur_strong_numerical_v1||",
+          "cost_advantage": 0.7656835833793492,
+          "expected_cost": 0.6817206098361488,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||generative_weak_numerical_v1||",
+          "cost_advantage": 0.3817890097354528,
+          "expected_cost": 1.0656151834800451,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||generative_medium_numerical_v1||",
+          "cost_advantage": 0.24782014734700852,
+          "expected_cost": 1.1995840458684894,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||generative_strong_numerical_v1||",
+          "cost_advantage": 0.037127462236625774,
+          "expected_cost": 1.4102767309788722,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        }
+      ],
+      "stage": "RAW",
+      "task_id": "test-task-00005"
+    },
+    {
+      "allowed_reference_action_id": "RAW|LOCAL|local_fer_numerical_v1|||",
+      "allowed_reference_expected_cost": 1.1825311367946951,
+      "comparison_status": "COMPARED",
+      "rejected_seemingly_better": [
+        {
+          "action_id": "RAW|PIPE||pixelate_weak_numerical_v1||",
+          "cost_advantage": 0.794931683393856,
+          "expected_cost": 0.3875994534008391,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||pixelate_medium_numerical_v1||",
+          "cost_advantage": 0.7535074623223539,
+          "expected_cost": 0.42902367447234124,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||blur_weak_numerical_v1||",
+          "cost_advantage": 0.7108700545497593,
+          "expected_cost": 0.47166108224493586,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||pixelate_strong_numerical_v1||",
+          "cost_advantage": 0.686666223662079,
+          "expected_cost": 0.49586491313261616,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||blur_medium_numerical_v1||",
+          "cost_advantage": 0.651448480399675,
+          "expected_cost": 0.5310826563950202,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||blur_strong_numerical_v1||",
+          "cost_advantage": 0.6005235218797373,
+          "expected_cost": 0.5820076149149578,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||generative_weak_numerical_v1||",
+          "cost_advantage": 0.2732005903023522,
+          "expected_cost": 0.9093305464923429,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||generative_medium_numerical_v1||",
+          "cost_advantage": 0.09963214604198711,
+          "expected_cost": 1.082898990752708,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        }
+      ],
+      "stage": "RAW",
+      "task_id": "test-task-00006"
+    },
+    {
+      "allowed_reference_action_id": "RAW|LOCAL|local_fer_numerical_v1|||",
+      "allowed_reference_expected_cost": 1.447404193215498,
+      "comparison_status": "COMPARED",
+      "rejected_seemingly_better": [
+        {
+          "action_id": "RAW|PIPE||pixelate_weak_numerical_v1||",
+          "cost_advantage": 1.0310676348048156,
+          "expected_cost": 0.4163365584106823,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||pixelate_medium_numerical_v1||",
+          "cost_advantage": 0.9944493992509569,
+          "expected_cost": 0.45295479396454114,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||blur_weak_numerical_v1||",
+          "cost_advantage": 0.9123377501144958,
+          "expected_cost": 0.5350664431010022,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||pixelate_strong_numerical_v1||",
+          "cost_advantage": 0.90797389628941,
+          "expected_cost": 0.5394302969260879,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||blur_medium_numerical_v1||",
+          "cost_advantage": 0.8605509462025948,
+          "expected_cost": 0.5868532470129032,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||blur_strong_numerical_v1||",
+          "cost_advantage": 0.7656835833793492,
+          "expected_cost": 0.6817206098361488,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||generative_weak_numerical_v1||",
+          "cost_advantage": 0.3817890097354528,
+          "expected_cost": 1.0656151834800451,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||generative_medium_numerical_v1||",
+          "cost_advantage": 0.24782014734700852,
+          "expected_cost": 1.1995840458684894,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||generative_strong_numerical_v1||",
+          "cost_advantage": 0.037127462236625774,
+          "expected_cost": 1.4102767309788722,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        }
+      ],
+      "stage": "RAW",
+      "task_id": "test-task-00007"
+    },
+    {
+      "allowed_reference_action_id": "RAW|LOCAL|local_fer_numerical_v1|||",
+      "allowed_reference_expected_cost": 1.4380642478198666,
+      "comparison_status": "COMPARED",
+      "rejected_seemingly_better": [
+        {
+          "action_id": "RAW|PIPE||pixelate_weak_numerical_v1||",
+          "cost_advantage": 1.0360360631686552,
+          "expected_cost": 0.40202818465121154,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||pixelate_medium_numerical_v1||",
+          "cost_advantage": 1.0059949759059996,
+          "expected_cost": 0.43206927191386707,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||blur_weak_numerical_v1||",
+          "cost_advantage": 0.9676884988008737,
+          "expected_cost": 0.47037574901899293,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||pixelate_strong_numerical_v1||",
+          "cost_advantage": 0.9313341311578406,
+          "expected_cost": 0.506730116662026,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||blur_medium_numerical_v1||",
+          "cost_advantage": 0.8950349963761902,
+          "expected_cost": 0.5430292514436764,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||blur_strong_numerical_v1||",
+          "cost_advantage": 0.8177644410215764,
+          "expected_cost": 0.6202998067982902,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||generative_weak_numerical_v1||",
+          "cost_advantage": 0.46849863893822263,
+          "expected_cost": 0.969565608881644,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||generative_medium_numerical_v1||",
+          "cost_advantage": 0.2914013704763392,
+          "expected_cost": 1.1466628773435275,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||generative_strong_numerical_v1||",
+          "cost_advantage": 0.1347771141486689,
+          "expected_cost": 1.3032871336711978,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        }
+      ],
+      "stage": "RAW",
+      "task_id": "test-task-00008"
+    },
+    {
+      "allowed_reference_action_id": "RAW|LOCAL|local_fer_numerical_v1|||",
+      "allowed_reference_expected_cost": 1.447404193215498,
+      "comparison_status": "COMPARED",
+      "rejected_seemingly_better": [
+        {
+          "action_id": "RAW|PIPE||pixelate_weak_numerical_v1||",
+          "cost_advantage": 1.0332170184406864,
+          "expected_cost": 0.41418717477481154,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||pixelate_medium_numerical_v1||",
+          "cost_advantage": 0.9929619591652824,
+          "expected_cost": 0.45444223405021555,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||blur_weak_numerical_v1||",
+          "cost_advantage": 0.9444681001526494,
+          "expected_cost": 0.5029360930628486,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||pixelate_strong_numerical_v1||",
+          "cost_advantage": 0.9099606163377637,
+          "expected_cost": 0.5374435768777343,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||blur_medium_numerical_v1||",
+          "cost_advantage": 0.8813356107471328,
+          "expected_cost": 0.5660685824683651,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||blur_strong_numerical_v1||",
+          "cost_advantage": 0.7922574902627789,
+          "expected_cost": 0.655146702952719,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||generative_weak_numerical_v1||",
+          "cost_advantage": 0.35404063839348465,
+          "expected_cost": 1.0933635548220133,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||generative_medium_numerical_v1||",
+          "cost_advantage": 0.20493328964042545,
+          "expected_cost": 1.2424709035750725,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||generative_strong_numerical_v1||",
+          "cost_advantage": 0.07362916877402226,
+          "expected_cost": 1.3737750244414757,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        }
+      ],
+      "stage": "RAW",
+      "task_id": "test-task-00009"
+    },
+    {
+      "allowed_reference_action_id": "RAW|LOCAL|local_fer_numerical_v1|||",
+      "allowed_reference_expected_cost": 1.1825311367946951,
+      "comparison_status": "COMPARED",
+      "rejected_seemingly_better": [
+        {
+          "action_id": "RAW|PIPE||pixelate_weak_numerical_v1||",
+          "cost_advantage": 0.8020112383001046,
+          "expected_cost": 0.38051989849459056,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||pixelate_medium_numerical_v1||",
+          "cost_advantage": 0.7642945234437797,
+          "expected_cost": 0.41823661335091544,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||blur_weak_numerical_v1||",
+          "cost_advantage": 0.7090963814043867,
+          "expected_cost": 0.47343475539030844,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||pixelate_strong_numerical_v1||",
+          "cost_advantage": 0.687890605980715,
+          "expected_cost": 0.4946405308139801,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||blur_medium_numerical_v1||",
+          "cost_advantage": 0.6631975253409546,
+          "expected_cost": 0.5193336114537406,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||blur_strong_numerical_v1||",
+          "cost_advantage": 0.5879016349815238,
+          "expected_cost": 0.5946295018131713,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||generative_weak_numerical_v1||",
+          "cost_advantage": 0.25800418050402385,
+          "expected_cost": 0.9245269562906713,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||generative_medium_numerical_v1||",
+          "cost_advantage": 0.14215677285241823,
+          "expected_cost": 1.040374363942277,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        }
+      ],
+      "stage": "RAW",
+      "task_id": "test-task-00010"
+    }
+  ],
+  "hard_mask_bypassed": false,
+  "input_sha256": "d89e5b6f97be5ce07fd8a38fc816b706c175b8ba2627c672d108501f074ba8f6",
+  "mask_count": 11,
+  "reason_counts": {
+    "OOD": 24,
+    "PRIVACY_RISK": 108
+  },
+  "rejected_action_count": 132,
+  "rejected_seemingly_better_count": 95,
+  "rejected_with_cost_unavailable": 0,
+  "report_sha256": "71eba5f48b9da9da105da30866d2869d1c8e7ac50d0e4cd5a8e51d5f65dabc0d",
+  "schema_version": "1.0",
+  "units": {
+    "expected_cost": "normalized_cost"
+  },
+  "unsafe_actions_executed_by_audit": 0
+}

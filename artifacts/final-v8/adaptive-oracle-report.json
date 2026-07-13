@@ -1,0 +1,51 @@
+{
+  "analysis": "exact_adaptive_scenario_tree_ratio_oracle",
+  "complexity": {
+    "candidate_policies": 8,
+    "evaluated_policies": 8,
+    "hard_safe_policies": 8,
+    "max_policies": 64,
+    "observation_node_count": 3,
+    "stable_node_order": [
+      "raw",
+      "ready-large",
+      "ready-small"
+    ],
+    "terminal_action_count": 5,
+    "wallclock_reported": false,
+    "wallclock_used_in_simulation": false
+  },
+  "esl": {
+    "absolute_gap": 0.20824931904206068,
+    "contingent_policy": {
+      "raw": "pipeline-a",
+      "ready-large": "fallback-local",
+      "ready-small": "edge"
+    },
+    "expected_cost": 0.7645,
+    "expected_duration_s": 0.1745,
+    "ratio": 4.3810888252149,
+    "relative_gap": 0.04990590190061218
+  },
+  "hard_mask_bypassed": false,
+  "input_file_sha256": "a91cfedb31eb8e43ae800b5d174335a985f7f737ed94cf2774b76b1bc8ebf774",
+  "input_sha256": "614d5a2e4641b9068001745a79e7d5164796a96e362d07964404a431b29c269f",
+  "optimum": {
+    "contingent_policy": {
+      "raw": "pipeline-a",
+      "ready-large": "edge",
+      "ready-small": "edge"
+    },
+    "exact_ratio": 4.172839506172839,
+    "expected_cost": 0.845,
+    "expected_duration_s": 0.2025
+  },
+  "oracle_scope": "explicit_observation_node_contingent_policy",
+  "report_sha256": "ed36f4d031e07b2fcb6543bb72e853d2c8235758c8ae4e4359165b1a6898b0fc",
+  "schema_version": "1.0",
+  "units": {
+    "cost": "normalized_cost",
+    "duration": "s",
+    "ratio": "normalized_cost/s"
+  }
+}

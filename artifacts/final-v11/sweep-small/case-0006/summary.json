@@ -1,0 +1,476 @@
+{
+  "all_task_loss": 0.7144495985,
+  "all_task_loss_available_count": 8,
+  "all_task_loss_complete": true,
+  "controller_diagnostics": {
+    "note": "engineering diagnostic only; excluded from simulated time and core_digest",
+    "sample_count": 10,
+    "wall_clock_max_s": 0.9202877,
+    "wall_clock_mean_s": 0.4531864,
+    "wall_clock_p50_s": 0.35887995,
+    "wall_clock_p95_s": 0.8147300749999997,
+    "wall_clock_total_s": 4.531864
+  },
+  "cost_latency_s": {
+    "count": 8,
+    "max": 1.35,
+    "mean": 0.8400003638499695,
+    "min": 0.21891154999999962,
+    "p50": 1.0,
+    "p95": 1.35,
+    "p99": 1.35
+  },
+  "coverage": 0.375,
+  "done_count": 3,
+  "energy_j": {
+    "physical_system": {
+      "rsu": 777.2326879023199,
+      "rsu_by_id": {
+        "rsu-1": 434.92607999999996,
+        "rsu-2": 342.3066079023199
+      },
+      "total": 870.4993890744112,
+      "vehicle": 93.26670117209132,
+      "vehicle_by_id": {
+        "veh-1": 53.91115048973839,
+        "veh-2": 39.35555068235293
+      }
+    },
+    "task_attributed": {
+      "rsu": 2.099487902319901,
+      "total": 10.314409074411236,
+      "vehicle": 8.214921172091335
+    }
+  },
+  "fail_count": 5,
+  "failure_rate": 0.625,
+  "failure_reasons": {
+    "POLICY_EXPLICIT_FAIL": 4,
+    "PREP_FAILED": 1
+  },
+  "invariant_check_count": 73,
+  "invariant_failure_count": 0,
+  "latency_p50_s": 0.05116117647058793,
+  "latency_p95_s": 0.3114592958872406,
+  "latency_p99_s": 0.33183137813031754,
+  "metric_semantics": {
+    "all_task_loss": "DONE FER loss; FAIL uses frozen config.cost.failure_loss",
+    "cost_latency_s": "DONE latency, otherwise the configured relative deadline",
+    "energy": "task attribution is distinct from independent physical system energy",
+    "terminal_latency_s": "terminal_time-arrival_time for every terminal task"
+  },
+  "nonterminal_count": 0,
+  "resources": {
+    "max_residual_work_s": 0.18,
+    "max_utilization": 0.08895186625239626,
+    "max_waiting_jobs": 0,
+    "mean_utilization": 0.015437795499573373,
+    "pool_count": 10,
+    "pools": {
+      "rsu/rsu-1/rsu-1:gpu": {
+        "busy_server_seconds": 0.17999999999999972,
+        "cancelled_job_count": 0,
+        "completed_job_count": 1,
+        "job_count": 1,
+        "max_residual_work_s": 0.18,
+        "max_running_observed": 1,
+        "max_waiting_jobs": 0,
+        "owner_id": "rsu-1",
+        "owner_type": "rsu",
+        "resource_id": "rsu-1:gpu",
+        "resource_kind": "rsu_gpu",
+        "server_count": 2,
+        "service_s": {
+          "count": 1,
+          "max": 0.17999999999999972,
+          "mean": 0.17999999999999972,
+          "min": 0.17999999999999972,
+          "p50": 0.17999999999999972,
+          "p95": 0.17999999999999972,
+          "p99": 0.17999999999999972
+        },
+        "utilization": 0.015343594219897548,
+        "wait_s": {
+          "count": 1,
+          "max": 0.0,
+          "mean": 0.0,
+          "min": 0.0,
+          "p50": 0.0,
+          "p95": 0.0,
+          "p99": 0.0
+        }
+      },
+      "rsu/rsu-1/rsu-1:ingress": {
+        "busy_server_seconds": 0.0,
+        "cancelled_job_count": 0,
+        "completed_job_count": 0,
+        "job_count": 0,
+        "max_residual_work_s": 0.0,
+        "max_running_observed": 0,
+        "max_waiting_jobs": 0,
+        "owner_id": "rsu-1",
+        "owner_type": "rsu",
+        "resource_id": "rsu-1:ingress",
+        "resource_kind": "rsu_ingress_cpu",
+        "server_count": 1,
+        "service_s": {
+          "count": 0,
+          "max": null,
+          "mean": null,
+          "min": null,
+          "p50": null,
+          "p95": null,
+          "p99": null
+        },
+        "utilization": 0.0,
+        "wait_s": {
+          "count": 0,
+          "max": null,
+          "mean": null,
+          "min": null,
+          "p50": null,
+          "p95": null,
+          "p99": null
+        }
+      },
+      "rsu/rsu-2/rsu-2:gpu": {
+        "busy_server_seconds": 0.04031999999999997,
+        "cancelled_job_count": 0,
+        "completed_job_count": 2,
+        "job_count": 2,
+        "max_residual_work_s": 0.02352,
+        "max_running_observed": 1,
+        "max_waiting_jobs": 0,
+        "owner_id": "rsu-2",
+        "owner_type": "rsu",
+        "resource_id": "rsu-2:gpu",
+        "resource_kind": "rsu_gpu",
+        "server_count": 1,
+        "service_s": {
+          "count": 2,
+          "max": 0.023519999999999985,
+          "mean": 0.020159999999999983,
+          "min": 0.01679999999999998,
+          "p50": 0.020159999999999983,
+          "p95": 0.023183999999999986,
+          "p99": 0.023452799999999985
+        },
+        "utilization": 0.006873930210514107,
+        "wait_s": {
+          "count": 2,
+          "max": 0.0,
+          "mean": 0.0,
+          "min": 0.0,
+          "p50": 0.0,
+          "p95": 0.0,
+          "p99": 0.0
+        }
+      },
+      "rsu/rsu-2/rsu-2:ingress": {
+        "busy_server_seconds": 0.006400000000000072,
+        "cancelled_job_count": 0,
+        "completed_job_count": 2,
+        "job_count": 2,
+        "max_residual_work_s": 0.0032,
+        "max_running_observed": 1,
+        "max_waiting_jobs": 0,
+        "owner_id": "rsu-2",
+        "owner_type": "rsu",
+        "resource_id": "rsu-2:ingress",
+        "resource_kind": "rsu_ingress_cpu",
+        "server_count": 1,
+        "service_s": {
+          "count": 2,
+          "max": 0.0032000000000000917,
+          "mean": 0.003200000000000036,
+          "min": 0.0031999999999999806,
+          "p50": 0.003200000000000036,
+          "p95": 0.003200000000000086,
+          "p99": 0.003200000000000091
+        },
+        "utilization": 0.001091100033414951,
+        "wait_s": {
+          "count": 2,
+          "max": 0.0,
+          "mean": 0.0,
+          "min": 0.0,
+          "p50": 0.0,
+          "p95": 0.0,
+          "p99": 0.0
+        }
+      },
+      "vehicle/veh-1/veh-1:accelerator": {
+        "busy_server_seconds": 0.5217596247647056,
+        "cancelled_job_count": 0,
+        "completed_job_count": 10,
+        "job_count": 10,
+        "max_residual_work_s": 0.09343128,
+        "max_running_observed": 1,
+        "max_waiting_jobs": 0,
+        "owner_id": "veh-1",
+        "owner_type": "vehicle",
+        "resource_id": "veh-1:accelerator",
+        "resource_kind": "accelerator",
+        "server_count": 1,
+        "service_s": {
+          "count": 10,
+          "max": 0.10033115735294107,
+          "mean": 0.052175962476470564,
+          "min": 0.020999999999999908,
+          "p50": 0.05231660097058816,
+          "p95": 0.09722621254411759,
+          "p99": 0.09971016839117637
+        },
+        "utilization": 0.08895186625239626,
+        "wait_s": {
+          "count": 10,
+          "max": 0.0,
+          "mean": 0.0,
+          "min": 0.0,
+          "p50": 0.0,
+          "p95": 0.0,
+          "p99": 0.0
+        }
+      },
+      "vehicle/veh-1/veh-1:cpu": {
+        "busy_server_seconds": 0.04120588235294115,
+        "cancelled_job_count": 0,
+        "completed_job_count": 4,
+        "job_count": 4,
+        "max_residual_work_s": 0.01,
+        "max_running_observed": 1,
+        "max_waiting_jobs": 0,
+        "owner_id": "veh-1",
+        "owner_type": "vehicle",
+        "resource_id": "veh-1:cpu",
+        "resource_kind": "cpu",
+        "server_count": 1,
+        "service_s": {
+          "count": 4,
+          "max": 0.014705882352941124,
+          "mean": 0.010301470588235287,
+          "min": 0.008000000000000007,
+          "p50": 0.009250000000000008,
+          "p95": 0.013999999999999955,
+          "p99": 0.01456470588235289
+        },
+        "utilization": 0.00702495931440408,
+        "wait_s": {
+          "count": 4,
+          "max": 0.0,
+          "mean": 0.0,
+          "min": 0.0,
+          "p50": 0.0,
+          "p95": 0.0,
+          "p99": 0.0
+        }
+      },
+      "vehicle/veh-1/veh-1:encoder": {
+        "busy_server_seconds": 0.029117647882352937,
+        "cancelled_job_count": 0,
+        "completed_job_count": 3,
+        "job_count": 3,
+        "max_residual_work_s": 0.008466667,
+        "max_running_observed": 1,
+        "max_waiting_jobs": 0,
+        "owner_id": "veh-1",
+        "owner_type": "vehicle",
+        "resource_id": "veh-1:encoder",
+        "resource_kind": "encoder",
+        "server_count": 1,
+        "service_s": {
+          "count": 3,
+          "max": 0.012450980882352969,
+          "mean": 0.009705882627450979,
+          "min": 0.008199999999999985,
+          "p50": 0.008466666999999983,
+          "p95": 0.01205254949411767,
+          "p99": 0.012371294604705908
+        },
+        "utilization": 0.004964104152718704,
+        "wait_s": {
+          "count": 3,
+          "max": 0.0,
+          "mean": 0.0,
+          "min": 0.0,
+          "p50": 0.0,
+          "p95": 0.0,
+          "p99": 0.0
+        }
+      },
+      "vehicle/veh-2/veh-2:accelerator": {
+        "busy_server_seconds": 0.17672235294117608,
+        "cancelled_job_count": 0,
+        "completed_job_count": 4,
+        "job_count": 4,
+        "max_residual_work_s": 0.04484,
+        "max_running_observed": 1,
+        "max_waiting_jobs": 0,
+        "owner_id": "veh-2",
+        "owner_type": "vehicle",
+        "resource_id": "veh-2:accelerator",
+        "resource_kind": "accelerator",
+        "server_count": 1,
+        "service_s": {
+          "count": 4,
+          "max": 0.05588235294117627,
+          "mean": 0.04418058823529402,
+          "min": 0.038000000000000006,
+          "p50": 0.0414199999999999,
+          "p95": 0.054225999999999795,
+          "p99": 0.05555108235294098
+        },
+        "utilization": 0.03012840081238809,
+        "wait_s": {
+          "count": 4,
+          "max": 0.0,
+          "mean": 0.0,
+          "min": 0.0,
+          "p50": 0.0,
+          "p95": 0.0,
+          "p99": 0.0
+        }
+      },
+      "vehicle/veh-2/veh-2:cpu": {
+        "busy_server_seconds": 0.0,
+        "cancelled_job_count": 0,
+        "completed_job_count": 0,
+        "job_count": 0,
+        "max_residual_work_s": 0.0,
+        "max_running_observed": 0,
+        "max_waiting_jobs": 0,
+        "owner_id": "veh-2",
+        "owner_type": "vehicle",
+        "resource_id": "veh-2:cpu",
+        "resource_kind": "cpu",
+        "server_count": 1,
+        "service_s": {
+          "count": 0,
+          "max": null,
+          "mean": null,
+          "min": null,
+          "p50": null,
+          "p95": null,
+          "p99": null
+        },
+        "utilization": 0.0,
+        "wait_s": {
+          "count": 0,
+          "max": null,
+          "mean": null,
+          "min": null,
+          "p50": null,
+          "p95": null,
+          "p99": null
+        }
+      },
+      "vehicle/veh-2/veh-2:encoder": {
+        "busy_server_seconds": 0.0,
+        "cancelled_job_count": 0,
+        "completed_job_count": 0,
+        "job_count": 0,
+        "max_residual_work_s": 0.0,
+        "max_running_observed": 0,
+        "max_waiting_jobs": 0,
+        "owner_id": "veh-2",
+        "owner_type": "vehicle",
+        "resource_id": "veh-2:encoder",
+        "resource_kind": "encoder",
+        "server_count": 1,
+        "service_s": {
+          "count": 0,
+          "max": null,
+          "mean": null,
+          "min": null,
+          "p50": null,
+          "p95": null,
+          "p99": null
+        },
+        "utilization": 0.0,
+        "wait_s": {
+          "count": 0,
+          "max": null,
+          "mean": null,
+          "min": null,
+          "p50": null,
+          "p95": null,
+          "p99": null
+        }
+      }
+    }
+  },
+  "selected_path_fer_classification": {
+    "accuracy": null,
+    "balanced_accuracy": null,
+    "by_route": {
+      "edge": {
+        "accuracy": null,
+        "balanced_accuracy": null,
+        "expected_calibration_error": null,
+        "macro_f1": null,
+        "negative_log_likelihood": null,
+        "per_class_recall": {},
+        "sample_count": 0
+      },
+      "local": {
+        "accuracy": null,
+        "balanced_accuracy": null,
+        "expected_calibration_error": null,
+        "macro_f1": null,
+        "negative_log_likelihood": null,
+        "per_class_recall": {},
+        "sample_count": 0
+      }
+    },
+    "expected_calibration_error": null,
+    "macro_f1": null,
+    "missing_done_prediction_count": 3,
+    "negative_log_likelihood": null,
+    "per_class_recall": {},
+    "sample_count": 0,
+    "scope": "DONE tasks using the FER prediction on the actually selected path",
+    "subject_cluster_report": {
+      "cluster_count": 0,
+      "macro_accuracy": null,
+      "task_level_identifiers_emitted": false,
+      "unit": "subject_cluster"
+    }
+  },
+  "success_conditional_fer_available_count": 3,
+  "success_conditional_fer_loss": 0.2385322626666667,
+  "success_conditional_fer_missing_count": 0,
+  "successful_latency_s": {
+    "count": 3,
+    "max": 0.3369243986910868,
+    "mean": 0.2733343035999185,
+    "min": 0.21891154999999962,
+    "p50": 0.2641669621086691,
+    "p95": 0.3296486550328451,
+    "p99": 0.33546924995943844
+  },
+  "task_count": 8,
+  "terminal_latency_s": {
+    "count": 8,
+    "max": 0.3369243986910868,
+    "mean": 0.1276156579676164,
+    "min": 0.020999999999999908,
+    "p50": 0.05116117647058793,
+    "p95": 0.3114592958872406,
+    "p99": 0.33183137813031754
+  },
+  "timeout_count": 0,
+  "timeout_rate": 0.0,
+  "virtual_queues_final": {
+    "coverage": 3.0,
+    "failure": 3.5,
+    "rsu_power": {
+      "rsu-1": 0.0,
+      "rsu-2": 0.0
+    },
+    "timeout": 0.0,
+    "vehicle_power": {
+      "veh-1": 0.0,
+      "veh-2": 0.0
+    }
+  }
+}
