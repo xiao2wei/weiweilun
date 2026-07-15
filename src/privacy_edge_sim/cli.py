@@ -434,7 +434,14 @@ def command_generate_numerical(args: argparse.Namespace) -> int:
         scenario_subjects=args.scenario_subjects,
         task_count=args.tasks,
         horizon_s=args.horizon,
+        arrival_center_s=args.arrival_center_s,
+        arrival_window_s=args.arrival_window_s,
+        arrival_jitter_fraction=args.arrival_jitter_fraction,
         privacy_threshold=args.privacy_threshold,
+        preprocessing_failure_mode=args.preprocessing_failure_mode,
+        preprocessing_failure_count=args.preprocessing_failure_count,
+        preprocessing_failure_probability=args.preprocessing_failure_probability,
+        local_service_scale=args.local_service_scale,
         anon_time_variability_scale=args.anon_time_variability_scale,
         output_size_variability_scale=args.output_size_variability_scale,
     )
@@ -1523,7 +1530,49 @@ def build_parser() -> argparse.ArgumentParser:
     generate_numerical.add_argument("--scenario-subjects", type=int, default=48)
     generate_numerical.add_argument("--tasks", type=int, default=24)
     generate_numerical.add_argument("--horizon", type=float, default=20.0)
+    generate_numerical.add_argument(
+        "--arrival-center-s",
+        type=float,
+        default=None,
+        help="center of the explicit task-arrival window in simulated seconds",
+    )
+    generate_numerical.add_argument(
+        "--arrival-window-s",
+        type=float,
+        default=None,
+        help="width of the explicit task-arrival window in simulated seconds",
+    )
+    generate_numerical.add_argument(
+        "--arrival-jitter-fraction",
+        type=float,
+        default=None,
+        help="relative per-task jitter within an explicit arrival window",
+    )
     generate_numerical.add_argument("--privacy-threshold", type=float, default=0.35)
+    generate_numerical.add_argument(
+        "--preprocessing-failure-mode",
+        choices=("legacy_last", "none", "fixed_count", "bernoulli"),
+        default="legacy_last",
+        help="preprocessing-failure assignment; legacy_last preserves older bundles",
+    )
+    generate_numerical.add_argument(
+        "--preprocessing-failure-count",
+        type=int,
+        default=0,
+        help="number of seeded preprocessing failures when mode is fixed_count",
+    )
+    generate_numerical.add_argument(
+        "--preprocessing-failure-probability",
+        type=float,
+        default=0.0,
+        help="per-task seeded preprocessing-failure probability when mode is bernoulli",
+    )
+    generate_numerical.add_argument(
+        "--local-service-scale",
+        type=float,
+        default=1.0,
+        help="multiplicative local FER service-time scale; 1.0 preserves the baseline",
+    )
     generate_numerical.add_argument(
         "--anon-time-variability-scale",
         type=float,

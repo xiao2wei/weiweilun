@@ -3,7 +3,7 @@ from __future__ import annotations
 import copy
 import json
 import statistics
-from dataclasses import replace
+from dataclasses import asdict, replace
 from pathlib import Path
 
 import pytest
@@ -23,6 +23,7 @@ from privacy_edge_sim.numerical import (
     _privacy_evidence,
     _quality_observation,
     _quality_record,
+    _rng,
     classification_metrics,
     generate_numerical_replication,
     generate_numerical_study,
@@ -1033,3 +1034,227 @@ def test_replication_freezes_profile_evidence_and_scenarios_but_changes_environm
     assert (
         first_config["seeds"]["environment"] != changed_config["seeds"]["environment"]
     )
+
+
+def _evaluation_trace_for_spec(
+    spec: NumericalStudySpec,
+    paths,
+    evidence,
+) -> dict[str, object]:
+    """Build only the evaluation trace so protocol tests stay focused and fast."""
+
+    profile = json.loads(paths.profile_path.read_text(encoding="utf-8"))
+    subjects = tuple(evidence["split_manifest"]["splits"]["test"]["subject_ids"])
+    return _build_trace(
+        spec,
+        profile,
+        subjects,
+        evidence["quality_conformal"]["test_records"],
+        role="test",
+        trace_seed=spec.seed + 30_001,
+    )
+
+
+def _preprocessing_failure_fixtures(document: dict[str, object]) -> set[str]:
+    rows = document["prep"]
+    assert isinstance(rows, list)
+    return {
+        str(row["fixture_key"])
+        for row in rows
+        if isinstance(row, dict) and row["failed"]
+    }
+
+
+def test_default_scenario_controls_strictly_preserve_legacy_arrivals_and_failure(
+    numerical_bundle,
+):
+    """New controls must not silently rewrite the archived v11 default trace."""
+
+    spec, paths, evidence = numerical_bundle
+    assert spec.arrival_center_s is None
+    assert spec.arrival_window_s is None
+    assert spec.arrival_jitter_fraction is None
+    assert spec.preprocessing_failure_mode == "legacy_last"
+    assert spec.preprocessing_failure_count == 0
+    assert spec.preprocessing_failure_probability == 0.0
+    assert spec.local_service_scale == 1.0
+    # Pre-paper-v1 evidence serializes no scenario-control keys.  Replication
+    # reconstructs its spec through this exact constructor path.
+    legacy_evidence_spec = asdict(spec)
+    for field in (
+        "arrival_center_s",
+        "arrival_window_s",
+        "arrival_jitter_fraction",
+        "preprocessing_failure_mode",
+        "preprocessing_failure_count",
+        "preprocessing_failure_probability",
+        "local_service_scale",
+    ):
+        del legacy_evidence_spec[field]
+    assert NumericalStudySpec(**legacy_evidence_spec) == spec
+
+    document = _evaluation_trace_for_spec(spec, paths, evidence)
+    arrivals = document["task_arrivals"]
+    assert isinstance(arrivals, list)
+    expected_arrivals = [
+        round(
+            max(
+                0.01,
+                (index + 1) * (spec.horizon_s - 1.6) / (spec.task_count + 1)
+                + _rng(spec.seed + 30_001, "arrival", index).uniform(-0.04, 0.04),
+            ),
+            9,
+        )
+        for index in range(spec.task_count)
+    ]
+    assert [row["arrival_time_s"] for row in arrivals] == expected_arrivals
+
+    expected_last_fixture = arrivals[-1]["fixture_key"]
+    assert _preprocessing_failure_fixtures(document) == {expected_last_fixture}
+    prep_rows = document["prep"]
+    assert isinstance(prep_rows, list)
+    assert all(
+        row["failed"] is (row["fixture_key"] == expected_last_fixture)
+        for row in prep_rows
+    )
+
+
+def test_explicit_arrival_window_is_bounded_deterministic_and_validated(
+    numerical_bundle,
+):
+    base, paths, evidence = numerical_bundle
+    explicit = replace(
+        base,
+        arrival_center_s=3.0,
+        arrival_window_s=1.0,
+        arrival_jitter_fraction=0.10,
+    )
+    explicit.validate()
+    first = _evaluation_trace_for_spec(explicit, paths, evidence)
+    repeat = _evaluation_trace_for_spec(explicit, paths, evidence)
+    assert first == repeat
+
+    arrivals = first["task_arrivals"]
+    assert isinstance(arrivals, list)
+    low = explicit.arrival_center_s - explicit.arrival_window_s / 2.0
+    high = explicit.arrival_center_s + explicit.arrival_window_s / 2.0
+    assert all(low <= row["arrival_time_s"] <= high for row in arrivals)
+    assert [row["arrival_time_s"] for row in arrivals] == sorted(
+        row["arrival_time_s"] for row in arrivals
+    )
+
+    with pytest.raises(ValueError):
+        replace(base, arrival_center_s=3.0).validate()
+    with pytest.raises(ValueError):
+        replace(
+            base,
+            arrival_center_s=0.25,
+            arrival_window_s=1.0,
+            arrival_jitter_fraction=0.0,
+        ).validate()
+
+
+@pytest.mark.parametrize(
+    ("mode", "count", "probability", "expected_failure_count"),
+    (
+        ("none", 0, 0.0, 0),
+        ("fixed_count", 2, 0.0, 2),
+        ("bernoulli", 0, 1.0, 6),
+    ),
+)
+def test_preprocessing_failure_modes_are_task_scoped_and_deterministic(
+    numerical_bundle,
+    mode: str,
+    count: int,
+    probability: float,
+    expected_failure_count: int,
+):
+    base, paths, evidence = numerical_bundle
+    spec = replace(
+        base,
+        preprocessing_failure_mode=mode,
+        preprocessing_failure_count=count,
+        preprocessing_failure_probability=probability,
+    )
+    spec.validate()
+    first = _evaluation_trace_for_spec(spec, paths, evidence)
+    repeat = _evaluation_trace_for_spec(spec, paths, evidence)
+    assert first == repeat
+
+    failed_fixtures = _preprocessing_failure_fixtures(first)
+    assert len(failed_fixtures) == expected_failure_count
+    prep_rows = first["prep"]
+    assert isinstance(prep_rows, list)
+    for fixture_key in {row["fixture_key"] for row in prep_rows}:
+        fixture_rows = [row for row in prep_rows if row["fixture_key"] == fixture_key]
+        assert all(row["failed"] for row in fixture_rows) is (
+            fixture_key in failed_fixtures
+        )
+
+
+def test_local_service_scale_is_deterministic_and_scales_local_work(
+    numerical_bundle,
+):
+    base, paths, evidence = numerical_bundle
+    stressed = replace(base, local_service_scale=1.5)
+    stressed.validate()
+    reference_trace = _evaluation_trace_for_spec(base, paths, evidence)
+    first = _evaluation_trace_for_spec(stressed, paths, evidence)
+    repeat = _evaluation_trace_for_spec(stressed, paths, evidence)
+    assert first == repeat
+
+    reference_rows = reference_trace["local_fer"]
+    stressed_rows = first["local_fer"]
+    assert isinstance(reference_rows, list)
+    assert isinstance(stressed_rows, list)
+    assert len(reference_rows) == len(stressed_rows)
+    for reference, stressed_row in zip(reference_rows, stressed_rows, strict=True):
+        assert stressed_row["service_work_s"] == pytest.approx(
+            reference["service_work_s"] * 1.5,
+            abs=2e-9,
+        )
+        assert stressed_row["dynamic_energy_j"] == pytest.approx(
+            reference["dynamic_energy_j"] * 1.5,
+            abs=2e-9,
+        )
+
+
+def test_replication_persists_scenario_controls_in_frozen_evidence(tmp_path: Path):
+    spec = NumericalStudySpec(
+        seed=917,
+        attack_train_subjects=4,
+        threshold_calibration_subjects=6,
+        quality_calibration_subjects=6,
+        profile_evaluation_subjects=8,
+        scenario_subjects=4,
+        test_subjects=4,
+        frames_per_subject=2,
+        task_count=4,
+        horizon_s=6.0,
+        privacy_threshold=0.95,
+        arrival_center_s=3.0,
+        arrival_window_s=1.0,
+        arrival_jitter_fraction=0.05,
+        preprocessing_failure_mode="fixed_count",
+        preprocessing_failure_count=2,
+        local_service_scale=1.5,
+    )
+    base_paths = generate_numerical_study(tmp_path / "base", spec=spec)
+    first = generate_numerical_replication(
+        base_paths.profile_path.parent.parent,
+        tmp_path / "replication-a",
+        8001,
+    )
+    repeat = generate_numerical_replication(
+        base_paths.profile_path.parent.parent,
+        tmp_path / "replication-b",
+        8001,
+    )
+    evidence = json.loads(first.evidence_path.read_text(encoding="utf-8"))
+    assert evidence["spec"]["arrival_center_s"] == 3.0
+    assert evidence["spec"]["arrival_window_s"] == 1.0
+    assert evidence["spec"]["arrival_jitter_fraction"] == 0.05
+    assert evidence["spec"]["preprocessing_failure_mode"] == "fixed_count"
+    assert evidence["spec"]["preprocessing_failure_count"] == 2
+    assert evidence["spec"]["local_service_scale"] == 1.5
+    assert first.evaluation_trace_path.read_bytes() == repeat.evaluation_trace_path.read_bytes()

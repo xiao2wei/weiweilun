@@ -1,0 +1,530 @@
+{
+  "analyses": {
+    "all_task_loss": {
+      "analysis": "paired_strategy_comparison",
+      "baseline_strategy": "all_local",
+      "bootstrap_resamples": 200,
+      "comparisons": {
+        "esl_smpc__vs__all_local": {
+          "baseline_strategy": "all_local",
+          "bootstrap_ci": {
+            "confidence_level": 0.95,
+            "independent_unit": "environment",
+            "lower": 0.0,
+            "method": "environment_cluster_percentile_bootstrap",
+            "resamples": 200,
+            "statistical_seed": 91001,
+            "upper": 0.0
+          },
+          "difference_definition": "strategy_minus_baseline",
+          "environment_count": 2,
+          "environment_difference_sample_sd": 0.0,
+          "holm_adjusted_p_value": 1.0,
+          "holm_family_hypothesis_id": "all_task_loss::esl_smpc__vs__all_local",
+          "holm_family_name": "preregistered_metric_policy_family",
+          "mean_environment_difference": 0.0,
+          "mean_pair_difference": 0.0,
+          "pair_count": 2,
+          "sign_flip_test": {
+            "environment_count": 2,
+            "extreme_count": 4,
+            "independent_unit": "environment",
+            "method": "exact_environment_sign_flip",
+            "observed_absolute_mean_difference": 0.0,
+            "p_value": 1.0,
+            "permutations": 4,
+            "statistical_seed": 91001
+          },
+          "standardized_paired_effect_dz": null,
+          "strategy": "esl_smpc",
+          "within_analysis_holm_adjusted_p_value": 1.0
+        }
+      },
+      "confidence_level": 0.95,
+      "difference_definition": "strategy_minus_baseline",
+      "environment_count": 2,
+      "independent_unit": "environment",
+      "metric_name": "all_task_loss",
+      "pairing_count": 2,
+      "schema_version": "1.0.0",
+      "sign_flip_permutations_requested": 1000,
+      "statistical_seed": 91001,
+      "statistics_manifest": {
+        "analysis": "paired_strategy_comparison",
+        "environment_ids": [
+          "numerical-environment-901",
+          "numerical-environment-902"
+        ],
+        "evaluation_trace_hashes": [
+          "5df306f3609867364ff4af7f360ddd1840b81ac04d85fa203c2b847abf7bd48b",
+          "98a2aa5ad986d35765bc2cb497a03c9db8cd5f291b413abda26a5ed1ae9e960d"
+        ],
+        "input_record_count": 4,
+        "input_sha256": "0a317cb8a3967831522894036bb80b8c09ddff41efdca0aaf868587b144eea64",
+        "manifest_sha256": "4382fcb78c9a77ba7dd7cac0dfaea18fbb489e7901d1be599c393dc949294d63",
+        "multiple_testing_family_sha256": "03e681b1e0cab0d0283371c04b5ae3b08c7130b7ccea1a874bbed0d1773f9fe0",
+        "pre_family_result_core_sha256": "493bc904e319405a6a930ed050cc5aaeb37c5980418d264de3c029decde58a7e",
+        "result_core_sha256": "2dc7b81bb9f2ac8836633de1d9696544e4f6df703a913639f6302bb9ba887924",
+        "schema_version": "1.0.0",
+        "statistical_seed": 91001,
+        "task_identity_hashes": [
+          "5df306f3609867364ff4af7f360ddd1840b81ac04d85fa203c2b847abf7bd48b",
+          "98a2aa5ad986d35765bc2cb497a03c9db8cd5f291b413abda26a5ed1ae9e960d"
+        ]
+      },
+      "strategies": [
+        "all_local",
+        "esl_smpc"
+      ]
+    },
+    "coverage": {
+      "analysis": "paired_strategy_comparison",
+      "baseline_strategy": "all_local",
+      "bootstrap_resamples": 200,
+      "comparisons": {
+        "esl_smpc__vs__all_local": {
+          "baseline_strategy": "all_local",
+          "bootstrap_ci": {
+            "confidence_level": 0.95,
+            "independent_unit": "environment",
+            "lower": 0.0,
+            "method": "environment_cluster_percentile_bootstrap",
+            "resamples": 200,
+            "statistical_seed": 91001,
+            "upper": 0.0
+          },
+          "difference_definition": "strategy_minus_baseline",
+          "environment_count": 2,
+          "environment_difference_sample_sd": 0.0,
+          "holm_adjusted_p_value": 1.0,
+          "holm_family_hypothesis_id": "coverage::esl_smpc__vs__all_local",
+          "holm_family_name": "preregistered_metric_policy_family",
+          "mean_environment_difference": 0.0,
+          "mean_pair_difference": 0.0,
+          "pair_count": 2,
+          "sign_flip_test": {
+            "environment_count": 2,
+            "extreme_count": 4,
+            "independent_unit": "environment",
+            "method": "exact_environment_sign_flip",
+            "observed_absolute_mean_difference": 0.0,
+            "p_value": 1.0,
+            "permutations": 4,
+            "statistical_seed": 91001
+          },
+          "standardized_paired_effect_dz": null,
+          "strategy": "esl_smpc",
+          "within_analysis_holm_adjusted_p_value": 1.0
+        }
+      },
+      "confidence_level": 0.95,
+      "difference_definition": "strategy_minus_baseline",
+      "environment_count": 2,
+      "independent_unit": "environment",
+      "metric_name": "coverage",
+      "pairing_count": 2,
+      "schema_version": "1.0.0",
+      "sign_flip_permutations_requested": 1000,
+      "statistical_seed": 91001,
+      "statistics_manifest": {
+        "analysis": "paired_strategy_comparison",
+        "environment_ids": [
+          "numerical-environment-901",
+          "numerical-environment-902"
+        ],
+        "evaluation_trace_hashes": [
+          "5df306f3609867364ff4af7f360ddd1840b81ac04d85fa203c2b847abf7bd48b",
+          "98a2aa5ad986d35765bc2cb497a03c9db8cd5f291b413abda26a5ed1ae9e960d"
+        ],
+        "input_record_count": 4,
+        "input_sha256": "7eb69685c5263713c803bac0fc928ee009c51a707d2f5de37b271eb9b79a68ce",
+        "manifest_sha256": "23094facb43a7385b5296dfba3a9d0a0b409209e94e6ef66a26e842599114422",
+        "multiple_testing_family_sha256": "03e681b1e0cab0d0283371c04b5ae3b08c7130b7ccea1a874bbed0d1773f9fe0",
+        "pre_family_result_core_sha256": "69656465058a4f39ab43433f512729b20d8acecb1bec775b2ff6d89ca36e84cc",
+        "result_core_sha256": "27d69a8770196faea6205c9058dd325c065bbfe61371683fd7389f535a63b27d",
+        "schema_version": "1.0.0",
+        "statistical_seed": 91001,
+        "task_identity_hashes": [
+          "5df306f3609867364ff4af7f360ddd1840b81ac04d85fa203c2b847abf7bd48b",
+          "98a2aa5ad986d35765bc2cb497a03c9db8cd5f291b413abda26a5ed1ae9e960d"
+        ]
+      },
+      "strategies": [
+        "all_local",
+        "esl_smpc"
+      ]
+    },
+    "energy_j.task_attributed.total": {
+      "analysis": "paired_strategy_comparison",
+      "baseline_strategy": "all_local",
+      "bootstrap_resamples": 200,
+      "comparisons": {
+        "esl_smpc__vs__all_local": {
+          "baseline_strategy": "all_local",
+          "bootstrap_ci": {
+            "confidence_level": 0.95,
+            "independent_unit": "environment",
+            "lower": 0.0,
+            "method": "environment_cluster_percentile_bootstrap",
+            "resamples": 200,
+            "statistical_seed": 91001,
+            "upper": 3.713133362999992
+          },
+          "difference_definition": "strategy_minus_baseline",
+          "environment_count": 2,
+          "environment_difference_sample_sd": 2.6255817804273045,
+          "holm_adjusted_p_value": 1.0,
+          "holm_family_hypothesis_id": "energy_j.task_attributed.total::esl_smpc__vs__all_local",
+          "holm_family_name": "preregistered_metric_policy_family",
+          "mean_environment_difference": 1.856566681499996,
+          "mean_pair_difference": 1.856566681499996,
+          "pair_count": 2,
+          "sign_flip_test": {
+            "environment_count": 2,
+            "extreme_count": 4,
+            "independent_unit": "environment",
+            "method": "exact_environment_sign_flip",
+            "observed_absolute_mean_difference": 1.856566681499996,
+            "p_value": 1.0,
+            "permutations": 4,
+            "statistical_seed": 91001
+          },
+          "standardized_paired_effect_dz": 0.7071067811865476,
+          "strategy": "esl_smpc",
+          "within_analysis_holm_adjusted_p_value": 1.0
+        }
+      },
+      "confidence_level": 0.95,
+      "difference_definition": "strategy_minus_baseline",
+      "environment_count": 2,
+      "independent_unit": "environment",
+      "metric_name": "energy_j.task_attributed.total",
+      "pairing_count": 2,
+      "schema_version": "1.0.0",
+      "sign_flip_permutations_requested": 1000,
+      "statistical_seed": 91001,
+      "statistics_manifest": {
+        "analysis": "paired_strategy_comparison",
+        "environment_ids": [
+          "numerical-environment-901",
+          "numerical-environment-902"
+        ],
+        "evaluation_trace_hashes": [
+          "5df306f3609867364ff4af7f360ddd1840b81ac04d85fa203c2b847abf7bd48b",
+          "98a2aa5ad986d35765bc2cb497a03c9db8cd5f291b413abda26a5ed1ae9e960d"
+        ],
+        "input_record_count": 4,
+        "input_sha256": "439cc027e011974788f09cd4348ed2f1f197be1db02edc6bdaac3c1d18fb2c3c",
+        "manifest_sha256": "0f6dee1ea57238e3d8017671b83ab44f7909ccd6c6ebc7a153aee178d3d99b05",
+        "multiple_testing_family_sha256": "03e681b1e0cab0d0283371c04b5ae3b08c7130b7ccea1a874bbed0d1773f9fe0",
+        "pre_family_result_core_sha256": "471a6d626f1c9d463fdb38877c6bbf148a3d383d96bba33187dfdd7d17f04116",
+        "result_core_sha256": "d5c50a92e0eb1187b16096122548e83da149db7c133a7285cb7b999b68b95f1d",
+        "schema_version": "1.0.0",
+        "statistical_seed": 91001,
+        "task_identity_hashes": [
+          "5df306f3609867364ff4af7f360ddd1840b81ac04d85fa203c2b847abf7bd48b",
+          "98a2aa5ad986d35765bc2cb497a03c9db8cd5f291b413abda26a5ed1ae9e960d"
+        ]
+      },
+      "strategies": [
+        "all_local",
+        "esl_smpc"
+      ]
+    },
+    "failure_rate": {
+      "analysis": "paired_strategy_comparison",
+      "baseline_strategy": "all_local",
+      "bootstrap_resamples": 200,
+      "comparisons": {
+        "esl_smpc__vs__all_local": {
+          "baseline_strategy": "all_local",
+          "bootstrap_ci": {
+            "confidence_level": 0.95,
+            "independent_unit": "environment",
+            "lower": 0.0,
+            "method": "environment_cluster_percentile_bootstrap",
+            "resamples": 200,
+            "statistical_seed": 91001,
+            "upper": 0.0
+          },
+          "difference_definition": "strategy_minus_baseline",
+          "environment_count": 2,
+          "environment_difference_sample_sd": 0.0,
+          "holm_adjusted_p_value": 1.0,
+          "holm_family_hypothesis_id": "failure_rate::esl_smpc__vs__all_local",
+          "holm_family_name": "preregistered_metric_policy_family",
+          "mean_environment_difference": 0.0,
+          "mean_pair_difference": 0.0,
+          "pair_count": 2,
+          "sign_flip_test": {
+            "environment_count": 2,
+            "extreme_count": 4,
+            "independent_unit": "environment",
+            "method": "exact_environment_sign_flip",
+            "observed_absolute_mean_difference": 0.0,
+            "p_value": 1.0,
+            "permutations": 4,
+            "statistical_seed": 91001
+          },
+          "standardized_paired_effect_dz": null,
+          "strategy": "esl_smpc",
+          "within_analysis_holm_adjusted_p_value": 1.0
+        }
+      },
+      "confidence_level": 0.95,
+      "difference_definition": "strategy_minus_baseline",
+      "environment_count": 2,
+      "independent_unit": "environment",
+      "metric_name": "failure_rate",
+      "pairing_count": 2,
+      "schema_version": "1.0.0",
+      "sign_flip_permutations_requested": 1000,
+      "statistical_seed": 91001,
+      "statistics_manifest": {
+        "analysis": "paired_strategy_comparison",
+        "environment_ids": [
+          "numerical-environment-901",
+          "numerical-environment-902"
+        ],
+        "evaluation_trace_hashes": [
+          "5df306f3609867364ff4af7f360ddd1840b81ac04d85fa203c2b847abf7bd48b",
+          "98a2aa5ad986d35765bc2cb497a03c9db8cd5f291b413abda26a5ed1ae9e960d"
+        ],
+        "input_record_count": 4,
+        "input_sha256": "82a36c19e47ed7b4b226c31e11e2b4630cc72527e223eed158230d89b5805964",
+        "manifest_sha256": "d0ec427c59c8df803763f661778982a6d09041191a1a72448cc4af4b330febc9",
+        "multiple_testing_family_sha256": "03e681b1e0cab0d0283371c04b5ae3b08c7130b7ccea1a874bbed0d1773f9fe0",
+        "pre_family_result_core_sha256": "edbdc1cd9045f9d04a5bde5f5b8172a2238a589464306369dbbc544b9b8b09f3",
+        "result_core_sha256": "04f1161c948e0b7333d8ba1913f686a797c4104119a23237e1ffa8420058ac2b",
+        "schema_version": "1.0.0",
+        "statistical_seed": 91001,
+        "task_identity_hashes": [
+          "5df306f3609867364ff4af7f360ddd1840b81ac04d85fa203c2b847abf7bd48b",
+          "98a2aa5ad986d35765bc2cb497a03c9db8cd5f291b413abda26a5ed1ae9e960d"
+        ]
+      },
+      "strategies": [
+        "all_local",
+        "esl_smpc"
+      ]
+    },
+    "latency_p95_s": {
+      "analysis": "paired_strategy_comparison",
+      "baseline_strategy": "all_local",
+      "bootstrap_resamples": 200,
+      "comparisons": {
+        "esl_smpc__vs__all_local": {
+          "baseline_strategy": "all_local",
+          "bootstrap_ci": {
+            "confidence_level": 0.95,
+            "independent_unit": "environment",
+            "lower": 0.0,
+            "method": "environment_cluster_percentile_bootstrap",
+            "resamples": 200,
+            "statistical_seed": 91001,
+            "upper": 0.14560795915714214
+          },
+          "difference_definition": "strategy_minus_baseline",
+          "environment_count": 2,
+          "environment_difference_sample_sd": 0.10296037531474905,
+          "holm_adjusted_p_value": 1.0,
+          "holm_family_hypothesis_id": "latency_p95_s::esl_smpc__vs__all_local",
+          "holm_family_name": "preregistered_metric_policy_family",
+          "mean_environment_difference": 0.07280397957857107,
+          "mean_pair_difference": 0.07280397957857107,
+          "pair_count": 2,
+          "sign_flip_test": {
+            "environment_count": 2,
+            "extreme_count": 4,
+            "independent_unit": "environment",
+            "method": "exact_environment_sign_flip",
+            "observed_absolute_mean_difference": 0.07280397957857107,
+            "p_value": 1.0,
+            "permutations": 4,
+            "statistical_seed": 91001
+          },
+          "standardized_paired_effect_dz": 0.7071067811865476,
+          "strategy": "esl_smpc",
+          "within_analysis_holm_adjusted_p_value": 1.0
+        }
+      },
+      "confidence_level": 0.95,
+      "difference_definition": "strategy_minus_baseline",
+      "environment_count": 2,
+      "independent_unit": "environment",
+      "metric_name": "latency_p95_s",
+      "pairing_count": 2,
+      "schema_version": "1.0.0",
+      "sign_flip_permutations_requested": 1000,
+      "statistical_seed": 91001,
+      "statistics_manifest": {
+        "analysis": "paired_strategy_comparison",
+        "environment_ids": [
+          "numerical-environment-901",
+          "numerical-environment-902"
+        ],
+        "evaluation_trace_hashes": [
+          "5df306f3609867364ff4af7f360ddd1840b81ac04d85fa203c2b847abf7bd48b",
+          "98a2aa5ad986d35765bc2cb497a03c9db8cd5f291b413abda26a5ed1ae9e960d"
+        ],
+        "input_record_count": 4,
+        "input_sha256": "56a0ce2a1e88127df1e9c44b4a635e478f110270c7e28ec2c0251f37dd58ab7b",
+        "manifest_sha256": "b7e097a4e04e5f56b4aaf4a3060dcd0992feda3fdbb76ce865c02863143c2903",
+        "multiple_testing_family_sha256": "03e681b1e0cab0d0283371c04b5ae3b08c7130b7ccea1a874bbed0d1773f9fe0",
+        "pre_family_result_core_sha256": "e663d7ccdf735e0cb042d9e754293c87a167e3f4f590d09008f079b040b166e4",
+        "result_core_sha256": "5f64fb2527fa786117262da9415eb0299339da00327ad8741234b3b1a6205698",
+        "schema_version": "1.0.0",
+        "statistical_seed": 91001,
+        "task_identity_hashes": [
+          "5df306f3609867364ff4af7f360ddd1840b81ac04d85fa203c2b847abf7bd48b",
+          "98a2aa5ad986d35765bc2cb497a03c9db8cd5f291b413abda26a5ed1ae9e960d"
+        ]
+      },
+      "strategies": [
+        "all_local",
+        "esl_smpc"
+      ]
+    }
+  },
+  "baseline": "all_local",
+  "environment_seeds": [
+    901,
+    902
+  ],
+  "load_level": "default",
+  "multiple_testing": {
+    "adjusted_p_values": {
+      "all_task_loss::esl_smpc__vs__all_local": 1.0,
+      "coverage::esl_smpc__vs__all_local": 1.0,
+      "energy_j.task_attributed.total::esl_smpc__vs__all_local": 1.0,
+      "failure_rate::esl_smpc__vs__all_local": 1.0,
+      "latency_p95_s::esl_smpc__vs__all_local": 1.0
+    },
+    "family_dimensions": [
+      "metric",
+      "policy_vs_baseline"
+    ],
+    "family_name": "preregistered_metric_policy_family",
+    "family_sha256": "03e681b1e0cab0d0283371c04b5ae3b08c7130b7ccea1a874bbed0d1773f9fe0",
+    "hypothesis_count": 5,
+    "hypothesis_ids": [
+      "all_task_loss::esl_smpc__vs__all_local",
+      "coverage::esl_smpc__vs__all_local",
+      "energy_j.task_attributed.total::esl_smpc__vs__all_local",
+      "failure_rate::esl_smpc__vs__all_local",
+      "latency_p95_s::esl_smpc__vs__all_local"
+    ],
+    "method": "Holm step-down family-wise error correction",
+    "raw_p_values": {
+      "all_task_loss::esl_smpc__vs__all_local": 1.0,
+      "coverage::esl_smpc__vs__all_local": 1.0,
+      "energy_j.task_attributed.total::esl_smpc__vs__all_local": 1.0,
+      "failure_rate::esl_smpc__vs__all_local": 1.0,
+      "latency_p95_s::esl_smpc__vs__all_local": 1.0
+    }
+  },
+  "policies": [
+    "all_local",
+    "esl_smpc"
+  ],
+  "real_hardware_measurement": false,
+  "runs": [
+    {
+      "core_digest": "e298d9118daa3d346e85deac3a2ed2b179070fe5a5b0295b24de01faa2d30418",
+      "data_kind": "numerical_simulation",
+      "done": 11,
+      "environment_id": "numerical-environment-901",
+      "environment_seed": 901,
+      "evaluation_trace_hash": "98a2aa5ad986d35765bc2cb497a03c9db8cd5f291b413abda26a5ed1ae9e960d",
+      "failed": 1,
+      "formal_experiment_eligible": false,
+      "invariant_checks": 130,
+      "numerical_experiment_eligible": true,
+      "output": "E:\\lunwen1\\weiweilun\\results\\paper-pilot-2env\\runs\\numerical-environment-901\\all_local",
+      "policy": "all_local",
+      "real_hardware_measurement": false,
+      "scenario_trace_hash": "2a68c640310d0cb031324dc05ac0f2af9994e4ecc9c74698b04cdfdee9caaab5",
+      "sim_end_s": 9.666402183999999,
+      "tasks": 12
+    },
+    {
+      "core_digest": "8875f84f7d01b31da11360b337aa4412fb03103ddf2bc5c7ae5baa923022fd69",
+      "data_kind": "numerical_simulation",
+      "done": 11,
+      "environment_id": "numerical-environment-901",
+      "environment_seed": 901,
+      "evaluation_trace_hash": "98a2aa5ad986d35765bc2cb497a03c9db8cd5f291b413abda26a5ed1ae9e960d",
+      "failed": 1,
+      "formal_experiment_eligible": false,
+      "invariant_checks": 130,
+      "numerical_experiment_eligible": true,
+      "output": "E:\\lunwen1\\weiweilun\\results\\paper-pilot-2env\\runs\\numerical-environment-901\\esl_smpc",
+      "policy": "esl_smpc",
+      "real_hardware_measurement": false,
+      "scenario_trace_hash": "2a68c640310d0cb031324dc05ac0f2af9994e4ecc9c74698b04cdfdee9caaab5",
+      "sim_end_s": 9.666402183999999,
+      "tasks": 12
+    },
+    {
+      "core_digest": "ea015bed93bf9342e49a5723370df9f741edd415fc704746efec964982162bb9",
+      "data_kind": "numerical_simulation",
+      "done": 11,
+      "environment_id": "numerical-environment-902",
+      "environment_seed": 902,
+      "evaluation_trace_hash": "5df306f3609867364ff4af7f360ddd1840b81ac04d85fa203c2b847abf7bd48b",
+      "failed": 1,
+      "formal_experiment_eligible": false,
+      "invariant_checks": 130,
+      "numerical_experiment_eligible": true,
+      "output": "E:\\lunwen1\\weiweilun\\results\\paper-pilot-2env\\runs\\numerical-environment-902\\all_local",
+      "policy": "all_local",
+      "real_hardware_measurement": false,
+      "scenario_trace_hash": "2a68c640310d0cb031324dc05ac0f2af9994e4ecc9c74698b04cdfdee9caaab5",
+      "sim_end_s": 9.642149054999999,
+      "tasks": 12
+    },
+    {
+      "core_digest": "1015ef71cfda1e5da7dafa9ca7e1b37637f3865b137fe3c8168994d89e4d7f53",
+      "data_kind": "numerical_simulation",
+      "done": 11,
+      "environment_id": "numerical-environment-902",
+      "environment_seed": 902,
+      "evaluation_trace_hash": "5df306f3609867364ff4af7f360ddd1840b81ac04d85fa203c2b847abf7bd48b",
+      "failed": 1,
+      "formal_experiment_eligible": false,
+      "invariant_checks": 141,
+      "numerical_experiment_eligible": true,
+      "output": "E:\\lunwen1\\weiweilun\\results\\paper-pilot-2env\\runs\\numerical-environment-902\\esl_smpc",
+      "policy": "esl_smpc",
+      "real_hardware_measurement": false,
+      "scenario_trace_hash": "2a68c640310d0cb031324dc05ac0f2af9994e4ecc9c74698b04cdfdee9caaab5",
+      "sim_end_s": 9.642149054999999,
+      "tasks": 12
+    }
+  ],
+  "statistical_family_registration": {
+    "baseline": "all_local",
+    "family_dimensions": [
+      "load",
+      "metric",
+      "policy_vs_baseline"
+    ],
+    "family_id": "standalone:paper-pilot-2env",
+    "load_level": "default",
+    "registered_metrics": [
+      "all_task_loss",
+      "failure_rate",
+      "coverage",
+      "latency_p95_s",
+      "energy_j.task_attributed.total"
+    ],
+    "registered_policies": [
+      "all_local",
+      "esl_smpc"
+    ],
+    "registration_sha256": "d8b5cca5fa003d40ba21646d174f97518a125022136e8d6c49e05e1710ad7bf0",
+    "schema_version": "1.0"
+  },
+  "study_kind": "frozen_numerical_simulation",
+  "study_report_sha256": "134286e3876a72c3e4eb056e312c19cd4dfcee9001cd5acb41026c55ac3216ac"
+}

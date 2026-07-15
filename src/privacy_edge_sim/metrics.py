@@ -233,6 +233,77 @@ def _distribution(values: Sequence[float]) -> dict[str, Any]:
     }
 
 
+def _mechanism_path_metrics(
+    tasks: Sequence[Mapping[str, Any]],
+) -> dict[str, Any]:
+    """Return task-level two-stage route rates with explicit denominators.
+
+    ``attempt_started_count`` is deliberately used instead of
+    ``selected_pipeline``: a selected pipeline may fail its reservation before
+    any anonymous-processing attempt starts.  The two conditional route rates
+    describe physical starts after such an attempt, rather than mutually
+    exclusive terminal outcomes.  They can therefore overlap when an edge
+    transfer starts and subsequently falls back to local inference.
+    """
+
+    def has_value(row: Mapping[str, Any], key: str) -> bool:
+        value = row.get(key)
+        return value is not None and value != ""
+
+    def pipeline_started(row: Mapping[str, Any]) -> bool:
+        attempts = row.get("attempt_started_count", 0)
+        return int(attempts) > 0 if attempts not in (None, "") else False
+
+    task_count = len(tasks)
+    pipeline_tasks = [row for row in tasks if pipeline_started(row)]
+    pipeline_attempt_count = len(pipeline_tasks)
+    pipeline_to_edge_count = sum(
+        has_value(row, "selected_rsu") and has_value(row, "selected_edge_model")
+        for row in pipeline_tasks
+    )
+    pipeline_to_local_count = sum(
+        has_value(row, "selected_local_model") for row in pipeline_tasks
+    )
+    edge_done_count = sum(
+        bool(row.get("done"))
+        and has_value(row, "selected_rsu")
+        and has_value(row, "selected_edge_model")
+        and not has_value(row, "selected_local_model")
+        for row in tasks
+    )
+
+    def rate(numerator: int, denominator: int) -> float:
+        # A zero-denominator conditional rate is emitted as 0.0 rather than
+        # null, so a wholly local paired baseline remains a valid numerical
+        # study record.  The accompanying denominator makes that convention
+        # auditable.
+        return numerator / denominator if denominator else 0.0
+
+    return {
+        "edge_done_rate": rate(edge_done_count, task_count),
+        "pipeline_attempt_rate": rate(pipeline_attempt_count, task_count),
+        "pipeline_to_edge_rate": rate(
+            pipeline_to_edge_count, pipeline_attempt_count
+        ),
+        "pipeline_to_local_rate": rate(
+            pipeline_to_local_count, pipeline_attempt_count
+        ),
+        "mechanism_path_counts": {
+            "task_count": task_count,
+            "edge_done_count": edge_done_count,
+            "pipeline_attempt_count": pipeline_attempt_count,
+            "pipeline_to_edge_count": pipeline_to_edge_count,
+            "pipeline_to_local_count": pipeline_to_local_count,
+        },
+        "mechanism_path_denominators": {
+            "edge_done_rate": task_count,
+            "pipeline_attempt_rate": task_count,
+            "pipeline_to_edge_rate": pipeline_attempt_count,
+            "pipeline_to_local_rate": pipeline_attempt_count,
+        },
+    }
+
+
 def _fer_classification_metrics(tasks: Sequence[Any]) -> dict[str, Any]:
     """Aggregate only realized, selected-path FER predictions for DONE tasks.
 
@@ -958,6 +1029,7 @@ class MetricLedger:
             float(item["utilization"]) for item in pool_summaries.values()
         ]
         count = len(tasks)
+        mechanism_paths = _mechanism_path_metrics(tasks)
         coverage = len(done) / count if count else None
         success_fer = (
             sum(successful_losses) / len(successful_losses)
@@ -988,6 +1060,7 @@ class MetricLedger:
             "all_task_loss": all_task_loss,
             "all_task_loss_available_count": len(all_losses),
             "all_task_loss_complete": len(all_losses) == count,
+            **mechanism_paths,
             "latency_p50_s": terminal_dist["p50"],
             "latency_p95_s": terminal_dist["p95"],
             "latency_p99_s": terminal_dist["p99"],
@@ -1044,6 +1117,27 @@ class MetricLedger:
                 "cost_latency_s": "DONE latency, otherwise the configured relative deadline",
                 "all_task_loss": "DONE FER loss; FAIL uses frozen config.cost.failure_loss",
                 "energy": "task attribution is distinct from independent physical system energy",
+                "edge_done_rate": (
+                    "DONE through edge inference / all tasks; excludes any "
+                    "edge-to-local fallback that completed locally"
+                ),
+                "pipeline_attempt_rate": (
+                    "tasks that started at least one anonymous-pipeline attempt "
+                    "/ all tasks"
+                ),
+                "pipeline_to_edge_rate": (
+                    "pipeline-attempted tasks that started edge transport / "
+                    "pipeline-attempted tasks"
+                ),
+                "pipeline_to_local_rate": (
+                    "pipeline-attempted tasks that started local inference / "
+                    "pipeline-attempted tasks; can overlap with "
+                    "pipeline_to_edge_rate after edge fallback"
+                ),
+                "zero_pipeline_denominator": (
+                    "conditional pipeline route rates are 0.0 when no task "
+                    "started an anonymous-pipeline attempt"
+                ),
             },
         }
         return _safe_value(summary)

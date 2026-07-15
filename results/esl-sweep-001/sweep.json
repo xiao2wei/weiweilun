@@ -1,0 +1,162 @@
+[
+  {
+    "case": 0,
+    "core_digest": "73e88c7d52f2692bea0c0bbdaa3db276c04291558489fc3cb7c56ba34e998c37",
+    "data_kind": "numerical_simulation",
+    "done": 11,
+    "failed": 1,
+    "formal_experiment_eligible": false,
+    "invariant_checks": 130,
+    "numerical_experiment_eligible": true,
+    "output": "E:\\lunwen1\\weiweilun\\results\\esl-sweep-001\\case-0000",
+    "parameters": {
+      "controller.lyapunov_v": 6.0,
+      "privacy.risk_threshold": 0.08,
+      "rsus.0.workload_capacity_gpu_s": 15.0
+    },
+    "policy": "esl_smpc",
+    "real_hardware_measurement": false,
+    "sim_end_s": 9.626397548,
+    "tasks": 12
+  },
+  {
+    "case": 1,
+    "core_digest": "0a26f701f635c753c7625f350875c8abd2794cf2bf4b0e5fabbbb0bda42939c7",
+    "data_kind": "numerical_simulation",
+    "done": 11,
+    "failed": 1,
+    "formal_experiment_eligible": false,
+    "invariant_checks": 130,
+    "numerical_experiment_eligible": true,
+    "output": "E:\\lunwen1\\weiweilun\\results\\esl-sweep-001\\case-0001",
+    "parameters": {
+      "controller.lyapunov_v": 6.0,
+      "privacy.risk_threshold": 0.08,
+      "rsus.0.workload_capacity_gpu_s": 30.0
+    },
+    "policy": "esl_smpc",
+    "real_hardware_measurement": false,
+    "sim_end_s": 9.626397548,
+    "tasks": 12
+  },
+  {
+    "case": 2,
+    "core_digest": "e64101382b4190c59bed1578ceda226f6d5b3826f80a20bc1e4ea2667b024e49",
+    "data_kind": "numerical_simulation",
+    "done": 11,
+    "failed": 1,
+    "formal_experiment_eligible": false,
+    "invariant_checks": 130,
+    "numerical_experiment_eligible": true,
+    "output": "E:\\lunwen1\\weiweilun\\results\\esl-sweep-001\\case-0002",
+    "parameters": {
+      "controller.lyapunov_v": 6.0,
+      "privacy.risk_threshold": 0.1,
+      "rsus.0.workload_capacity_gpu_s": 15.0
+    },
+    "policy": "esl_smpc",
+    "real_hardware_measurement": false,
+    "sim_end_s": 9.626397548,
+    "tasks": 12
+  },
+  {
+    "case": 3,
+    "core_digest": "237cf8231249a61238e7f94041d67c25f3f0fc8c1f74b1258a05265df94adeb4",
+    "data_kind": "numerical_simulation",
+    "done": 11,
+    "failed": 1,
+    "formal_experiment_eligible": false,
+    "invariant_checks": 130,
+    "numerical_experiment_eligible": true,
+    "output": "E:\\lunwen1\\weiweilun\\results\\esl-sweep-001\\case-0003",
+    "parameters": {
+      "controller.lyapunov_v": 6.0,
+      "privacy.risk_threshold": 0.1,
+      "rsus.0.workload_capacity_gpu_s": 30.0
+    },
+    "policy": "esl_smpc",
+    "real_hardware_measurement": false,
+    "sim_end_s": 9.626397548,
+    "tasks": 12
+  },
+  {
+    "case": 4,
+    "core_digest": "195fc2a1fb5b320e8e7301bab0b87d76922429e0f89d2bd4f0f7acc913ef427f",
+    "data_kind": "numerical_simulation",
+    "done": 11,
+    "failed": 1,
+    "formal_experiment_eligible": false,
+    "invariant_checks": 130,
+    "numerical_experiment_eligible": true,
+    "output": "E:\\lunwen1\\weiweilun\\results\\esl-sweep-001\\case-0004",
+    "parameters": {
+      "controller.lyapunov_v": 12.0,
+      "privacy.risk_threshold": 0.08,
+      "rsus.0.workload_capacity_gpu_s": 15.0
+    },
+    "policy": "esl_smpc",
+    "real_hardware_measurement": false,
+    "sim_end_s": 9.626397548,
+    "tasks": 12
+  },
+  {
+    "case": 5,
+    "core_digest": "269e6b64294c5c55292b9ebc2cc96879958e6a252035cd734e46cc6e3c9f0fc5",
+    "data_kind": "numerical_simulation",
+    "done": 11,
+    "failed": 1,
+    "formal_experiment_eligible": false,
+    "invariant_checks": 130,
+    "numerical_experiment_eligible": true,
+    "output": "E:\\lunwen1\\weiweilun\\results\\esl-sweep-001\\case-0005",
+    "parameters": {
+      "controller.lyapunov_v": 12.0,
+      "privacy.risk_threshold": 0.08,
+      "rsus.0.workload_capacity_gpu_s": 30.0
+    },
+    "policy": "esl_smpc",
+    "real_hardware_measurement": false,
+    "sim_end_s": 9.626397548,
+    "tasks": 12
+  },
+  {
+    "case": 6,
+    "core_digest": "e1365422e702b2b75c5178ce501cf047a5c996f5376f7327e36d49b16a93643c",
+    "data_kind": "numerical_simulation",
+    "done": 11,
+    "failed": 1,
+    "formal_experiment_eligible": false,
+    "invariant_checks": 130,
+    "numerical_experiment_eligible": true,
+    "output": "E:\\lunwen1\\weiweilun\\results\\esl-sweep-001\\case-0006",
+    "parameters": {
+      "controller.lyapunov_v": 12.0,
+      "privacy.risk_threshold": 0.1,
+      "rsus.0.workload_capacity_gpu_s": 15.0
+    },
+    "policy": "esl_smpc",
+    "real_hardware_measurement": false,
+    "sim_end_s": 9.626397548,
+    "tasks": 12
+  },
+  {
+    "case": 7,
+    "core_digest": "b25d6c578109e2ee45c175fb90934cebe85cb7c0a1b71286ebaca8d077b7f4b2",
+    "data_kind": "numerical_simulation",
+    "done": 11,
+    "failed": 1,
+    "formal_experiment_eligible": false,
+    "invariant_checks": 130,
+    "numerical_experiment_eligible": true,
+    "output": "E:\\lunwen1\\weiweilun\\results\\esl-sweep-001\\case-0007",
+    "parameters": {
+      "controller.lyapunov_v": 12.0,
+      "privacy.risk_threshold": 0.1,
+      "rsus.0.workload_capacity_gpu_s": 30.0
+    },
+    "policy": "esl_smpc",
+    "real_hardware_measurement": false,
+    "sim_end_s": 9.626397548,
+    "tasks": 12
+  }
+]

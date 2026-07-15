@@ -1,0 +1,378 @@
+{
+  "analysis": "hard_mask_safety_counterfactual",
+  "counterfactual_only": true,
+  "decisions": [
+    {
+      "allowed_reference_action_id": "RAW|PIPE||pixelate_strong_numerical_v2||",
+      "allowed_reference_expected_cost": 0.48350043755659994,
+      "comparison_status": "COMPARED",
+      "rejected_seemingly_better": [
+        {
+          "action_id": "RAW|PIPE||pixelate_weak_numerical_v2||",
+          "cost_advantage": 0.1033846012248626,
+          "expected_cost": 0.38011583633173734,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||pixelate_medium_numerical_v2||",
+          "cost_advantage": 0.06110048291092918,
+          "expected_cost": 0.42239995464567076,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||blur_weak_numerical_v2||",
+          "cost_advantage": 0.0048729523625248294,
+          "expected_cost": 0.4786274851940751,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        }
+      ],
+      "stage": "RAW",
+      "task_id": "test-task-00000"
+    },
+    {
+      "allowed_reference_action_id": "RAW|PIPE||pixelate_strong_numerical_v2||",
+      "allowed_reference_expected_cost": 0.5434133387911858,
+      "comparison_status": "COMPARED",
+      "rejected_seemingly_better": [
+        {
+          "action_id": "RAW|PIPE||pixelate_weak_numerical_v2||",
+          "cost_advantage": 0.11078314520893207,
+          "expected_cost": 0.43263019358225374,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||pixelate_medium_numerical_v2||",
+          "cost_advantage": 0.06937638380123701,
+          "expected_cost": 0.4740369549899488,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||blur_weak_numerical_v2||",
+          "cost_advantage": 0.02340372500650989,
+          "expected_cost": 0.5200096137846759,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        }
+      ],
+      "stage": "RAW",
+      "task_id": "test-task-00001"
+    },
+    {
+      "allowed_reference_action_id": "RAW|PIPE||pixelate_strong_numerical_v2||",
+      "allowed_reference_expected_cost": 0.48350043755659994,
+      "comparison_status": "COMPARED",
+      "rejected_seemingly_better": [
+        {
+          "action_id": "RAW|PIPE||pixelate_weak_numerical_v2||",
+          "cost_advantage": 0.1033846012248626,
+          "expected_cost": 0.38011583633173734,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||pixelate_medium_numerical_v2||",
+          "cost_advantage": 0.06110048291092918,
+          "expected_cost": 0.42239995464567076,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||blur_weak_numerical_v2||",
+          "cost_advantage": 0.0048729523625248294,
+          "expected_cost": 0.4786274851940751,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        }
+      ],
+      "stage": "RAW",
+      "task_id": "test-task-00002"
+    },
+    {
+      "allowed_reference_action_id": "RAW|PIPE||pixelate_strong_numerical_v2||",
+      "allowed_reference_expected_cost": 0.5434133387911858,
+      "comparison_status": "COMPARED",
+      "rejected_seemingly_better": [
+        {
+          "action_id": "RAW|PIPE||pixelate_weak_numerical_v2||",
+          "cost_advantage": 0.11078314520893207,
+          "expected_cost": 0.43263019358225374,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||pixelate_medium_numerical_v2||",
+          "cost_advantage": 0.06937638380123701,
+          "expected_cost": 0.4740369549899488,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||blur_weak_numerical_v2||",
+          "cost_advantage": 0.02340372500650989,
+          "expected_cost": 0.5200096137846759,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        }
+      ],
+      "stage": "RAW",
+      "task_id": "test-task-00003"
+    },
+    {
+      "allowed_reference_action_id": "RAW|PIPE||pixelate_strong_numerical_v2||",
+      "allowed_reference_expected_cost": 0.48350043755659994,
+      "comparison_status": "COMPARED",
+      "rejected_seemingly_better": [
+        {
+          "action_id": "RAW|PIPE||pixelate_weak_numerical_v2||",
+          "cost_advantage": 0.1033846012248626,
+          "expected_cost": 0.38011583633173734,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||pixelate_medium_numerical_v2||",
+          "cost_advantage": 0.06110048291092918,
+          "expected_cost": 0.42239995464567076,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||blur_weak_numerical_v2||",
+          "cost_advantage": 0.0048729523625248294,
+          "expected_cost": 0.4786274851940751,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        }
+      ],
+      "stage": "RAW",
+      "task_id": "test-task-00004"
+    },
+    {
+      "allowed_reference_action_id": "RAW|PIPE||pixelate_strong_numerical_v2||",
+      "allowed_reference_expected_cost": 0.5192462135598253,
+      "comparison_status": "COMPARED",
+      "rejected_seemingly_better": [
+        {
+          "action_id": "RAW|PIPE||pixelate_weak_numerical_v2||",
+          "cost_advantage": 0.10103140784220677,
+          "expected_cost": 0.4182148057176185,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||pixelate_medium_numerical_v2||",
+          "cost_advantage": 0.04354780151069948,
+          "expected_cost": 0.4756984120491258,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        }
+      ],
+      "stage": "RAW",
+      "task_id": "test-task-00005"
+    },
+    {
+      "allowed_reference_action_id": "RAW|PIPE||pixelate_strong_numerical_v2||",
+      "allowed_reference_expected_cost": 0.4923280314491376,
+      "comparison_status": "COMPARED",
+      "rejected_seemingly_better": [
+        {
+          "action_id": "RAW|PIPE||pixelate_weak_numerical_v2||",
+          "cost_advantage": 0.10073163020984477,
+          "expected_cost": 0.39159640123929285,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||pixelate_medium_numerical_v2||",
+          "cost_advantage": 0.06917225262628929,
+          "expected_cost": 0.4231557788228483,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||blur_weak_numerical_v2||",
+          "cost_advantage": 0.017085552177822594,
+          "expected_cost": 0.475242479271315,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        }
+      ],
+      "stage": "RAW",
+      "task_id": "test-task-00006"
+    },
+    {
+      "allowed_reference_action_id": "RAW|PIPE||pixelate_strong_numerical_v2||",
+      "allowed_reference_expected_cost": 0.5192462135598253,
+      "comparison_status": "COMPARED",
+      "rejected_seemingly_better": [
+        {
+          "action_id": "RAW|PIPE||pixelate_weak_numerical_v2||",
+          "cost_advantage": 0.10103140784220677,
+          "expected_cost": 0.4182148057176185,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||pixelate_medium_numerical_v2||",
+          "cost_advantage": 0.04354780151069948,
+          "expected_cost": 0.4756984120491258,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        }
+      ],
+      "stage": "RAW",
+      "task_id": "test-task-00007"
+    },
+    {
+      "allowed_reference_action_id": "RAW|PIPE||pixelate_strong_numerical_v2||",
+      "allowed_reference_expected_cost": 0.4823983764412534,
+      "comparison_status": "COMPARED",
+      "rejected_seemingly_better": [
+        {
+          "action_id": "RAW|PIPE||pixelate_weak_numerical_v2||",
+          "cost_advantage": 0.09655194547540213,
+          "expected_cost": 0.38584643096585125,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||pixelate_medium_numerical_v2||",
+          "cost_advantage": 0.04822110531141616,
+          "expected_cost": 0.43417727112983723,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||blur_weak_numerical_v2||",
+          "cost_advantage": 0.009894197597648091,
+          "expected_cost": 0.4725041788436053,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        }
+      ],
+      "stage": "RAW",
+      "task_id": "test-task-00008"
+    },
+    {
+      "allowed_reference_action_id": "RAW|PIPE||pixelate_strong_numerical_v2||",
+      "allowed_reference_expected_cost": 0.5531191263987899,
+      "comparison_status": "COMPARED",
+      "rejected_seemingly_better": [
+        {
+          "action_id": "RAW|PIPE||pixelate_weak_numerical_v2||",
+          "cost_advantage": 0.11460505013714112,
+          "expected_cost": 0.4385140762616488,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||pixelate_medium_numerical_v2||",
+          "cost_advantage": 0.0742562938400605,
+          "expected_cost": 0.4788628325587294,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||blur_weak_numerical_v2||",
+          "cost_advantage": 0.033108718029980944,
+          "expected_cost": 0.520010408368809,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        }
+      ],
+      "stage": "RAW",
+      "task_id": "test-task-00009"
+    },
+    {
+      "allowed_reference_action_id": "RAW|PIPE||pixelate_strong_numerical_v2||",
+      "allowed_reference_expected_cost": 0.4823983764412534,
+      "comparison_status": "COMPARED",
+      "rejected_seemingly_better": [
+        {
+          "action_id": "RAW|PIPE||pixelate_weak_numerical_v2||",
+          "cost_advantage": 0.09655194547540213,
+          "expected_cost": 0.38584643096585125,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||pixelate_medium_numerical_v2||",
+          "cost_advantage": 0.04822110531141616,
+          "expected_cost": 0.43417727112983723,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        },
+        {
+          "action_id": "RAW|PIPE||blur_weak_numerical_v2||",
+          "cost_advantage": 0.009894197597648091,
+          "expected_cost": 0.4725041788436053,
+          "reason_codes": [
+            "PRIVACY_RISK"
+          ]
+        }
+      ],
+      "stage": "RAW",
+      "task_id": "test-task-00010"
+    },
+    {
+      "allowed_reference_action_id": "READY|LOCAL|local_fer_numerical_v1|||",
+      "allowed_reference_expected_cost": 1.197964836972078,
+      "comparison_status": "COMPARED",
+      "rejected_seemingly_better": [],
+      "stage": "READY",
+      "task_id": "test-task-00010"
+    }
+  ],
+  "hard_mask_bypassed": false,
+  "input_sha256": "3140846d5858f308b45febb0b6bb11905c52d2f36c1a7df5ebef9cb0290b563b",
+  "mask_count": 12,
+  "reason_counts": {
+    "CONNECTIVITY": 1,
+    "PAIRED_MEASUREMENT_MISSING": 1,
+    "PRIVACY_RISK": 88
+  },
+  "rejected_action_count": 89,
+  "rejected_seemingly_better_count": 31,
+  "rejected_with_cost_unavailable": 1,
+  "report_sha256": "35e0c2f5acbaf0454d91285018f3b55f25ad4381f3abc90ee74bbb63771072eb",
+  "schema_version": "1.0",
+  "units": {
+    "expected_cost": "normalized_cost"
+  },
+  "unsafe_actions_executed_by_audit": 0
+}

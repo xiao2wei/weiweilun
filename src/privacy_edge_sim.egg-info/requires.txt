@@ -1,0 +1,8 @@
+
+[parquet]
+pyarrow>=15.0
+
+[test]
+pytest>=8.0
+jsonschema>=4.23
+ruff>=0.12

@@ -1,0 +1,388 @@
+{
+  "action_record_count": 60,
+  "analysis": "failure_cost_completeness",
+  "event_record_count": 151,
+  "input_sha256": "d2a52e3efce2ae309287777768cb556d6b24e0e68e6dbbeb0cd38eba47b16e44",
+  "omissions": {
+    "anonymization_failure": {
+      "accounting": "measured_failed_attempt_components",
+      "executed_work_s": 0.025699075,
+      "failed_attempt_count": 1,
+      "reason_counts": {
+        "GUARD_REJECTED": 1
+      },
+      "tasks_affected": 1,
+      "vehicle_energy_j": 0.266169315
+    },
+    "downlink": {
+      "latency_s": 0.0,
+      "rsu_energy_j": 0.0,
+      "tasks_affected": 0,
+      "vehicle_energy_j": 0.0
+    },
+    "explicit_fail_action": {
+      "accounting": "exact_POLICY_DECISION_executed_count",
+      "decision_count": 0,
+      "task_count": 0,
+      "task_ids": []
+    },
+    "failure": {
+      "normalized_cost": 1.0,
+      "tasks_affected": 1
+    },
+    "local_fallback": {
+      "accounting": "exact_structural_count",
+      "task_count": 1,
+      "task_ids": [
+        "test-task-00010"
+      ]
+    },
+    "retry": {
+      "latency_s": 0.04006843300000007,
+      "tasks_affected": 1,
+      "vehicle_energy_j": 0.40241586399999996
+    },
+    "rsu_energy": {
+      "rsu_energy_j": 0.0,
+      "tasks_affected": 0
+    }
+  },
+  "report_sha256": "520b33c7a7aec8ba2f0726aeea1b6d2a7adfeb8ae353f5ee48c39c6c08f3a0f4",
+  "schema_version": "1.0",
+  "status": "COMPLETE",
+  "task_count": 12,
+  "tasks": [
+    {
+      "delete_anonymization_failures": {
+        "failed_attempt_count": 0,
+        "omitted_executed_work_s": 0,
+        "omitted_vehicle_energy_j": 0,
+        "reason_counts": {}
+      },
+      "delete_downlink": {
+        "omitted_latency_s": 0.0,
+        "omitted_rsu_energy_j": 0.0,
+        "omitted_vehicle_energy_j": 0.0
+      },
+      "delete_failure_term": {
+        "omitted_normalized_cost": 0.0
+      },
+      "delete_local_fallback": {
+        "fallback_path_present": false
+      },
+      "delete_retry": {
+        "omitted_latency_s": 0.0,
+        "omitted_vehicle_energy_j": 0.0
+      },
+      "delete_rsu_energy": {
+        "omitted_rsu_energy_j": 0.0
+      },
+      "task_id": "test-task-00000"
+    },
+    {
+      "delete_anonymization_failures": {
+        "failed_attempt_count": 0,
+        "omitted_executed_work_s": 0,
+        "omitted_vehicle_energy_j": 0,
+        "reason_counts": {}
+      },
+      "delete_downlink": {
+        "omitted_latency_s": 0.0,
+        "omitted_rsu_energy_j": 0.0,
+        "omitted_vehicle_energy_j": 0.0
+      },
+      "delete_failure_term": {
+        "omitted_normalized_cost": 0.0
+      },
+      "delete_local_fallback": {
+        "fallback_path_present": false
+      },
+      "delete_retry": {
+        "omitted_latency_s": 0.0,
+        "omitted_vehicle_energy_j": 0.0
+      },
+      "delete_rsu_energy": {
+        "omitted_rsu_energy_j": 0.0
+      },
+      "task_id": "test-task-00001"
+    },
+    {
+      "delete_anonymization_failures": {
+        "failed_attempt_count": 0,
+        "omitted_executed_work_s": 0,
+        "omitted_vehicle_energy_j": 0,
+        "reason_counts": {}
+      },
+      "delete_downlink": {
+        "omitted_latency_s": 0.0,
+        "omitted_rsu_energy_j": 0.0,
+        "omitted_vehicle_energy_j": 0.0
+      },
+      "delete_failure_term": {
+        "omitted_normalized_cost": 0.0
+      },
+      "delete_local_fallback": {
+        "fallback_path_present": false
+      },
+      "delete_retry": {
+        "omitted_latency_s": 0.0,
+        "omitted_vehicle_energy_j": 0.0
+      },
+      "delete_rsu_energy": {
+        "omitted_rsu_energy_j": 0.0
+      },
+      "task_id": "test-task-00002"
+    },
+    {
+      "delete_anonymization_failures": {
+        "failed_attempt_count": 0,
+        "omitted_executed_work_s": 0,
+        "omitted_vehicle_energy_j": 0,
+        "reason_counts": {}
+      },
+      "delete_downlink": {
+        "omitted_latency_s": 0.0,
+        "omitted_rsu_energy_j": 0.0,
+        "omitted_vehicle_energy_j": 0.0
+      },
+      "delete_failure_term": {
+        "omitted_normalized_cost": 0.0
+      },
+      "delete_local_fallback": {
+        "fallback_path_present": false
+      },
+      "delete_retry": {
+        "omitted_latency_s": 0.0,
+        "omitted_vehicle_energy_j": 0.0
+      },
+      "delete_rsu_energy": {
+        "omitted_rsu_energy_j": 0.0
+      },
+      "task_id": "test-task-00003"
+    },
+    {
+      "delete_anonymization_failures": {
+        "failed_attempt_count": 0,
+        "omitted_executed_work_s": 0,
+        "omitted_vehicle_energy_j": 0,
+        "reason_counts": {}
+      },
+      "delete_downlink": {
+        "omitted_latency_s": 0.0,
+        "omitted_rsu_energy_j": 0.0,
+        "omitted_vehicle_energy_j": 0.0
+      },
+      "delete_failure_term": {
+        "omitted_normalized_cost": 0.0
+      },
+      "delete_local_fallback": {
+        "fallback_path_present": false
+      },
+      "delete_retry": {
+        "omitted_latency_s": 0.0,
+        "omitted_vehicle_energy_j": 0.0
+      },
+      "delete_rsu_energy": {
+        "omitted_rsu_energy_j": 0.0
+      },
+      "task_id": "test-task-00004"
+    },
+    {
+      "delete_anonymization_failures": {
+        "failed_attempt_count": 0,
+        "omitted_executed_work_s": 0,
+        "omitted_vehicle_energy_j": 0,
+        "reason_counts": {}
+      },
+      "delete_downlink": {
+        "omitted_latency_s": 0.0,
+        "omitted_rsu_energy_j": 0.0,
+        "omitted_vehicle_energy_j": 0.0
+      },
+      "delete_failure_term": {
+        "omitted_normalized_cost": 0.0
+      },
+      "delete_local_fallback": {
+        "fallback_path_present": false
+      },
+      "delete_retry": {
+        "omitted_latency_s": 0.0,
+        "omitted_vehicle_energy_j": 0.0
+      },
+      "delete_rsu_energy": {
+        "omitted_rsu_energy_j": 0.0
+      },
+      "task_id": "test-task-00005"
+    },
+    {
+      "delete_anonymization_failures": {
+        "failed_attempt_count": 0,
+        "omitted_executed_work_s": 0,
+        "omitted_vehicle_energy_j": 0,
+        "reason_counts": {}
+      },
+      "delete_downlink": {
+        "omitted_latency_s": 0.0,
+        "omitted_rsu_energy_j": 0.0,
+        "omitted_vehicle_energy_j": 0.0
+      },
+      "delete_failure_term": {
+        "omitted_normalized_cost": 0.0
+      },
+      "delete_local_fallback": {
+        "fallback_path_present": false
+      },
+      "delete_retry": {
+        "omitted_latency_s": 0.0,
+        "omitted_vehicle_energy_j": 0.0
+      },
+      "delete_rsu_energy": {
+        "omitted_rsu_energy_j": 0.0
+      },
+      "task_id": "test-task-00006"
+    },
+    {
+      "delete_anonymization_failures": {
+        "failed_attempt_count": 0,
+        "omitted_executed_work_s": 0,
+        "omitted_vehicle_energy_j": 0,
+        "reason_counts": {}
+      },
+      "delete_downlink": {
+        "omitted_latency_s": 0.0,
+        "omitted_rsu_energy_j": 0.0,
+        "omitted_vehicle_energy_j": 0.0
+      },
+      "delete_failure_term": {
+        "omitted_normalized_cost": 0.0
+      },
+      "delete_local_fallback": {
+        "fallback_path_present": false
+      },
+      "delete_retry": {
+        "omitted_latency_s": 0.0,
+        "omitted_vehicle_energy_j": 0.0
+      },
+      "delete_rsu_energy": {
+        "omitted_rsu_energy_j": 0.0
+      },
+      "task_id": "test-task-00007"
+    },
+    {
+      "delete_anonymization_failures": {
+        "failed_attempt_count": 0,
+        "omitted_executed_work_s": 0,
+        "omitted_vehicle_energy_j": 0,
+        "reason_counts": {}
+      },
+      "delete_downlink": {
+        "omitted_latency_s": 0.0,
+        "omitted_rsu_energy_j": 0.0,
+        "omitted_vehicle_energy_j": 0.0
+      },
+      "delete_failure_term": {
+        "omitted_normalized_cost": 0.0
+      },
+      "delete_local_fallback": {
+        "fallback_path_present": false
+      },
+      "delete_retry": {
+        "omitted_latency_s": 0.0,
+        "omitted_vehicle_energy_j": 0.0
+      },
+      "delete_rsu_energy": {
+        "omitted_rsu_energy_j": 0.0
+      },
+      "task_id": "test-task-00008"
+    },
+    {
+      "delete_anonymization_failures": {
+        "failed_attempt_count": 0,
+        "omitted_executed_work_s": 0,
+        "omitted_vehicle_energy_j": 0,
+        "reason_counts": {}
+      },
+      "delete_downlink": {
+        "omitted_latency_s": 0.0,
+        "omitted_rsu_energy_j": 0.0,
+        "omitted_vehicle_energy_j": 0.0
+      },
+      "delete_failure_term": {
+        "omitted_normalized_cost": 0.0
+      },
+      "delete_local_fallback": {
+        "fallback_path_present": false
+      },
+      "delete_retry": {
+        "omitted_latency_s": 0.0,
+        "omitted_vehicle_energy_j": 0.0
+      },
+      "delete_rsu_energy": {
+        "omitted_rsu_energy_j": 0.0
+      },
+      "task_id": "test-task-00009"
+    },
+    {
+      "delete_anonymization_failures": {
+        "failed_attempt_count": 1,
+        "omitted_executed_work_s": 0.025699075,
+        "omitted_vehicle_energy_j": 0.266169315,
+        "reason_counts": {
+          "GUARD_REJECTED": 1
+        }
+      },
+      "delete_downlink": {
+        "omitted_latency_s": 0.0,
+        "omitted_rsu_energy_j": 0.0,
+        "omitted_vehicle_energy_j": 0.0
+      },
+      "delete_failure_term": {
+        "omitted_normalized_cost": 0.0
+      },
+      "delete_local_fallback": {
+        "fallback_path_present": true
+      },
+      "delete_retry": {
+        "omitted_latency_s": 0.04006843300000007,
+        "omitted_vehicle_energy_j": 0.40241586399999996
+      },
+      "delete_rsu_energy": {
+        "omitted_rsu_energy_j": 0.0
+      },
+      "task_id": "test-task-00010"
+    },
+    {
+      "delete_anonymization_failures": {
+        "failed_attempt_count": 0,
+        "omitted_executed_work_s": 0,
+        "omitted_vehicle_energy_j": 0,
+        "reason_counts": {}
+      },
+      "delete_downlink": {
+        "omitted_latency_s": 0.0,
+        "omitted_rsu_energy_j": 0.0,
+        "omitted_vehicle_energy_j": 0.0
+      },
+      "delete_failure_term": {
+        "omitted_normalized_cost": 1.0
+      },
+      "delete_local_fallback": {
+        "fallback_path_present": false
+      },
+      "delete_retry": {
+        "omitted_latency_s": 0.0,
+        "omitted_vehicle_energy_j": 0.0
+      },
+      "delete_rsu_energy": {
+        "omitted_rsu_energy_j": 0.0
+      },
+      "task_id": "test-task-00011"
+    }
+  ],
+  "units": {
+    "failure_penalty": "normalized_cost",
+    "latency": "s",
+    "rsu_energy": "J",
+    "vehicle_energy": "J"
+  }
+}

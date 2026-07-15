@@ -80,7 +80,7 @@ READY -> UL -> EDGE_WAIT -> EDGE_RUN -> DL -> DONE
 
 ## numerical v2 冻结研究模型
 
-`numerical.py` 的当前 evidence 版本为 `numerical-study-2.1.0`，profile/trace 版本为 `2.2.0`，管线和攻击器使用 `numerical_v2` 标识。它在离线阶段构造互斥的 attack-train、attack-threshold-calibration、quality-calibration、profile-evaluation、scenario-training-validation 和 test 主体 split；在线仿真只加载冻结结果。
+`numerical.py` 的当前 evidence/profile 版本分别为 `numerical-study-2.1.0` / `2.2.0`，trace 版本为 `2.3.0`，管线和攻击器使用 `numerical_v2` 标识。它在离线阶段构造互斥的 attack-train、attack-threshold-calibration、quality-calibration、profile-evaluation、scenario-training-validation 和 test 主体 split；在线仿真只加载冻结结果。Paper-v1 额外将到达中心、到达窗口、相对 jitter、预处理失败模式和本地服务缩放冻结进数值研究 spec 与 trace metadata，避免负载条件隐式改变故障或热时间轴。
 
 数值总体包含四类方法（pixelate、blur、generative、diffusion）和三档强度，共 12 条管线。隐私 v2 的残余身份参数是明确标注、写入 evidence 并受 hash 绑定的工程假设：
 

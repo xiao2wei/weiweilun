@@ -89,6 +89,8 @@ python -m privacy_edge_sim.cli generate-synthetic --output-root fixtures/dev-see
 
 ### 冻结数值论文研究包
 
+面向两阶段边缘决策的低/中/高负载论文矩阵、独立机制校准、统计 family 与审计顺序见 [docs/PAPER_V1_EXPERIMENTS.md](docs/PAPER_V1_EXPERIMENTS.md)。该协议使用固定任务数和 horizon 的显式到达窗口，避免把任务数或旧版“最后任务必然预处理失败”混入负载比较。
+
 生成数值总体、攻击/FER/质量证据、冻结 profile、evaluation/scenario trace 和可运行配置：
 
 ```powershell

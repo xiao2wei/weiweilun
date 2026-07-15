@@ -1,0 +1,93 @@
+{
+  "schema_version": "paper-v1-generator-matrix-v1",
+  "document_role": "preregistered_generator_parameter_record",
+  "cli_command": "generate-numerical-study",
+  "note": "This is a human-readable parameter record, not a --config input for run-numerical-study. Use docs/PAPER_V1_EXPERIMENTS.md for the exact commands.",
+  "shared_generator_options": {
+    "seed": 20260713,
+    "profile_subjects": 256,
+    "test_subjects": 64,
+    "scenario_subjects": 48,
+    "tasks": 24,
+    "horizon_s": 12.0,
+    "arrival_center_s": 6.0,
+    "arrival_jitter_fraction": 0.15,
+    "privacy_threshold": 0.35,
+    "preprocessing_failure_mode": "none",
+    "preprocessing_failure_count": 0,
+    "preprocessing_failure_probability": 0.0,
+    "local_service_scale": 1.0,
+    "anon_time_variability_scale": 1.0,
+    "output_size_variability_scale": 1.0
+  },
+  "load_conditions": {
+    "low": {
+      "arrival_window_s": 4.0,
+      "nominal_arrival_rate_tasks_per_s": 6.0,
+      "description": "24 tasks in the [4.0, 8.0] second arrival window."
+    },
+    "medium": {
+      "arrival_window_s": 1.0,
+      "nominal_arrival_rate_tasks_per_s": 24.0,
+      "description": "24 tasks in the [5.5, 6.5] second arrival window."
+    },
+    "high": {
+      "arrival_window_s": 0.6,
+      "nominal_arrival_rate_tasks_per_s": 40.0,
+      "description": "24 tasks in the [5.7, 6.3] second arrival window."
+    }
+  },
+  "formal_evaluation": {
+    "environment_seeds": [
+      301,
+      302,
+      303,
+      304,
+      305,
+      306,
+      307,
+      308,
+      309,
+      310,
+      311,
+      312,
+      313,
+      314,
+      315,
+      316,
+      317,
+      318,
+      319,
+      320,
+      321,
+      322,
+      323,
+      324,
+      325,
+      326,
+      327,
+      328,
+      329,
+      330
+    ],
+    "baseline": "all_local",
+    "primary_policy": "esl_smpc",
+    "primary_metric": "all_task_loss",
+    "secondary_policies": [
+      "fixed_safe_lowest_link_cost",
+      "fixed_safe_shortest_visible_queue",
+      "safe_greedy",
+      "safe_lyapunov_h1"
+    ],
+    "secondary_metrics": [
+      "failure_rate",
+      "coverage",
+      "latency_p95_s",
+      "energy_j.task_attributed.total",
+      "edge_done_rate",
+      "pipeline_attempt_rate",
+      "pipeline_to_edge_rate",
+      "pipeline_to_local_rate"
+    ]
+  }
+}

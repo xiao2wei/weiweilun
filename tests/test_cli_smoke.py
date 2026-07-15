@@ -8,12 +8,14 @@ import hashlib
 import json
 import subprocess
 import sys
+from types import SimpleNamespace
 
 import pytest
 
 from privacy_edge_sim.cli import (
     _execute,
     _parquet_safe_rows,
+    build_parser,
     command_aggregate,
     command_audit_failure_integrity,
     command_audit_hard_mask,
@@ -39,6 +41,63 @@ REQUIRED_RUN_FILES = {
     "summary.json",
     "manifest.json",
 }
+
+
+def test_generate_numerical_cli_maps_paper_v1_generator_controls(
+    monkeypatch, tmp_path
+):
+    captured = {}
+
+    def fake_generate_numerical_study(output_root, *, spec, overwrite):
+        captured["output_root"] = output_root
+        captured["spec"] = spec
+        captured["overwrite"] = overwrite
+        return SimpleNamespace(
+            config_path=tmp_path / "config.json",
+            profile_path=tmp_path / "profile.json",
+            evaluation_trace_path=tmp_path / "evaluation.json",
+            scenario_trace_path=tmp_path / "scenario.json",
+            evidence_path=tmp_path / "evidence.json",
+            profile_hash="profile",
+            evaluation_trace_hash="evaluation",
+            scenario_trace_hash="scenario",
+            evidence_hash="evidence",
+        )
+
+    monkeypatch.setattr(
+        "privacy_edge_sim.cli.generate_numerical_study", fake_generate_numerical_study
+    )
+    args = build_parser().parse_args(
+        [
+            "generate-numerical-study",
+            "--output-root",
+            str(tmp_path / "study"),
+            "--arrival-center-s",
+            "6",
+            "--arrival-window-s",
+            "0.6",
+            "--arrival-jitter-fraction",
+            "0.15",
+            "--preprocessing-failure-mode",
+            "bernoulli",
+            "--preprocessing-failure-count",
+            "3",
+            "--preprocessing-failure-probability",
+            "0.2",
+            "--local-service-scale",
+            "1.5",
+        ]
+    )
+
+    assert args.func(args) == 0
+    spec = captured["spec"]
+    assert spec.arrival_center_s == 6.0
+    assert spec.arrival_window_s == 0.6
+    assert spec.arrival_jitter_fraction == 0.15
+    assert spec.preprocessing_failure_mode == "bernoulli"
+    assert spec.preprocessing_failure_count == 3
+    assert spec.preprocessing_failure_probability == 0.2
+    assert spec.local_service_scale == 1.5
 
 
 def _tamper_quality_support_count(document):
@@ -263,6 +322,17 @@ def test_numerical_run_manifest_and_selected_path_fer_metrics(
         value is None or 0.0 <= value <= 1.0
         for value in fer["per_class_recall"].values()
     )
+    assert summary["edge_done_rate"] == 0.0
+    assert summary["pipeline_attempt_rate"] == 0.0
+    assert summary["pipeline_to_edge_rate"] == 0.0
+    assert summary["pipeline_to_local_rate"] == 0.0
+    assert summary["mechanism_path_counts"]["task_count"] == summary["task_count"]
+    assert summary["mechanism_path_denominators"] == {
+        "edge_done_rate": summary["task_count"],
+        "pipeline_attempt_rate": summary["task_count"],
+        "pipeline_to_edge_rate": 0,
+        "pipeline_to_local_rate": 0,
+    }
 
     task_csv = (tmp_path / "numerical-run" / "tasks.csv").read_text(encoding="utf-8")
     assert "true_label" not in task_csv

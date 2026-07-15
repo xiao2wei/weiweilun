@@ -109,6 +109,24 @@ class NumericalStudySpec:
     # variants without breaking joint transaction replay.
     anon_time_variability_scale: float = 1.0
     output_size_variability_scale: float = 1.0
+    # Arrival controls are optional so frozen legacy bundles retain their
+    # original uniformly spaced, fixed-jitter schedule.  A paper experiment
+    # supplies all three values to place a bounded burst at a fixed point in
+    # the horizon without changing the horizon's fault/thermal timeline.
+    arrival_center_s: float | None = None
+    arrival_window_s: float | None = None
+    arrival_jitter_fraction: float | None = None
+    # ``legacy_last`` preserves the original stress fixture exactly.  Formal
+    # studies can instead remove injected failures, select a fixed number of
+    # task indices without replacement, or use independent seeded Bernoulli
+    # failures.  The schedule is shared by every policy in an environment.
+    preprocessing_failure_mode: str = "legacy_last"
+    preprocessing_failure_count: int = 0
+    preprocessing_failure_probability: float = 0.0
+    # Preregistered multiplier for local FER service work and its dynamic
+    # energy.  It is deliberately separate from arrival intensity so a
+    # calibration can create compute pressure without changing fault timing.
+    local_service_scale: float = 1.0
 
     def validate(self) -> None:
         integers = (
@@ -158,6 +176,61 @@ class NumericalStudySpec:
         ):
             if not math.isfinite(value) or not 0.0 <= value <= 3.0:
                 raise ValueError(f"{name} must lie inside [0, 3]")
+        arrival_controls = (
+            self.arrival_center_s,
+            self.arrival_window_s,
+            self.arrival_jitter_fraction,
+        )
+        if any(value is not None for value in arrival_controls):
+            if any(value is None for value in arrival_controls):
+                raise ValueError(
+                    "arrival_center_s, arrival_window_s, and "
+                    "arrival_jitter_fraction must be supplied together"
+                )
+            center = float(self.arrival_center_s)
+            window = float(self.arrival_window_s)
+            jitter = float(self.arrival_jitter_fraction)
+            if not math.isfinite(center) or not math.isfinite(window):
+                raise ValueError("arrival center and window must be finite")
+            if window <= 0.0:
+                raise ValueError("arrival_window_s must be positive")
+            if center - window / 2.0 < 0.0 or center + window / 2.0 > self.horizon_s:
+                raise ValueError("arrival window must lie inside the horizon")
+            if not math.isfinite(jitter) or not 0.0 <= jitter <= 0.5:
+                raise ValueError("arrival_jitter_fraction must lie inside [0, 0.5]")
+        if self.preprocessing_failure_mode not in {
+            "legacy_last",
+            "none",
+            "fixed_count",
+            "bernoulli",
+        }:
+            raise ValueError(
+                "preprocessing_failure_mode must be legacy_last, none, "
+                "fixed_count, or bernoulli"
+            )
+        if (
+            isinstance(self.preprocessing_failure_count, bool)
+            or not isinstance(self.preprocessing_failure_count, int)
+            or self.preprocessing_failure_count < 0
+        ):
+            raise ValueError("preprocessing_failure_count must be a non-negative integer")
+        if (
+            self.preprocessing_failure_mode == "fixed_count"
+            and self.preprocessing_failure_count > self.task_count
+        ):
+            raise ValueError("preprocessing_failure_count cannot exceed task_count")
+        if (
+            not math.isfinite(self.preprocessing_failure_probability)
+            or not 0.0 <= self.preprocessing_failure_probability <= 1.0
+        ):
+            raise ValueError(
+                "preprocessing_failure_probability must lie inside [0, 1]"
+            )
+        if (
+            not math.isfinite(self.local_service_scale)
+            or not 0.0 < self.local_service_scale <= 10.0
+        ):
+            raise ValueError("local_service_scale must lie inside (0, 10]")
 
 
 @dataclass(frozen=True, slots=True)
@@ -180,6 +253,59 @@ def _sha(value: str) -> str:
 def _rng(seed: int, *parts: object) -> random.Random:
     material = "|".join((str(seed), *(str(part) for part in parts))).encode("utf-8")
     return random.Random(int.from_bytes(hashlib.sha256(material).digest()[:8], "big"))
+
+
+def _arrival_time_s(
+    spec: NumericalStudySpec, *, trace_seed: int, task_index: int
+) -> float:
+    """Return a seeded arrival time while preserving the legacy schedule.
+
+    The explicit-window form makes load an independently controllable
+    scenario variable.  Keeping the legacy branch verbatim is important for
+    replaying bundles whose evidence predates the paper-v1 controls.
+    """
+
+    if spec.arrival_window_s is None:
+        arrival_time = (task_index + 1) * (spec.horizon_s - 1.6) / (
+            spec.task_count + 1
+        )
+        arrival_time += _rng(trace_seed, "arrival", task_index).uniform(-0.04, 0.04)
+        return max(0.01, arrival_time)
+    assert spec.arrival_center_s is not None
+    assert spec.arrival_jitter_fraction is not None
+    interarrival_s = spec.arrival_window_s / (spec.task_count + 1)
+    nominal = (
+        spec.arrival_center_s
+        - spec.arrival_window_s / 2.0
+        + (task_index + 1) * interarrival_s
+    )
+    jitter_s = spec.arrival_jitter_fraction * interarrival_s
+    return nominal + _rng(trace_seed, "arrival", task_index).uniform(
+        -jitter_s, jitter_s
+    )
+
+
+def _preprocessing_failure_indices(
+    spec: NumericalStudySpec, *, trace_seed: int
+) -> frozenset[int]:
+    """Build a deterministic task-level preprocessing-failure schedule."""
+
+    if spec.preprocessing_failure_mode == "legacy_last":
+        return frozenset({spec.task_count - 1})
+    if spec.preprocessing_failure_mode == "none":
+        return frozenset()
+    if spec.preprocessing_failure_mode == "fixed_count":
+        indices = list(range(spec.task_count))
+        _rng(trace_seed, "preprocessing-failure-schedule").shuffle(indices)
+        return frozenset(indices[: spec.preprocessing_failure_count])
+    if spec.preprocessing_failure_mode == "bernoulli":
+        return frozenset(
+            index
+            for index in range(spec.task_count)
+            if _rng(trace_seed, "preprocessing-failure", index).random()
+            < spec.preprocessing_failure_probability
+        )
+    raise AssertionError("NumericalStudySpec.validate() accepted an unknown mode")
 
 
 def _clamp(value: float, low: float = 0.0, high: float = 1.0) -> float:
@@ -1721,7 +1847,11 @@ def _cost_normalization_evidence(
         difficulty = 1.0 - quality_score
         device_index = index % len(DEVICES)
         prep_work = (0.022 if device_index == 0 else 0.039) * (1.0 + 0.18 * difficulty)
-        local_work = (0.043 if device_index == 0 else 0.081) * (1.0 + 0.22 * difficulty)
+        local_work = (
+            (0.043 if device_index == 0 else 0.081)
+            * (1.0 + 0.22 * difficulty)
+            * spec.local_service_scale
+        )
         local_power = 11.8 if device_index == 0 else 7.6
         label = EXPRESSIONS[index % len(EXPRESSIONS)]
         probabilities = _fer_probabilities(
@@ -2030,8 +2160,15 @@ def _build_profile(
                 "supported_pipelines": [],
                 "deployment_resource_bounds": {
                     "max_memory_bytes": 256 * 1024 * 1024,
-                    "max_service_work_s": 0.080,
-                    "max_dynamic_energy_j": 0.70,
+                    # These retain the v11 values at scale one while
+                    # remaining an analytic envelope for preregistered local
+                    # compute-pressure variants.
+                    "max_service_work_s": _round(
+                        0.080 * spec.local_service_scale
+                    ),
+                    "max_dynamic_energy_j": _round(
+                        0.70 * spec.local_service_scale
+                    ),
                 },
             }
         ],
@@ -2372,8 +2509,10 @@ def _build_trace(
                         LOCAL_MODEL,
                         None,
                     )
-                    work = (0.034 if device_index == 0 else 0.062) * (
-                        1.0 + 0.10 * sample_index
+                    work = (
+                        (0.034 if device_index == 0 else 0.062)
+                        * (1.0 + 0.10 * sample_index)
+                        * spec.local_service_scale
                     )
                     local_rows.append(
                         {
@@ -2404,13 +2543,12 @@ def _build_trace(
                     )
     arrivals: list[dict[str, Any]] = []
     prep_rows: list[dict[str, Any]] = []
+    failed_task_indices = _preprocessing_failure_indices(spec, trace_seed=trace_seed)
     for index in range(spec.task_count):
         subject = subjects[index % len(subjects)]
         record = quality_records[index % len(quality_records)]
         vehicle = VEHICLES[index % len(VEHICLES)]
-        arrival_time = (index + 1) * (spec.horizon_s - 1.6) / (spec.task_count + 1)
-        arrival_time += _rng(trace_seed, "arrival", index).uniform(-0.04, 0.04)
-        arrival_time = max(0.01, arrival_time)
+        arrival_time = _arrival_time_s(spec, trace_seed=trace_seed, task_index=index)
         raw_candidates = tuple(record["candidate_regions"])
         # An empty conformal set is OOD.  Runtime performance prediction still
         # uses the conservative full frozen partition so local fallback remains
@@ -2477,7 +2615,7 @@ def _build_trace(
                             work * (11.2 if device == DEVICES[0] else 7.4)
                         ),
                         "memory_bytes": 48 * 1024 * 1024,
-                        "failed": index == spec.task_count - 1,
+                        "failed": index in failed_task_indices,
                     }
                 )
     segment_count = 10
@@ -2592,7 +2730,7 @@ def _build_trace(
     document: dict[str, Any] = {
         "schema_version": SCHEMA_VERSION,
         "protocol_version": PROTOCOL_VERSION,
-        "trace_version": f"numerical-{role}-2.2.0",
+        "trace_version": f"numerical-{role}-2.3.0",
         "trace_hash": "",
         "profile_hash": profile["profile_hash"],
         "data_kind": "numerical_simulation",
@@ -2635,7 +2773,19 @@ def _build_trace(
                 "Seeded transient RSU fault process.", "event", stress=True
             ),
             "arrivals_deadlines": _source(
-                "Seeded finite arrival and deadline process.", "s"
+                "Seeded finite arrival and deadline process; paper-v1 may use a bounded centered burst.",
+                "s",
+                stress=spec.arrival_window_s is not None,
+            ),
+            "preprocessing_failure_schedule": _source(
+                "Seeded task-level preprocessing-failure schedule shared across policies.",
+                "task",
+                stress=spec.preprocessing_failure_mode != "none",
+            ),
+            "local_service_scale": _source(
+                "Preregistered multiplier for local FER service work and dynamic energy.",
+                "dimensionless",
+                stress=spec.local_service_scale != 1.0,
             ),
         },
         "metadata": {
@@ -2648,6 +2798,25 @@ def _build_trace(
                 "subject_population_hash": _sha("\n".join(subjects)),
                 "subject_population_disjoint": True,
                 "artifact_namespace_disjoint": True,
+            },
+            "scenario_controls": {
+                "arrival_schedule": {
+                    "mode": (
+                        "legacy_horizon_spaced"
+                        if spec.arrival_window_s is None
+                        else "centered_window"
+                    ),
+                    "center_s": spec.arrival_center_s,
+                    "window_s": spec.arrival_window_s,
+                    "jitter_fraction": spec.arrival_jitter_fraction,
+                },
+                "preprocessing_failure_schedule": {
+                    "mode": spec.preprocessing_failure_mode,
+                    "fixed_count": spec.preprocessing_failure_count,
+                    "bernoulli_probability": spec.preprocessing_failure_probability,
+                    "failed_task_indices": sorted(failed_task_indices),
+                },
+                "local_service_scale": spec.local_service_scale,
             },
             "formal_experiment_eligible": False,
             "numerical_experiment_eligible": True,

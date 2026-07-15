@@ -1,0 +1,482 @@
+[
+  {
+    "environment_id": "numerical-environment-101",
+    "evaluation_trace_hash": "4ab68fcab4dee4fdd3376cc602f435b0422d73f5499c91977106ab215ae38479",
+    "metric_value": 0.15187828571428602,
+    "pairing_id": "all_tasks",
+    "strategy": "all_local",
+    "task_identity_hash": "4ab68fcab4dee4fdd3376cc602f435b0422d73f5499c91977106ab215ae38479"
+  },
+  {
+    "environment_id": "numerical-environment-101",
+    "evaluation_trace_hash": "4ab68fcab4dee4fdd3376cc602f435b0422d73f5499c91977106ab215ae38479",
+    "metric_value": 0.2501836974621957,
+    "pairing_id": "all_tasks",
+    "strategy": "fixed_safe_lowest_link_cost",
+    "task_identity_hash": "4ab68fcab4dee4fdd3376cc602f435b0422d73f5499c91977106ab215ae38479"
+  },
+  {
+    "environment_id": "numerical-environment-101",
+    "evaluation_trace_hash": "4ab68fcab4dee4fdd3376cc602f435b0422d73f5499c91977106ab215ae38479",
+    "metric_value": 0.2501836974621957,
+    "pairing_id": "all_tasks",
+    "strategy": "fixed_safe_shortest_visible_queue",
+    "task_identity_hash": "4ab68fcab4dee4fdd3376cc602f435b0422d73f5499c91977106ab215ae38479"
+  },
+  {
+    "environment_id": "numerical-environment-101",
+    "evaluation_trace_hash": "4ab68fcab4dee4fdd3376cc602f435b0422d73f5499c91977106ab215ae38479",
+    "metric_value": 0.24026655550000048,
+    "pairing_id": "all_tasks",
+    "strategy": "safe_greedy",
+    "task_identity_hash": "4ab68fcab4dee4fdd3376cc602f435b0422d73f5499c91977106ab215ae38479"
+  },
+  {
+    "environment_id": "numerical-environment-101",
+    "evaluation_trace_hash": "4ab68fcab4dee4fdd3376cc602f435b0422d73f5499c91977106ab215ae38479",
+    "metric_value": 0.7181503639759597,
+    "pairing_id": "all_tasks",
+    "strategy": "safe_lyapunov_h1",
+    "task_identity_hash": "4ab68fcab4dee4fdd3376cc602f435b0422d73f5499c91977106ab215ae38479"
+  },
+  {
+    "environment_id": "numerical-environment-101",
+    "evaluation_trace_hash": "4ab68fcab4dee4fdd3376cc602f435b0422d73f5499c91977106ab215ae38479",
+    "metric_value": 0.15187828571428602,
+    "pairing_id": "all_tasks",
+    "strategy": "esl_smpc",
+    "task_identity_hash": "4ab68fcab4dee4fdd3376cc602f435b0422d73f5499c91977106ab215ae38479"
+  },
+  {
+    "environment_id": "numerical-environment-102",
+    "evaluation_trace_hash": "f6f6ce18abed5e3344fbf202a6433f7039eb42d4b60df87a8f68a34810e4f9e5",
+    "metric_value": 0.1478925714285717,
+    "pairing_id": "all_tasks",
+    "strategy": "all_local",
+    "task_identity_hash": "f6f6ce18abed5e3344fbf202a6433f7039eb42d4b60df87a8f68a34810e4f9e5"
+  },
+  {
+    "environment_id": "numerical-environment-102",
+    "evaluation_trace_hash": "f6f6ce18abed5e3344fbf202a6433f7039eb42d4b60df87a8f68a34810e4f9e5",
+    "metric_value": 0.30471460294427766,
+    "pairing_id": "all_tasks",
+    "strategy": "fixed_safe_lowest_link_cost",
+    "task_identity_hash": "f6f6ce18abed5e3344fbf202a6433f7039eb42d4b60df87a8f68a34810e4f9e5"
+  },
+  {
+    "environment_id": "numerical-environment-102",
+    "evaluation_trace_hash": "f6f6ce18abed5e3344fbf202a6433f7039eb42d4b60df87a8f68a34810e4f9e5",
+    "metric_value": 0.30471460294427766,
+    "pairing_id": "all_tasks",
+    "strategy": "fixed_safe_shortest_visible_queue",
+    "task_identity_hash": "f6f6ce18abed5e3344fbf202a6433f7039eb42d4b60df87a8f68a34810e4f9e5"
+  },
+  {
+    "environment_id": "numerical-environment-102",
+    "evaluation_trace_hash": "f6f6ce18abed5e3344fbf202a6433f7039eb42d4b60df87a8f68a34810e4f9e5",
+    "metric_value": 0.2631149328571434,
+    "pairing_id": "all_tasks",
+    "strategy": "safe_greedy",
+    "task_identity_hash": "f6f6ce18abed5e3344fbf202a6433f7039eb42d4b60df87a8f68a34810e4f9e5"
+  },
+  {
+    "environment_id": "numerical-environment-102",
+    "evaluation_trace_hash": "f6f6ce18abed5e3344fbf202a6433f7039eb42d4b60df87a8f68a34810e4f9e5",
+    "metric_value": 0.601609806501366,
+    "pairing_id": "all_tasks",
+    "strategy": "safe_lyapunov_h1",
+    "task_identity_hash": "f6f6ce18abed5e3344fbf202a6433f7039eb42d4b60df87a8f68a34810e4f9e5"
+  },
+  {
+    "environment_id": "numerical-environment-102",
+    "evaluation_trace_hash": "f6f6ce18abed5e3344fbf202a6433f7039eb42d4b60df87a8f68a34810e4f9e5",
+    "metric_value": 0.1478925714285717,
+    "pairing_id": "all_tasks",
+    "strategy": "esl_smpc",
+    "task_identity_hash": "f6f6ce18abed5e3344fbf202a6433f7039eb42d4b60df87a8f68a34810e4f9e5"
+  },
+  {
+    "environment_id": "numerical-environment-103",
+    "evaluation_trace_hash": "99eabd9314e291b04ea5fa71c00612189291917f7e2029c53df33eaea86337b7",
+    "metric_value": 0.15187828571428602,
+    "pairing_id": "all_tasks",
+    "strategy": "all_local",
+    "task_identity_hash": "99eabd9314e291b04ea5fa71c00612189291917f7e2029c53df33eaea86337b7"
+  },
+  {
+    "environment_id": "numerical-environment-103",
+    "evaluation_trace_hash": "99eabd9314e291b04ea5fa71c00612189291917f7e2029c53df33eaea86337b7",
+    "metric_value": 0.2658013434744134,
+    "pairing_id": "all_tasks",
+    "strategy": "fixed_safe_lowest_link_cost",
+    "task_identity_hash": "99eabd9314e291b04ea5fa71c00612189291917f7e2029c53df33eaea86337b7"
+  },
+  {
+    "environment_id": "numerical-environment-103",
+    "evaluation_trace_hash": "99eabd9314e291b04ea5fa71c00612189291917f7e2029c53df33eaea86337b7",
+    "metric_value": 0.2739719618098474,
+    "pairing_id": "all_tasks",
+    "strategy": "fixed_safe_shortest_visible_queue",
+    "task_identity_hash": "99eabd9314e291b04ea5fa71c00612189291917f7e2029c53df33eaea86337b7"
+  },
+  {
+    "environment_id": "numerical-environment-103",
+    "evaluation_trace_hash": "99eabd9314e291b04ea5fa71c00612189291917f7e2029c53df33eaea86337b7",
+    "metric_value": 0.26250433571428644,
+    "pairing_id": "all_tasks",
+    "strategy": "safe_greedy",
+    "task_identity_hash": "99eabd9314e291b04ea5fa71c00612189291917f7e2029c53df33eaea86337b7"
+  },
+  {
+    "environment_id": "numerical-environment-103",
+    "evaluation_trace_hash": "99eabd9314e291b04ea5fa71c00612189291917f7e2029c53df33eaea86337b7",
+    "metric_value": 0.5915455899119539,
+    "pairing_id": "all_tasks",
+    "strategy": "safe_lyapunov_h1",
+    "task_identity_hash": "99eabd9314e291b04ea5fa71c00612189291917f7e2029c53df33eaea86337b7"
+  },
+  {
+    "environment_id": "numerical-environment-103",
+    "evaluation_trace_hash": "99eabd9314e291b04ea5fa71c00612189291917f7e2029c53df33eaea86337b7",
+    "metric_value": 0.22462503755714297,
+    "pairing_id": "all_tasks",
+    "strategy": "esl_smpc",
+    "task_identity_hash": "99eabd9314e291b04ea5fa71c00612189291917f7e2029c53df33eaea86337b7"
+  },
+  {
+    "environment_id": "numerical-environment-104",
+    "evaluation_trace_hash": "2af72f25a03cd8f23d08a167ed0b3d9126e9604daf42fa9d708b8578f43432e7",
+    "metric_value": 0.15187828571428602,
+    "pairing_id": "all_tasks",
+    "strategy": "all_local",
+    "task_identity_hash": "2af72f25a03cd8f23d08a167ed0b3d9126e9604daf42fa9d708b8578f43432e7"
+  },
+  {
+    "environment_id": "numerical-environment-104",
+    "evaluation_trace_hash": "2af72f25a03cd8f23d08a167ed0b3d9126e9604daf42fa9d708b8578f43432e7",
+    "metric_value": 0.2631121994700614,
+    "pairing_id": "all_tasks",
+    "strategy": "fixed_safe_lowest_link_cost",
+    "task_identity_hash": "2af72f25a03cd8f23d08a167ed0b3d9126e9604daf42fa9d708b8578f43432e7"
+  },
+  {
+    "environment_id": "numerical-environment-104",
+    "evaluation_trace_hash": "2af72f25a03cd8f23d08a167ed0b3d9126e9604daf42fa9d708b8578f43432e7",
+    "metric_value": 0.28342138639389225,
+    "pairing_id": "all_tasks",
+    "strategy": "fixed_safe_shortest_visible_queue",
+    "task_identity_hash": "2af72f25a03cd8f23d08a167ed0b3d9126e9604daf42fa9d708b8578f43432e7"
+  },
+  {
+    "environment_id": "numerical-environment-104",
+    "evaluation_trace_hash": "2af72f25a03cd8f23d08a167ed0b3d9126e9604daf42fa9d708b8578f43432e7",
+    "metric_value": 0.22173042857142905,
+    "pairing_id": "all_tasks",
+    "strategy": "safe_greedy",
+    "task_identity_hash": "2af72f25a03cd8f23d08a167ed0b3d9126e9604daf42fa9d708b8578f43432e7"
+  },
+  {
+    "environment_id": "numerical-environment-104",
+    "evaluation_trace_hash": "2af72f25a03cd8f23d08a167ed0b3d9126e9604daf42fa9d708b8578f43432e7",
+    "metric_value": 0.5853808736756032,
+    "pairing_id": "all_tasks",
+    "strategy": "safe_lyapunov_h1",
+    "task_identity_hash": "2af72f25a03cd8f23d08a167ed0b3d9126e9604daf42fa9d708b8578f43432e7"
+  },
+  {
+    "environment_id": "numerical-environment-104",
+    "evaluation_trace_hash": "2af72f25a03cd8f23d08a167ed0b3d9126e9604daf42fa9d708b8578f43432e7",
+    "metric_value": 0.15187828571428602,
+    "pairing_id": "all_tasks",
+    "strategy": "esl_smpc",
+    "task_identity_hash": "2af72f25a03cd8f23d08a167ed0b3d9126e9604daf42fa9d708b8578f43432e7"
+  },
+  {
+    "environment_id": "numerical-environment-105",
+    "evaluation_trace_hash": "cde7264171b11f6167ed70ab0723061360d7bacf67c5db4a98089b80ef2184f7",
+    "metric_value": 0.15187828571428602,
+    "pairing_id": "all_tasks",
+    "strategy": "all_local",
+    "task_identity_hash": "cde7264171b11f6167ed70ab0723061360d7bacf67c5db4a98089b80ef2184f7"
+  },
+  {
+    "environment_id": "numerical-environment-105",
+    "evaluation_trace_hash": "cde7264171b11f6167ed70ab0723061360d7bacf67c5db4a98089b80ef2184f7",
+    "metric_value": 0.27585198711819786,
+    "pairing_id": "all_tasks",
+    "strategy": "fixed_safe_lowest_link_cost",
+    "task_identity_hash": "cde7264171b11f6167ed70ab0723061360d7bacf67c5db4a98089b80ef2184f7"
+  },
+  {
+    "environment_id": "numerical-environment-105",
+    "evaluation_trace_hash": "cde7264171b11f6167ed70ab0723061360d7bacf67c5db4a98089b80ef2184f7",
+    "metric_value": 0.27585198711819786,
+    "pairing_id": "all_tasks",
+    "strategy": "fixed_safe_shortest_visible_queue",
+    "task_identity_hash": "cde7264171b11f6167ed70ab0723061360d7bacf67c5db4a98089b80ef2184f7"
+  },
+  {
+    "environment_id": "numerical-environment-105",
+    "evaluation_trace_hash": "cde7264171b11f6167ed70ab0723061360d7bacf67c5db4a98089b80ef2184f7",
+    "metric_value": 0.26657853857143016,
+    "pairing_id": "all_tasks",
+    "strategy": "safe_greedy",
+    "task_identity_hash": "cde7264171b11f6167ed70ab0723061360d7bacf67c5db4a98089b80ef2184f7"
+  },
+  {
+    "environment_id": "numerical-environment-105",
+    "evaluation_trace_hash": "cde7264171b11f6167ed70ab0723061360d7bacf67c5db4a98089b80ef2184f7",
+    "metric_value": 0.5068928106596703,
+    "pairing_id": "all_tasks",
+    "strategy": "safe_lyapunov_h1",
+    "task_identity_hash": "cde7264171b11f6167ed70ab0723061360d7bacf67c5db4a98089b80ef2184f7"
+  },
+  {
+    "environment_id": "numerical-environment-105",
+    "evaluation_trace_hash": "cde7264171b11f6167ed70ab0723061360d7bacf67c5db4a98089b80ef2184f7",
+    "metric_value": 0.15187828571428602,
+    "pairing_id": "all_tasks",
+    "strategy": "esl_smpc",
+    "task_identity_hash": "cde7264171b11f6167ed70ab0723061360d7bacf67c5db4a98089b80ef2184f7"
+  },
+  {
+    "environment_id": "numerical-environment-106",
+    "evaluation_trace_hash": "a9ab5f07170456335351cc7c3a334120e3d2f0355f164a22ffe1ca8965a5ccee",
+    "metric_value": 0.15187828571428602,
+    "pairing_id": "all_tasks",
+    "strategy": "all_local",
+    "task_identity_hash": "a9ab5f07170456335351cc7c3a334120e3d2f0355f164a22ffe1ca8965a5ccee"
+  },
+  {
+    "environment_id": "numerical-environment-106",
+    "evaluation_trace_hash": "a9ab5f07170456335351cc7c3a334120e3d2f0355f164a22ffe1ca8965a5ccee",
+    "metric_value": 0.2840147403826393,
+    "pairing_id": "all_tasks",
+    "strategy": "fixed_safe_lowest_link_cost",
+    "task_identity_hash": "a9ab5f07170456335351cc7c3a334120e3d2f0355f164a22ffe1ca8965a5ccee"
+  },
+  {
+    "environment_id": "numerical-environment-106",
+    "evaluation_trace_hash": "a9ab5f07170456335351cc7c3a334120e3d2f0355f164a22ffe1ca8965a5ccee",
+    "metric_value": 0.2886515826590009,
+    "pairing_id": "all_tasks",
+    "strategy": "fixed_safe_shortest_visible_queue",
+    "task_identity_hash": "a9ab5f07170456335351cc7c3a334120e3d2f0355f164a22ffe1ca8965a5ccee"
+  },
+  {
+    "environment_id": "numerical-environment-106",
+    "evaluation_trace_hash": "a9ab5f07170456335351cc7c3a334120e3d2f0355f164a22ffe1ca8965a5ccee",
+    "metric_value": 0.2397529680714292,
+    "pairing_id": "all_tasks",
+    "strategy": "safe_greedy",
+    "task_identity_hash": "a9ab5f07170456335351cc7c3a334120e3d2f0355f164a22ffe1ca8965a5ccee"
+  },
+  {
+    "environment_id": "numerical-environment-106",
+    "evaluation_trace_hash": "a9ab5f07170456335351cc7c3a334120e3d2f0355f164a22ffe1ca8965a5ccee",
+    "metric_value": 0.7872050002853106,
+    "pairing_id": "all_tasks",
+    "strategy": "safe_lyapunov_h1",
+    "task_identity_hash": "a9ab5f07170456335351cc7c3a334120e3d2f0355f164a22ffe1ca8965a5ccee"
+  },
+  {
+    "environment_id": "numerical-environment-106",
+    "evaluation_trace_hash": "a9ab5f07170456335351cc7c3a334120e3d2f0355f164a22ffe1ca8965a5ccee",
+    "metric_value": 0.15187828571428602,
+    "pairing_id": "all_tasks",
+    "strategy": "esl_smpc",
+    "task_identity_hash": "a9ab5f07170456335351cc7c3a334120e3d2f0355f164a22ffe1ca8965a5ccee"
+  },
+  {
+    "environment_id": "numerical-environment-107",
+    "evaluation_trace_hash": "821543010a0831f9c81a09913e04ec2c5e3cc15489a33f824370998e72ce02af",
+    "metric_value": 0.1478925714285717,
+    "pairing_id": "all_tasks",
+    "strategy": "all_local",
+    "task_identity_hash": "821543010a0831f9c81a09913e04ec2c5e3cc15489a33f824370998e72ce02af"
+  },
+  {
+    "environment_id": "numerical-environment-107",
+    "evaluation_trace_hash": "821543010a0831f9c81a09913e04ec2c5e3cc15489a33f824370998e72ce02af",
+    "metric_value": 0.25057227212325806,
+    "pairing_id": "all_tasks",
+    "strategy": "fixed_safe_lowest_link_cost",
+    "task_identity_hash": "821543010a0831f9c81a09913e04ec2c5e3cc15489a33f824370998e72ce02af"
+  },
+  {
+    "environment_id": "numerical-environment-107",
+    "evaluation_trace_hash": "821543010a0831f9c81a09913e04ec2c5e3cc15489a33f824370998e72ce02af",
+    "metric_value": 0.25845290983018093,
+    "pairing_id": "all_tasks",
+    "strategy": "fixed_safe_shortest_visible_queue",
+    "task_identity_hash": "821543010a0831f9c81a09913e04ec2c5e3cc15489a33f824370998e72ce02af"
+  },
+  {
+    "environment_id": "numerical-environment-107",
+    "evaluation_trace_hash": "821543010a0831f9c81a09913e04ec2c5e3cc15489a33f824370998e72ce02af",
+    "metric_value": 0.23596329442857195,
+    "pairing_id": "all_tasks",
+    "strategy": "safe_greedy",
+    "task_identity_hash": "821543010a0831f9c81a09913e04ec2c5e3cc15489a33f824370998e72ce02af"
+  },
+  {
+    "environment_id": "numerical-environment-107",
+    "evaluation_trace_hash": "821543010a0831f9c81a09913e04ec2c5e3cc15489a33f824370998e72ce02af",
+    "metric_value": 0.5068822503719492,
+    "pairing_id": "all_tasks",
+    "strategy": "safe_lyapunov_h1",
+    "task_identity_hash": "821543010a0831f9c81a09913e04ec2c5e3cc15489a33f824370998e72ce02af"
+  },
+  {
+    "environment_id": "numerical-environment-107",
+    "evaluation_trace_hash": "821543010a0831f9c81a09913e04ec2c5e3cc15489a33f824370998e72ce02af",
+    "metric_value": 0.1478925714285717,
+    "pairing_id": "all_tasks",
+    "strategy": "esl_smpc",
+    "task_identity_hash": "821543010a0831f9c81a09913e04ec2c5e3cc15489a33f824370998e72ce02af"
+  },
+  {
+    "environment_id": "numerical-environment-108",
+    "evaluation_trace_hash": "4208446a8cea0551a02962bece806aac57a1e7a5813aac0581f50ce423e4928b",
+    "metric_value": 0.1567497142857146,
+    "pairing_id": "all_tasks",
+    "strategy": "all_local",
+    "task_identity_hash": "4208446a8cea0551a02962bece806aac57a1e7a5813aac0581f50ce423e4928b"
+  },
+  {
+    "environment_id": "numerical-environment-108",
+    "evaluation_trace_hash": "4208446a8cea0551a02962bece806aac57a1e7a5813aac0581f50ce423e4928b",
+    "metric_value": 0.30234545621334685,
+    "pairing_id": "all_tasks",
+    "strategy": "fixed_safe_lowest_link_cost",
+    "task_identity_hash": "4208446a8cea0551a02962bece806aac57a1e7a5813aac0581f50ce423e4928b"
+  },
+  {
+    "environment_id": "numerical-environment-108",
+    "evaluation_trace_hash": "4208446a8cea0551a02962bece806aac57a1e7a5813aac0581f50ce423e4928b",
+    "metric_value": 0.31020842750357186,
+    "pairing_id": "all_tasks",
+    "strategy": "fixed_safe_shortest_visible_queue",
+    "task_identity_hash": "4208446a8cea0551a02962bece806aac57a1e7a5813aac0581f50ce423e4928b"
+  },
+  {
+    "environment_id": "numerical-environment-108",
+    "evaluation_trace_hash": "4208446a8cea0551a02962bece806aac57a1e7a5813aac0581f50ce423e4928b",
+    "metric_value": 0.2245500500000004,
+    "pairing_id": "all_tasks",
+    "strategy": "safe_greedy",
+    "task_identity_hash": "4208446a8cea0551a02962bece806aac57a1e7a5813aac0581f50ce423e4928b"
+  },
+  {
+    "environment_id": "numerical-environment-108",
+    "evaluation_trace_hash": "4208446a8cea0551a02962bece806aac57a1e7a5813aac0581f50ce423e4928b",
+    "metric_value": 0.6253671631490234,
+    "pairing_id": "all_tasks",
+    "strategy": "safe_lyapunov_h1",
+    "task_identity_hash": "4208446a8cea0551a02962bece806aac57a1e7a5813aac0581f50ce423e4928b"
+  },
+  {
+    "environment_id": "numerical-environment-108",
+    "evaluation_trace_hash": "4208446a8cea0551a02962bece806aac57a1e7a5813aac0581f50ce423e4928b",
+    "metric_value": 0.1567497142857146,
+    "pairing_id": "all_tasks",
+    "strategy": "esl_smpc",
+    "task_identity_hash": "4208446a8cea0551a02962bece806aac57a1e7a5813aac0581f50ce423e4928b"
+  },
+  {
+    "environment_id": "numerical-environment-109",
+    "evaluation_trace_hash": "2ed761b69e006c615fa4f90f35215938ee06588e9b44ee2c3824a7124cf35f86",
+    "metric_value": 0.1478925714285717,
+    "pairing_id": "all_tasks",
+    "strategy": "all_local",
+    "task_identity_hash": "2ed761b69e006c615fa4f90f35215938ee06588e9b44ee2c3824a7124cf35f86"
+  },
+  {
+    "environment_id": "numerical-environment-109",
+    "evaluation_trace_hash": "2ed761b69e006c615fa4f90f35215938ee06588e9b44ee2c3824a7124cf35f86",
+    "metric_value": 0.27938867268320633,
+    "pairing_id": "all_tasks",
+    "strategy": "fixed_safe_lowest_link_cost",
+    "task_identity_hash": "2ed761b69e006c615fa4f90f35215938ee06588e9b44ee2c3824a7124cf35f86"
+  },
+  {
+    "environment_id": "numerical-environment-109",
+    "evaluation_trace_hash": "2ed761b69e006c615fa4f90f35215938ee06588e9b44ee2c3824a7124cf35f86",
+    "metric_value": 0.27938867268320633,
+    "pairing_id": "all_tasks",
+    "strategy": "fixed_safe_shortest_visible_queue",
+    "task_identity_hash": "2ed761b69e006c615fa4f90f35215938ee06588e9b44ee2c3824a7124cf35f86"
+  },
+  {
+    "environment_id": "numerical-environment-109",
+    "evaluation_trace_hash": "2ed761b69e006c615fa4f90f35215938ee06588e9b44ee2c3824a7124cf35f86",
+    "metric_value": 0.23985158142857213,
+    "pairing_id": "all_tasks",
+    "strategy": "safe_greedy",
+    "task_identity_hash": "2ed761b69e006c615fa4f90f35215938ee06588e9b44ee2c3824a7124cf35f86"
+  },
+  {
+    "environment_id": "numerical-environment-109",
+    "evaluation_trace_hash": "2ed761b69e006c615fa4f90f35215938ee06588e9b44ee2c3824a7124cf35f86",
+    "metric_value": 0.5954245934412334,
+    "pairing_id": "all_tasks",
+    "strategy": "safe_lyapunov_h1",
+    "task_identity_hash": "2ed761b69e006c615fa4f90f35215938ee06588e9b44ee2c3824a7124cf35f86"
+  },
+  {
+    "environment_id": "numerical-environment-109",
+    "evaluation_trace_hash": "2ed761b69e006c615fa4f90f35215938ee06588e9b44ee2c3824a7124cf35f86",
+    "metric_value": 0.21824301928571432,
+    "pairing_id": "all_tasks",
+    "strategy": "esl_smpc",
+    "task_identity_hash": "2ed761b69e006c615fa4f90f35215938ee06588e9b44ee2c3824a7124cf35f86"
+  },
+  {
+    "environment_id": "numerical-environment-110",
+    "evaluation_trace_hash": "e94ab303accc65bb2c8bde9f797875f9566dcd3dd839f793b97c684829cb025c",
+    "metric_value": 0.15187828571428602,
+    "pairing_id": "all_tasks",
+    "strategy": "all_local",
+    "task_identity_hash": "e94ab303accc65bb2c8bde9f797875f9566dcd3dd839f793b97c684829cb025c"
+  },
+  {
+    "environment_id": "numerical-environment-110",
+    "evaluation_trace_hash": "e94ab303accc65bb2c8bde9f797875f9566dcd3dd839f793b97c684829cb025c",
+    "metric_value": 0.3153464488735833,
+    "pairing_id": "all_tasks",
+    "strategy": "fixed_safe_lowest_link_cost",
+    "task_identity_hash": "e94ab303accc65bb2c8bde9f797875f9566dcd3dd839f793b97c684829cb025c"
+  },
+  {
+    "environment_id": "numerical-environment-110",
+    "evaluation_trace_hash": "e94ab303accc65bb2c8bde9f797875f9566dcd3dd839f793b97c684829cb025c",
+    "metric_value": 0.3153464488735833,
+    "pairing_id": "all_tasks",
+    "strategy": "fixed_safe_shortest_visible_queue",
+    "task_identity_hash": "e94ab303accc65bb2c8bde9f797875f9566dcd3dd839f793b97c684829cb025c"
+  },
+  {
+    "environment_id": "numerical-environment-110",
+    "evaluation_trace_hash": "e94ab303accc65bb2c8bde9f797875f9566dcd3dd839f793b97c684829cb025c",
+    "metric_value": 0.22033986571428615,
+    "pairing_id": "all_tasks",
+    "strategy": "safe_greedy",
+    "task_identity_hash": "e94ab303accc65bb2c8bde9f797875f9566dcd3dd839f793b97c684829cb025c"
+  },
+  {
+    "environment_id": "numerical-environment-110",
+    "evaluation_trace_hash": "e94ab303accc65bb2c8bde9f797875f9566dcd3dd839f793b97c684829cb025c",
+    "metric_value": 0.8361497635142856,
+    "pairing_id": "all_tasks",
+    "strategy": "safe_lyapunov_h1",
+    "task_identity_hash": "e94ab303accc65bb2c8bde9f797875f9566dcd3dd839f793b97c684829cb025c"
+  },
+  {
+    "environment_id": "numerical-environment-110",
+    "evaluation_trace_hash": "e94ab303accc65bb2c8bde9f797875f9566dcd3dd839f793b97c684829cb025c",
+    "metric_value": 0.15187828571428602,
+    "pairing_id": "all_tasks",
+    "strategy": "esl_smpc",
+    "task_identity_hash": "e94ab303accc65bb2c8bde9f797875f9566dcd3dd839f793b97c684829cb025c"
+  }
+]

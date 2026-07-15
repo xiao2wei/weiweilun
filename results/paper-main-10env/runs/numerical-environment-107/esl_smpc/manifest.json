@@ -1,0 +1,1682 @@
+{
+  "code_version": {
+    "git_commit": "37752b0d11ee661cdf30d9d8a1e7157c3d2b6441",
+    "git_dirty": true,
+    "kind": "git",
+    "source_file_count": 31,
+    "source_tree_sha256": "1d062786ff8f041452c8c55e7853623a5b61b7b0344b928d77f405d2a1fce538",
+    "value": "37752b0d11ee661cdf30d9d8a1e7157c3d2b6441"
+  },
+  "configuration": {
+    "canonical_sha256": "77284d0512d03b40cb9fe572bfc7ebffc617931f65555cfac78244b659d7dc9d",
+    "content": {
+      "controller": {
+        "controller_energy_j": 0.004,
+        "controller_overhead_s": 0.0008,
+        "horizon_events": 2,
+        "lyapunov_v": 12.0,
+        "physical_queue_weight": 1.0,
+        "policy": "esl_smpc",
+        "rollout_policy": "safe_greedy",
+        "rsu_resource_theta": {
+          "gpu": 1.0,
+          "ingress": 1.0
+        },
+        "scenarios": 8,
+        "vehicle_resource_theta": {
+          "accelerator": 1.0,
+          "cpu": 1.0,
+          "encoder": 1.0
+        }
+      },
+      "cost": {
+        "failure_loss": 1.0,
+        "latency_scale_s": 0.146400789,
+        "rsu_energy_scale_j": 0.774831106,
+        "utility_scale": 0.285132735,
+        "vehicle_energy_scale_j": 1.174476527,
+        "weights": {
+          "failure": 2.0,
+          "latency": 1.0,
+          "rsu_energy": 0.15,
+          "utility": 1.0,
+          "vehicle_energy": 0.25
+        }
+      },
+      "downlink_pause_limit_s": 2.0,
+      "evidence_path": "E:\\lunwen1\\weiweilun\\results\\paper-main-10env\\inputs\\environment-107\\evidence\\numerical_study_evidence.json",
+      "long_term": {
+        "coverage_rate_minimum": 0.75,
+        "failure_rate_limit": 0.25,
+        "timeout_rate_limit": 0.15
+      },
+      "max_snapshot_age_s": 0.5,
+      "metadata_bits": 2048,
+      "output_parquet": false,
+      "parameter_sources": {
+        "anonymous_transaction": "engineering_assumption",
+        "arrival_load": "engineering_assumption",
+        "deadlines": "engineering_assumption",
+        "encoded_output_size": "engineering_assumption",
+        "faults": "stress_test_boundary",
+        "interruptions_and_recovery": "stress_test_boundary",
+        "privacy_risk_values": "engineering_assumption",
+        "resource_capacity": "engineering_assumption",
+        "rsu_power": "engineering_assumption",
+        "task_buffer_hold_power": "engineering_assumption",
+        "thermal_throttling": "stress_test_boundary",
+        "vehicle_compute_latency_energy": "engineering_assumption",
+        "vehicle_power": "engineering_assumption",
+        "wireless_goodput": "engineering_assumption",
+        "wireless_link_packet_sharing": "engineering_assumption"
+      },
+      "privacy": {
+        "confidence_error": 0.05,
+        "min_emission_lcb": 0.5,
+        "min_subjects": 64,
+        "quality_miscoverage": 0.1,
+        "risk_threshold": 0.35
+      },
+      "profile_path": "E:\\lunwen1\\weiweilun\\results\\paper-main-10env\\inputs\\environment-107\\profiles\\numerical_profile.json",
+      "protocol_version": "anon-fer/1.0",
+      "rsu_snapshot_period_s": 0.25,
+      "rsu_telemetry_delay_s": 0.04,
+      "rsu_telemetry_drop_every": 7,
+      "rsu_telemetry_quantum_work_s": 0.001,
+      "rsus": [
+        {
+          "average_power_budget_w": 128.0,
+          "cached_models": [
+            "edge_fer_numerical_v1"
+          ],
+          "descriptor_capacity": 16,
+          "gpu_servers": 2,
+          "hold_power_w": 0.5,
+          "idle_power_w": 72.0,
+          "rsu_id": "rsu-1",
+          "vram_capacity_bytes": 8589934592,
+          "workload_capacity_gpu_s": 30.0
+        },
+        {
+          "average_power_budget_w": 108.0,
+          "cached_models": [
+            "edge_fer_numerical_v1"
+          ],
+          "descriptor_capacity": 10,
+          "gpu_servers": 1,
+          "hold_power_w": 0.4,
+          "idle_power_w": 58.0,
+          "rsu_id": "rsu-2",
+          "vram_capacity_bytes": 6442450944,
+          "workload_capacity_gpu_s": 18.0
+        }
+      ],
+      "scenario_trace_path": "E:\\lunwen1\\weiweilun\\results\\paper-main-10env\\inputs\\environment-107\\traces\\numerical_scenario_trace.json",
+      "schema_version": "1.0",
+      "seeds": {
+        "arrivals": 9923731103683591151,
+        "environment": 9675243565560846821,
+        "fault": 3794096364542248235,
+        "mobility": 14480151098386033619,
+        "rsu": 17105601351370437120,
+        "scenario": 722,
+        "vehicle": 4851223583155155773,
+        "wireless": 16169370895481550176
+      },
+      "trace_path": "E:\\lunwen1\\weiweilun\\results\\paper-main-10env\\inputs\\environment-107\\traces\\numerical_evaluation_trace.json",
+      "uplink_pause_limit_s": 2.0,
+      "vehicles": [
+        {
+          "accelerator_descriptors": 8,
+          "average_power_budget_w": 24.0,
+          "battery_capacity_j": 5000.0,
+          "cpu_descriptors": 8,
+          "device_type": "vehicle_gpu_class_a",
+          "encoder_descriptors": 8,
+          "hold_power_w": 0.15,
+          "idle_power_w": 8.0,
+          "initial_battery_j": 5000.0,
+          "memory_capacity_bytes": 1073741824,
+          "vehicle_id": "veh-1"
+        },
+        {
+          "accelerator_descriptors": 6,
+          "average_power_budget_w": 20.0,
+          "battery_capacity_j": 4200.0,
+          "cpu_descriptors": 6,
+          "device_type": "vehicle_cpu_class_b",
+          "encoder_descriptors": 6,
+          "hold_power_w": 0.12,
+          "idle_power_w": 6.5,
+          "initial_battery_j": 4200.0,
+          "memory_capacity_bytes": 805306368,
+          "vehicle_id": "veh-2"
+        }
+      ]
+    }
+  },
+  "controller": {
+    "controller_energy_j": 0.004,
+    "controller_overhead_s": 0.0008,
+    "horizon_events": 2,
+    "lyapunov_v": 12.0,
+    "physical_queue_weight": 1.0,
+    "policy": "esl_smpc",
+    "rollout_policy": "safe_greedy",
+    "rsu_resource_theta": {
+      "gpu": 1.0,
+      "ingress": 1.0
+    },
+    "scenarios": 8,
+    "vehicle_resource_theta": {
+      "accelerator": 1.0,
+      "cpu": 1.0,
+      "encoder": 1.0
+    }
+  },
+  "controller_diagnostics": {
+    "note": "engineering diagnostic only; excluded from simulated time and core_digest",
+    "sample_count": 11,
+    "wall_clock_max_s": 1.3113232,
+    "wall_clock_mean_s": 0.9761941454545454,
+    "wall_clock_p50_s": 0.8853111,
+    "wall_clock_p95_s": 1.2181672,
+    "wall_clock_total_s": 10.7381356
+  },
+  "core_digest": "3e8c6a6ed86b5ee657c3394ebd031dc8c78a4b8777f0b68e49f0fa3d17a2009a",
+  "data_provenance": {
+    "evidence_status": "frozen_numerical_model",
+    "formal_experiment_eligible": false,
+    "numerical_experiment_eligible": true,
+    "profile_data_kind": "numerical_simulation",
+    "real_hardware_measurement": false,
+    "result_label": "numerical_model_conditional",
+    "scenario_trace_data_kind": "numerical_simulation",
+    "trace_data_kind": "numerical_simulation"
+  },
+  "data_split": {
+    "evaluation": {
+      "artifact_namespace_disjoint": true,
+      "role": "evaluation",
+      "seed": 107,
+      "subject_population_disjoint": true,
+      "subject_population_hash": "8fd86daaa6fea363bed6b3c5d12fbe7f200ef040b21250fc6c352c968ba6e89d"
+    },
+    "scenario_training_validation": {
+      "artifact_namespace_disjoint": true,
+      "role": "training_validation",
+      "seed": 40715,
+      "subject_population_disjoint": true,
+      "subject_population_hash": "bbcb53ede2b49868bd990515571f31fe87deeb69663392ebc8d7df4cde77544e"
+    }
+  },
+  "deadline": {
+    "count": 12,
+    "relative_deadline_max_s": 1.391198867,
+    "relative_deadline_mean_s": 1.1294243516666667,
+    "relative_deadline_min_s": 0.914557727
+  },
+  "event_priority": {
+    "ARRIVAL": 30,
+    "BATTERY_GUARD": 10,
+    "COMPUTE_COMPLETE": 0,
+    "DEADLINE": 20,
+    "DEVICE_FAULT": 10,
+    "DISPATCH_DECISION": 40,
+    "LINK_CHANGE": 10,
+    "MODEL_VERSION": 10,
+    "PROFILE_VERSION": 10,
+    "RSU_SNAPSHOT": 10,
+    "THERMAL_CHANGE": 10,
+    "TRANSFER_COMPLETE": 0
+  },
+  "frozen_evidence": {
+    "attack_thresholds": {
+      "cosine_gallery_numerical_v2": {
+        "identity": {
+          "achieved_calibration_false_match_rate": 0.009114583,
+          "calibration_comparisons": 768,
+          "decision_rule": "rank_1_gallery_retrieval",
+          "negative_score_digest": "a1919894c36676536147a9ad8d1add31721dd614c4edd1fdf8208a9336076827",
+          "target_false_match_rate": 0.01,
+          "threshold": 0.2242434,
+          "threshold_id": "cosine_gallery_numerical_v2:identity:fmr-0.0100",
+          "used_for_success": false
+        },
+        "link": {
+          "achieved_calibration_false_match_rate": 0.009114583,
+          "calibration_comparisons": 768,
+          "decision_rule": "score_greater_equal_calibrated_threshold",
+          "negative_score_digest": "9edc99fa85665f214af9f491642c8b74e4a9ce020fba76694f39b0c1fb0eaada",
+          "target_false_match_rate": 0.01,
+          "threshold": 0.276457794,
+          "threshold_id": "cosine_gallery_numerical_v2:link:fmr-0.0100",
+          "used_for_success": true
+        },
+        "verification": {
+          "achieved_calibration_false_match_rate": 0.009114583,
+          "calibration_comparisons": 768,
+          "decision_rule": "score_greater_equal_calibrated_threshold",
+          "negative_score_digest": "914cba4422757d0bb4c148253d752e2dfa7867a6d305846f11d46a41402601e5",
+          "target_false_match_rate": 0.01,
+          "threshold": 0.200621456,
+          "threshold_id": "cosine_gallery_numerical_v2:verification:fmr-0.0100",
+          "used_for_success": true
+        }
+      },
+      "projected_margin_numerical_v2": {
+        "identity": {
+          "achieved_calibration_false_match_rate": 0.009114583,
+          "calibration_comparisons": 768,
+          "decision_rule": "rank_1_gallery_retrieval",
+          "negative_score_digest": "503d4fde36319a2a4f620ed84645536bdb37c8a8f9b6b9d7f306b19e7e41e745",
+          "target_false_match_rate": 0.01,
+          "threshold": 0.26430029,
+          "threshold_id": "projected_margin_numerical_v2:identity:fmr-0.0100",
+          "used_for_success": false
+        },
+        "link": {
+          "achieved_calibration_false_match_rate": 0.009114583,
+          "calibration_comparisons": 768,
+          "decision_rule": "score_greater_equal_calibrated_threshold",
+          "negative_score_digest": "732180ded26d369223d7e8d8efdabc8233c657d16de2b573b9a98748db11f0e8",
+          "target_false_match_rate": 0.01,
+          "threshold": 0.302019679,
+          "threshold_id": "projected_margin_numerical_v2:link:fmr-0.0100",
+          "used_for_success": true
+        },
+        "verification": {
+          "achieved_calibration_false_match_rate": 0.009114583,
+          "calibration_comparisons": 768,
+          "decision_rule": "score_greater_equal_calibrated_threshold",
+          "negative_score_digest": "05f738d96f408327c43ef50ba82cf16589d31c50be9669406b5a5752eea40cbb",
+          "target_false_match_rate": 0.01,
+          "threshold": 0.266630058,
+          "threshold_id": "projected_margin_numerical_v2:verification:fmr-0.0100",
+          "used_for_success": true
+        }
+      },
+      "temporal_link_numerical_v2": {
+        "identity": {
+          "achieved_calibration_false_match_rate": 0.009114583,
+          "calibration_comparisons": 768,
+          "decision_rule": "rank_1_gallery_retrieval",
+          "negative_score_digest": "25c7499f3dfb14b3ba31e68a2c593f693d8d71a4faca701a3cbbef9aeefba336",
+          "target_false_match_rate": 0.01,
+          "threshold": 0.210732471,
+          "threshold_id": "temporal_link_numerical_v2:identity:fmr-0.0100",
+          "used_for_success": false
+        },
+        "link": {
+          "achieved_calibration_false_match_rate": 0.009114583,
+          "calibration_comparisons": 768,
+          "decision_rule": "score_greater_equal_calibrated_threshold",
+          "negative_score_digest": "8482688ac14f17c00f0c6d31ada8e62ade12b9bc4ad745c2e6346bf00733a0cb",
+          "target_false_match_rate": 0.01,
+          "threshold": 0.262393674,
+          "threshold_id": "temporal_link_numerical_v2:link:fmr-0.0100",
+          "used_for_success": true
+        },
+        "verification": {
+          "achieved_calibration_false_match_rate": 0.009114583,
+          "calibration_comparisons": 768,
+          "decision_rule": "score_greater_equal_calibrated_threshold",
+          "negative_score_digest": "f0ff5a6b32a43719dd0f12306a095ce09fe3d8625042075afe5bb14943f3353b",
+          "target_false_match_rate": 0.01,
+          "threshold": 0.23766647,
+          "threshold_id": "temporal_link_numerical_v2:verification:fmr-0.0100",
+          "used_for_success": true
+        }
+      }
+    },
+    "controller_weight_evidence": {
+      "method": "preregistered_unit_weights_not_data_fitted",
+      "online_mutable": false,
+      "role": "scenario_training_validation",
+      "source_type": "engineering_assumption",
+      "unit": "dimensionless_busy_second_quadratic_weight",
+      "values": {
+        "physical_queue_weight": 1.0,
+        "rsu_resource_theta": {
+          "gpu": 1.0,
+          "ingress": 1.0
+        },
+        "vehicle_resource_theta": {
+          "accelerator": 1.0,
+          "cpu": 1.0,
+          "encoder": 1.0
+        }
+      },
+      "values_sha256": "75e09188fd3267ce7c4e6a0a39316b3ec4c23d291177a2edd8dee8dd913c30f0"
+    },
+    "cost_normalization": {
+      "calibration_hash": "8da5af9b651924a5451cf45eb61f6bf8268058e818f88754c394f6b758a5f96e",
+      "calibration_id": "numerical-cost-scales-2.0.0",
+      "method": "median_of_positive_preregistered_baseline_records",
+      "online_mutable": false,
+      "role": "scenario_training_validation",
+      "scales": {
+        "latency_scale_s": 0.146400789,
+        "rsu_energy_scale_j": 0.774831106,
+        "utility_scale": 0.285132735,
+        "vehicle_energy_scale_j": 1.174476527
+      }
+    },
+    "evidence_hash": "9eb6c79730fec09f781c255f91c9da6deb02b04c8bdb2a239031916437afa04a",
+    "file_sha256": "a0d4ea71a12ceb0e0c5a7533a96c470e94f76ca1f205c51c32e12ef67e11f9e9",
+    "path": "E:\\lunwen1\\weiweilun\\results\\paper-main-10env\\inputs\\environment-107\\evidence\\numerical_study_evidence.json",
+    "privacy_score_model": {
+      "model_hash": "4a68b75506d81f1d3dcf0d8c93dcd04ed912d8cabf3f6a238718172893174c09",
+      "model_version": "numerical-privacy-score-2.1.0",
+      "source_category": "engineering_assumption"
+    },
+    "quality_conformal": {
+      "calibration_count": 256,
+      "identifier": "numerical-quality-conformal-2.0.0",
+      "method": "split_conformal_region_classifier",
+      "miscoverage": 0.1,
+      "order_statistic_rank": 232,
+      "profile_evaluation_quality_cells": [
+        {
+          "frame_count": 648,
+          "region_id": "quality-region-000",
+          "subject_count": 254,
+          "subject_ids_sha256": "af48a8ef31b0ef66deb37ecebb671f65f69e1e0535acf16dd994aef8bb5c9737"
+        },
+        {
+          "frame_count": 376,
+          "region_id": "quality-region-001",
+          "subject_count": 218,
+          "subject_ids_sha256": "a498ed5422cbbf25bbf7490e3c03ac8ee8b75889d9b3a7b020686b94f321f2c5"
+        }
+      ],
+      "profile_evaluation_quality_support_hash": "e96c29c45fc918c363c27427735d526c862351290b5e8a0223c516b8cd70b63a",
+      "quantile": 0.974358974
+    },
+    "quality_partition": {
+      "feature_names": [
+        "face_scale",
+        "abs_yaw_deg",
+        "abs_pitch_deg",
+        "blur_index",
+        "illumination_deviation",
+        "occlusion_fraction"
+      ],
+      "max_depth": 2,
+      "min_leaf_subjects": 4,
+      "partition_hash": "81ae00a73e56bd4d56277b3b51cebeb45f74d46d7f743c4ef7edcb14eba284f2",
+      "partition_id": "numerical-quality-partition-2.0.0",
+      "region_ids": [
+        "quality-region-000",
+        "quality-region-001"
+      ],
+      "regions": [
+        {
+          "coarse_class_probabilities": {
+            "challenging": 0.018181818,
+            "clear": 0.981818182
+          },
+          "mean_quality_score": 0.720113928,
+          "region_id": "quality-region-000",
+          "subject_count": 22
+        },
+        {
+          "coarse_class_probabilities": {
+            "challenging": 0.977777778,
+            "clear": 0.022222222
+          },
+          "mean_quality_score": 0.48962686,
+          "region_id": "quality-region-001",
+          "subject_count": 20
+        }
+      ],
+      "training_role": "scenario_training_validation",
+      "tree": {
+        "depth": 0,
+        "feature": "blur_index",
+        "kind": "split",
+        "left": {
+          "coarse_class_counts": {
+            "challenging": 0,
+            "clear": 53
+          },
+          "coarse_class_probabilities": {
+            "challenging": 0.018181818,
+            "clear": 0.981818182
+          },
+          "depth": 1,
+          "kind": "leaf",
+          "mean_quality_score": 0.720113928,
+          "node_id": "quality-node-001",
+          "region_id": "quality-region-000",
+          "sample_count": 53,
+          "subject_count": 22
+        },
+        "node_id": "quality-node-000",
+        "right": {
+          "coarse_class_counts": {
+            "challenging": 43,
+            "clear": 0
+          },
+          "coarse_class_probabilities": {
+            "challenging": 0.977777778,
+            "clear": 0.022222222
+          },
+          "depth": 1,
+          "kind": "leaf",
+          "mean_quality_score": 0.48962686,
+          "node_id": "quality-node-002",
+          "region_id": "quality-region-001",
+          "sample_count": 43,
+          "subject_count": 20
+        },
+        "threshold": 0.522324767
+      }
+    },
+    "quality_partition_identifier": "7e0dfcfa45d614bed5452d3be10ce37ed57de3f0184e2ca6cc70e61ecb7ef1a1",
+    "required": true,
+    "size_bytes": 12875594,
+    "split_manifest": {
+      "all_pairwise_subject_intersections_empty": true,
+      "assignment_seed": 714,
+      "manifest_hash": "59a6509cab60098abaf6c0d1de0410bdfeca1f02b32412cb87060e73d7dab613",
+      "pairwise_subject_intersection_counts": {
+        "attack_threshold_calibration__profile_evaluation": 0,
+        "attack_threshold_calibration__quality_calibration": 0,
+        "attack_threshold_calibration__scenario_training_validation": 0,
+        "attack_threshold_calibration__test": 0,
+        "attack_train__attack_threshold_calibration": 0,
+        "attack_train__profile_evaluation": 0,
+        "attack_train__quality_calibration": 0,
+        "attack_train__scenario_training_validation": 0,
+        "attack_train__test": 0,
+        "profile_evaluation__scenario_training_validation": 0,
+        "profile_evaluation__test": 0,
+        "quality_calibration__profile_evaluation": 0,
+        "quality_calibration__scenario_training_validation": 0,
+        "quality_calibration__test": 0,
+        "scenario_training_validation__test": 0
+      },
+      "policy": "subject_video_adjacent_frame_mutually_exclusive",
+      "roles": [
+        "attack_train",
+        "attack_threshold_calibration",
+        "quality_calibration",
+        "profile_evaluation",
+        "scenario_training_validation",
+        "test"
+      ],
+      "splits": {
+        "attack_threshold_calibration": {
+          "frame_ids_sha256": "9d6c583512fa6aa6a5e11780276aeec504a35c3d1acf0697a10041a75d07f7ad",
+          "subject_count": 64,
+          "subject_ids": [
+            "numerical-attack_threshold_calibration-subject-00000",
+            "numerical-attack_threshold_calibration-subject-00001",
+            "numerical-attack_threshold_calibration-subject-00002",
+            "numerical-attack_threshold_calibration-subject-00003",
+            "numerical-attack_threshold_calibration-subject-00004",
+            "numerical-attack_threshold_calibration-subject-00005",
+            "numerical-attack_threshold_calibration-subject-00006",
+            "numerical-attack_threshold_calibration-subject-00007",
+            "numerical-attack_threshold_calibration-subject-00008",
+            "numerical-attack_threshold_calibration-subject-00009",
+            "numerical-attack_threshold_calibration-subject-00010",
+            "numerical-attack_threshold_calibration-subject-00011",
+            "numerical-attack_threshold_calibration-subject-00012",
+            "numerical-attack_threshold_calibration-subject-00013",
+            "numerical-attack_threshold_calibration-subject-00014",
+            "numerical-attack_threshold_calibration-subject-00015",
+            "numerical-attack_threshold_calibration-subject-00016",
+            "numerical-attack_threshold_calibration-subject-00017",
+            "numerical-attack_threshold_calibration-subject-00018",
+            "numerical-attack_threshold_calibration-subject-00019",
+            "numerical-attack_threshold_calibration-subject-00020",
+            "numerical-attack_threshold_calibration-subject-00021",
+            "numerical-attack_threshold_calibration-subject-00022",
+            "numerical-attack_threshold_calibration-subject-00023",
+            "numerical-attack_threshold_calibration-subject-00024",
+            "numerical-attack_threshold_calibration-subject-00025",
+            "numerical-attack_threshold_calibration-subject-00026",
+            "numerical-attack_threshold_calibration-subject-00027",
+            "numerical-attack_threshold_calibration-subject-00028",
+            "numerical-attack_threshold_calibration-subject-00029",
+            "numerical-attack_threshold_calibration-subject-00030",
+            "numerical-attack_threshold_calibration-subject-00031",
+            "numerical-attack_threshold_calibration-subject-00032",
+            "numerical-attack_threshold_calibration-subject-00033",
+            "numerical-attack_threshold_calibration-subject-00034",
+            "numerical-attack_threshold_calibration-subject-00035",
+            "numerical-attack_threshold_calibration-subject-00036",
+            "numerical-attack_threshold_calibration-subject-00037",
+            "numerical-attack_threshold_calibration-subject-00038",
+            "numerical-attack_threshold_calibration-subject-00039",
+            "numerical-attack_threshold_calibration-subject-00040",
+            "numerical-attack_threshold_calibration-subject-00041",
+            "numerical-attack_threshold_calibration-subject-00042",
+            "numerical-attack_threshold_calibration-subject-00043",
+            "numerical-attack_threshold_calibration-subject-00044",
+            "numerical-attack_threshold_calibration-subject-00045",
+            "numerical-attack_threshold_calibration-subject-00046",
+            "numerical-attack_threshold_calibration-subject-00047",
+            "numerical-attack_threshold_calibration-subject-00048",
+            "numerical-attack_threshold_calibration-subject-00049",
+            "numerical-attack_threshold_calibration-subject-00050",
+            "numerical-attack_threshold_calibration-subject-00051",
+            "numerical-attack_threshold_calibration-subject-00052",
+            "numerical-attack_threshold_calibration-subject-00053",
+            "numerical-attack_threshold_calibration-subject-00054",
+            "numerical-attack_threshold_calibration-subject-00055",
+            "numerical-attack_threshold_calibration-subject-00056",
+            "numerical-attack_threshold_calibration-subject-00057",
+            "numerical-attack_threshold_calibration-subject-00058",
+            "numerical-attack_threshold_calibration-subject-00059",
+            "numerical-attack_threshold_calibration-subject-00060",
+            "numerical-attack_threshold_calibration-subject-00061",
+            "numerical-attack_threshold_calibration-subject-00062",
+            "numerical-attack_threshold_calibration-subject-00063"
+          ],
+          "subject_ids_sha256": "79d74445076c7db8290298ca9bf10be365ceba19d4d2efda67d5569387c14ebe",
+          "video_ids_sha256": "1f51010b501011f21312a6ac64471abf89615a55b016b6ef3a993a3bde0f421f"
+        },
+        "attack_train": {
+          "frame_ids_sha256": "463243287b67c9dacd27fe746e45609582726a66ae8b9089bc630018ebdcfe05",
+          "subject_count": 32,
+          "subject_ids": [
+            "numerical-attack_train-subject-00000",
+            "numerical-attack_train-subject-00001",
+            "numerical-attack_train-subject-00002",
+            "numerical-attack_train-subject-00003",
+            "numerical-attack_train-subject-00004",
+            "numerical-attack_train-subject-00005",
+            "numerical-attack_train-subject-00006",
+            "numerical-attack_train-subject-00007",
+            "numerical-attack_train-subject-00008",
+            "numerical-attack_train-subject-00009",
+            "numerical-attack_train-subject-00010",
+            "numerical-attack_train-subject-00011",
+            "numerical-attack_train-subject-00012",
+            "numerical-attack_train-subject-00013",
+            "numerical-attack_train-subject-00014",
+            "numerical-attack_train-subject-00015",
+            "numerical-attack_train-subject-00016",
+            "numerical-attack_train-subject-00017",
+            "numerical-attack_train-subject-00018",
+            "numerical-attack_train-subject-00019",
+            "numerical-attack_train-subject-00020",
+            "numerical-attack_train-subject-00021",
+            "numerical-attack_train-subject-00022",
+            "numerical-attack_train-subject-00023",
+            "numerical-attack_train-subject-00024",
+            "numerical-attack_train-subject-00025",
+            "numerical-attack_train-subject-00026",
+            "numerical-attack_train-subject-00027",
+            "numerical-attack_train-subject-00028",
+            "numerical-attack_train-subject-00029",
+            "numerical-attack_train-subject-00030",
+            "numerical-attack_train-subject-00031"
+          ],
+          "subject_ids_sha256": "021974a69cf62d4f341942e7c7b549d58caa8e3195e160d83bbdd9188c1c0c1e",
+          "video_ids_sha256": "d66a17fb33868e33330a880ef72f6dd1265edea85f5aace098d1f8b3cfb1bc21"
+        },
+        "profile_evaluation": {
+          "frame_ids_sha256": "7f608977cda2037c7960b417abebe56140248eec1008a84dddb759b4ea55fd92",
+          "subject_count": 256,
+          "subject_ids": [
+            "numerical-profile_evaluation-subject-00000",
+            "numerical-profile_evaluation-subject-00001",
+            "numerical-profile_evaluation-subject-00002",
+            "numerical-profile_evaluation-subject-00003",
+            "numerical-profile_evaluation-subject-00004",
+            "numerical-profile_evaluation-subject-00005",
+            "numerical-profile_evaluation-subject-00006",
+            "numerical-profile_evaluation-subject-00007",
+            "numerical-profile_evaluation-subject-00008",
+            "numerical-profile_evaluation-subject-00009",
+            "numerical-profile_evaluation-subject-00010",
+            "numerical-profile_evaluation-subject-00011",
+            "numerical-profile_evaluation-subject-00012",
+            "numerical-profile_evaluation-subject-00013",
+            "numerical-profile_evaluation-subject-00014",
+            "numerical-profile_evaluation-subject-00015",
+            "numerical-profile_evaluation-subject-00016",
+            "numerical-profile_evaluation-subject-00017",
+            "numerical-profile_evaluation-subject-00018",
+            "numerical-profile_evaluation-subject-00019",
+            "numerical-profile_evaluation-subject-00020",
+            "numerical-profile_evaluation-subject-00021",
+            "numerical-profile_evaluation-subject-00022",
+            "numerical-profile_evaluation-subject-00023",
+            "numerical-profile_evaluation-subject-00024",
+            "numerical-profile_evaluation-subject-00025",
+            "numerical-profile_evaluation-subject-00026",
+            "numerical-profile_evaluation-subject-00027",
+            "numerical-profile_evaluation-subject-00028",
+            "numerical-profile_evaluation-subject-00029",
+            "numerical-profile_evaluation-subject-00030",
+            "numerical-profile_evaluation-subject-00031",
+            "numerical-profile_evaluation-subject-00032",
+            "numerical-profile_evaluation-subject-00033",
+            "numerical-profile_evaluation-subject-00034",
+            "numerical-profile_evaluation-subject-00035",
+            "numerical-profile_evaluation-subject-00036",
+            "numerical-profile_evaluation-subject-00037",
+            "numerical-profile_evaluation-subject-00038",
+            "numerical-profile_evaluation-subject-00039",
+            "numerical-profile_evaluation-subject-00040",
+            "numerical-profile_evaluation-subject-00041",
+            "numerical-profile_evaluation-subject-00042",
+            "numerical-profile_evaluation-subject-00043",
+            "numerical-profile_evaluation-subject-00044",
+            "numerical-profile_evaluation-subject-00045",
+            "numerical-profile_evaluation-subject-00046",
+            "numerical-profile_evaluation-subject-00047",
+            "numerical-profile_evaluation-subject-00048",
+            "numerical-profile_evaluation-subject-00049",
+            "numerical-profile_evaluation-subject-00050",
+            "numerical-profile_evaluation-subject-00051",
+            "numerical-profile_evaluation-subject-00052",
+            "numerical-profile_evaluation-subject-00053",
+            "numerical-profile_evaluation-subject-00054",
+            "numerical-profile_evaluation-subject-00055",
+            "numerical-profile_evaluation-subject-00056",
+            "numerical-profile_evaluation-subject-00057",
+            "numerical-profile_evaluation-subject-00058",
+            "numerical-profile_evaluation-subject-00059",
+            "numerical-profile_evaluation-subject-00060",
+            "numerical-profile_evaluation-subject-00061",
+            "numerical-profile_evaluation-subject-00062",
+            "numerical-profile_evaluation-subject-00063",
+            "numerical-profile_evaluation-subject-00064",
+            "numerical-profile_evaluation-subject-00065",
+            "numerical-profile_evaluation-subject-00066",
+            "numerical-profile_evaluation-subject-00067",
+            "numerical-profile_evaluation-subject-00068",
+            "numerical-profile_evaluation-subject-00069",
+            "numerical-profile_evaluation-subject-00070",
+            "numerical-profile_evaluation-subject-00071",
+            "numerical-profile_evaluation-subject-00072",
+            "numerical-profile_evaluation-subject-00073",
+            "numerical-profile_evaluation-subject-00074",
+            "numerical-profile_evaluation-subject-00075",
+            "numerical-profile_evaluation-subject-00076",
+            "numerical-profile_evaluation-subject-00077",
+            "numerical-profile_evaluation-subject-00078",
+            "numerical-profile_evaluation-subject-00079",
+            "numerical-profile_evaluation-subject-00080",
+            "numerical-profile_evaluation-subject-00081",
+            "numerical-profile_evaluation-subject-00082",
+            "numerical-profile_evaluation-subject-00083",
+            "numerical-profile_evaluation-subject-00084",
+            "numerical-profile_evaluation-subject-00085",
+            "numerical-profile_evaluation-subject-00086",
+            "numerical-profile_evaluation-subject-00087",
+            "numerical-profile_evaluation-subject-00088",
+            "numerical-profile_evaluation-subject-00089",
+            "numerical-profile_evaluation-subject-00090",
+            "numerical-profile_evaluation-subject-00091",
+            "numerical-profile_evaluation-subject-00092",
+            "numerical-profile_evaluation-subject-00093",
+            "numerical-profile_evaluation-subject-00094",
+            "numerical-profile_evaluation-subject-00095",
+            "numerical-profile_evaluation-subject-00096",
+            "numerical-profile_evaluation-subject-00097",
+            "numerical-profile_evaluation-subject-00098",
+            "numerical-profile_evaluation-subject-00099",
+            "numerical-profile_evaluation-subject-00100",
+            "numerical-profile_evaluation-subject-00101",
+            "numerical-profile_evaluation-subject-00102",
+            "numerical-profile_evaluation-subject-00103",
+            "numerical-profile_evaluation-subject-00104",
+            "numerical-profile_evaluation-subject-00105",
+            "numerical-profile_evaluation-subject-00106",
+            "numerical-profile_evaluation-subject-00107",
+            "numerical-profile_evaluation-subject-00108",
+            "numerical-profile_evaluation-subject-00109",
+            "numerical-profile_evaluation-subject-00110",
+            "numerical-profile_evaluation-subject-00111",
+            "numerical-profile_evaluation-subject-00112",
+            "numerical-profile_evaluation-subject-00113",
+            "numerical-profile_evaluation-subject-00114",
+            "numerical-profile_evaluation-subject-00115",
+            "numerical-profile_evaluation-subject-00116",
+            "numerical-profile_evaluation-subject-00117",
+            "numerical-profile_evaluation-subject-00118",
+            "numerical-profile_evaluation-subject-00119",
+            "numerical-profile_evaluation-subject-00120",
+            "numerical-profile_evaluation-subject-00121",
+            "numerical-profile_evaluation-subject-00122",
+            "numerical-profile_evaluation-subject-00123",
+            "numerical-profile_evaluation-subject-00124",
+            "numerical-profile_evaluation-subject-00125",
+            "numerical-profile_evaluation-subject-00126",
+            "numerical-profile_evaluation-subject-00127",
+            "numerical-profile_evaluation-subject-00128",
+            "numerical-profile_evaluation-subject-00129",
+            "numerical-profile_evaluation-subject-00130",
+            "numerical-profile_evaluation-subject-00131",
+            "numerical-profile_evaluation-subject-00132",
+            "numerical-profile_evaluation-subject-00133",
+            "numerical-profile_evaluation-subject-00134",
+            "numerical-profile_evaluation-subject-00135",
+            "numerical-profile_evaluation-subject-00136",
+            "numerical-profile_evaluation-subject-00137",
+            "numerical-profile_evaluation-subject-00138",
+            "numerical-profile_evaluation-subject-00139",
+            "numerical-profile_evaluation-subject-00140",
+            "numerical-profile_evaluation-subject-00141",
+            "numerical-profile_evaluation-subject-00142",
+            "numerical-profile_evaluation-subject-00143",
+            "numerical-profile_evaluation-subject-00144",
+            "numerical-profile_evaluation-subject-00145",
+            "numerical-profile_evaluation-subject-00146",
+            "numerical-profile_evaluation-subject-00147",
+            "numerical-profile_evaluation-subject-00148",
+            "numerical-profile_evaluation-subject-00149",
+            "numerical-profile_evaluation-subject-00150",
+            "numerical-profile_evaluation-subject-00151",
+            "numerical-profile_evaluation-subject-00152",
+            "numerical-profile_evaluation-subject-00153",
+            "numerical-profile_evaluation-subject-00154",
+            "numerical-profile_evaluation-subject-00155",
+            "numerical-profile_evaluation-subject-00156",
+            "numerical-profile_evaluation-subject-00157",
+            "numerical-profile_evaluation-subject-00158",
+            "numerical-profile_evaluation-subject-00159",
+            "numerical-profile_evaluation-subject-00160",
+            "numerical-profile_evaluation-subject-00161",
+            "numerical-profile_evaluation-subject-00162",
+            "numerical-profile_evaluation-subject-00163",
+            "numerical-profile_evaluation-subject-00164",
+            "numerical-profile_evaluation-subject-00165",
+            "numerical-profile_evaluation-subject-00166",
+            "numerical-profile_evaluation-subject-00167",
+            "numerical-profile_evaluation-subject-00168",
+            "numerical-profile_evaluation-subject-00169",
+            "numerical-profile_evaluation-subject-00170",
+            "numerical-profile_evaluation-subject-00171",
+            "numerical-profile_evaluation-subject-00172",
+            "numerical-profile_evaluation-subject-00173",
+            "numerical-profile_evaluation-subject-00174",
+            "numerical-profile_evaluation-subject-00175",
+            "numerical-profile_evaluation-subject-00176",
+            "numerical-profile_evaluation-subject-00177",
+            "numerical-profile_evaluation-subject-00178",
+            "numerical-profile_evaluation-subject-00179",
+            "numerical-profile_evaluation-subject-00180",
+            "numerical-profile_evaluation-subject-00181",
+            "numerical-profile_evaluation-subject-00182",
+            "numerical-profile_evaluation-subject-00183",
+            "numerical-profile_evaluation-subject-00184",
+            "numerical-profile_evaluation-subject-00185",
+            "numerical-profile_evaluation-subject-00186",
+            "numerical-profile_evaluation-subject-00187",
+            "numerical-profile_evaluation-subject-00188",
+            "numerical-profile_evaluation-subject-00189",
+            "numerical-profile_evaluation-subject-00190",
+            "numerical-profile_evaluation-subject-00191",
+            "numerical-profile_evaluation-subject-00192",
+            "numerical-profile_evaluation-subject-00193",
+            "numerical-profile_evaluation-subject-00194",
+            "numerical-profile_evaluation-subject-00195",
+            "numerical-profile_evaluation-subject-00196",
+            "numerical-profile_evaluation-subject-00197",
+            "numerical-profile_evaluation-subject-00198",
+            "numerical-profile_evaluation-subject-00199",
+            "numerical-profile_evaluation-subject-00200",
+            "numerical-profile_evaluation-subject-00201",
+            "numerical-profile_evaluation-subject-00202",
+            "numerical-profile_evaluation-subject-00203",
+            "numerical-profile_evaluation-subject-00204",
+            "numerical-profile_evaluation-subject-00205",
+            "numerical-profile_evaluation-subject-00206",
+            "numerical-profile_evaluation-subject-00207",
+            "numerical-profile_evaluation-subject-00208",
+            "numerical-profile_evaluation-subject-00209",
+            "numerical-profile_evaluation-subject-00210",
+            "numerical-profile_evaluation-subject-00211",
+            "numerical-profile_evaluation-subject-00212",
+            "numerical-profile_evaluation-subject-00213",
+            "numerical-profile_evaluation-subject-00214",
+            "numerical-profile_evaluation-subject-00215",
+            "numerical-profile_evaluation-subject-00216",
+            "numerical-profile_evaluation-subject-00217",
+            "numerical-profile_evaluation-subject-00218",
+            "numerical-profile_evaluation-subject-00219",
+            "numerical-profile_evaluation-subject-00220",
+            "numerical-profile_evaluation-subject-00221",
+            "numerical-profile_evaluation-subject-00222",
+            "numerical-profile_evaluation-subject-00223",
+            "numerical-profile_evaluation-subject-00224",
+            "numerical-profile_evaluation-subject-00225",
+            "numerical-profile_evaluation-subject-00226",
+            "numerical-profile_evaluation-subject-00227",
+            "numerical-profile_evaluation-subject-00228",
+            "numerical-profile_evaluation-subject-00229",
+            "numerical-profile_evaluation-subject-00230",
+            "numerical-profile_evaluation-subject-00231",
+            "numerical-profile_evaluation-subject-00232",
+            "numerical-profile_evaluation-subject-00233",
+            "numerical-profile_evaluation-subject-00234",
+            "numerical-profile_evaluation-subject-00235",
+            "numerical-profile_evaluation-subject-00236",
+            "numerical-profile_evaluation-subject-00237",
+            "numerical-profile_evaluation-subject-00238",
+            "numerical-profile_evaluation-subject-00239",
+            "numerical-profile_evaluation-subject-00240",
+            "numerical-profile_evaluation-subject-00241",
+            "numerical-profile_evaluation-subject-00242",
+            "numerical-profile_evaluation-subject-00243",
+            "numerical-profile_evaluation-subject-00244",
+            "numerical-profile_evaluation-subject-00245",
+            "numerical-profile_evaluation-subject-00246",
+            "numerical-profile_evaluation-subject-00247",
+            "numerical-profile_evaluation-subject-00248",
+            "numerical-profile_evaluation-subject-00249",
+            "numerical-profile_evaluation-subject-00250",
+            "numerical-profile_evaluation-subject-00251",
+            "numerical-profile_evaluation-subject-00252",
+            "numerical-profile_evaluation-subject-00253",
+            "numerical-profile_evaluation-subject-00254",
+            "numerical-profile_evaluation-subject-00255"
+          ],
+          "subject_ids_sha256": "47738aa65ec9ebc60ab2cbad8c9e3f2d64484104e29ccdf997b864c3005559a6",
+          "video_ids_sha256": "9f93e65489b3fb9945ef36f87ba816858454774bb46eeeaca0aef0d6f0d0ec2b"
+        },
+        "quality_calibration": {
+          "frame_ids_sha256": "3bff216ed1a9d026f20603d6f21585a3bf605efc3e952986431a04144854cb95",
+          "subject_count": 64,
+          "subject_ids": [
+            "numerical-quality_calibration-subject-00000",
+            "numerical-quality_calibration-subject-00001",
+            "numerical-quality_calibration-subject-00002",
+            "numerical-quality_calibration-subject-00003",
+            "numerical-quality_calibration-subject-00004",
+            "numerical-quality_calibration-subject-00005",
+            "numerical-quality_calibration-subject-00006",
+            "numerical-quality_calibration-subject-00007",
+            "numerical-quality_calibration-subject-00008",
+            "numerical-quality_calibration-subject-00009",
+            "numerical-quality_calibration-subject-00010",
+            "numerical-quality_calibration-subject-00011",
+            "numerical-quality_calibration-subject-00012",
+            "numerical-quality_calibration-subject-00013",
+            "numerical-quality_calibration-subject-00014",
+            "numerical-quality_calibration-subject-00015",
+            "numerical-quality_calibration-subject-00016",
+            "numerical-quality_calibration-subject-00017",
+            "numerical-quality_calibration-subject-00018",
+            "numerical-quality_calibration-subject-00019",
+            "numerical-quality_calibration-subject-00020",
+            "numerical-quality_calibration-subject-00021",
+            "numerical-quality_calibration-subject-00022",
+            "numerical-quality_calibration-subject-00023",
+            "numerical-quality_calibration-subject-00024",
+            "numerical-quality_calibration-subject-00025",
+            "numerical-quality_calibration-subject-00026",
+            "numerical-quality_calibration-subject-00027",
+            "numerical-quality_calibration-subject-00028",
+            "numerical-quality_calibration-subject-00029",
+            "numerical-quality_calibration-subject-00030",
+            "numerical-quality_calibration-subject-00031",
+            "numerical-quality_calibration-subject-00032",
+            "numerical-quality_calibration-subject-00033",
+            "numerical-quality_calibration-subject-00034",
+            "numerical-quality_calibration-subject-00035",
+            "numerical-quality_calibration-subject-00036",
+            "numerical-quality_calibration-subject-00037",
+            "numerical-quality_calibration-subject-00038",
+            "numerical-quality_calibration-subject-00039",
+            "numerical-quality_calibration-subject-00040",
+            "numerical-quality_calibration-subject-00041",
+            "numerical-quality_calibration-subject-00042",
+            "numerical-quality_calibration-subject-00043",
+            "numerical-quality_calibration-subject-00044",
+            "numerical-quality_calibration-subject-00045",
+            "numerical-quality_calibration-subject-00046",
+            "numerical-quality_calibration-subject-00047",
+            "numerical-quality_calibration-subject-00048",
+            "numerical-quality_calibration-subject-00049",
+            "numerical-quality_calibration-subject-00050",
+            "numerical-quality_calibration-subject-00051",
+            "numerical-quality_calibration-subject-00052",
+            "numerical-quality_calibration-subject-00053",
+            "numerical-quality_calibration-subject-00054",
+            "numerical-quality_calibration-subject-00055",
+            "numerical-quality_calibration-subject-00056",
+            "numerical-quality_calibration-subject-00057",
+            "numerical-quality_calibration-subject-00058",
+            "numerical-quality_calibration-subject-00059",
+            "numerical-quality_calibration-subject-00060",
+            "numerical-quality_calibration-subject-00061",
+            "numerical-quality_calibration-subject-00062",
+            "numerical-quality_calibration-subject-00063"
+          ],
+          "subject_ids_sha256": "b009b606cf78d9c56ab5900359544dd4f6f8894de39d350b9cd53218613f7299",
+          "video_ids_sha256": "c19366435d8e6da4887f4470efea004477c0aece3071b5052b7a8f0a400a2be9"
+        },
+        "scenario_training_validation": {
+          "frame_ids_sha256": "ac7b79db7cf6bac7dc18f21139c99a607b6ffa56b26a4fe89c39212d3b229b42",
+          "subject_count": 24,
+          "subject_ids": [
+            "numerical-scenario_training_validation-subject-00000",
+            "numerical-scenario_training_validation-subject-00001",
+            "numerical-scenario_training_validation-subject-00002",
+            "numerical-scenario_training_validation-subject-00003",
+            "numerical-scenario_training_validation-subject-00004",
+            "numerical-scenario_training_validation-subject-00005",
+            "numerical-scenario_training_validation-subject-00006",
+            "numerical-scenario_training_validation-subject-00007",
+            "numerical-scenario_training_validation-subject-00008",
+            "numerical-scenario_training_validation-subject-00009",
+            "numerical-scenario_training_validation-subject-00010",
+            "numerical-scenario_training_validation-subject-00011",
+            "numerical-scenario_training_validation-subject-00012",
+            "numerical-scenario_training_validation-subject-00013",
+            "numerical-scenario_training_validation-subject-00014",
+            "numerical-scenario_training_validation-subject-00015",
+            "numerical-scenario_training_validation-subject-00016",
+            "numerical-scenario_training_validation-subject-00017",
+            "numerical-scenario_training_validation-subject-00018",
+            "numerical-scenario_training_validation-subject-00019",
+            "numerical-scenario_training_validation-subject-00020",
+            "numerical-scenario_training_validation-subject-00021",
+            "numerical-scenario_training_validation-subject-00022",
+            "numerical-scenario_training_validation-subject-00023"
+          ],
+          "subject_ids_sha256": "bbcb53ede2b49868bd990515571f31fe87deeb69663392ebc8d7df4cde77544e",
+          "video_ids_sha256": "fa76c48870a429f65aa9f1d8a1a79dc7c2f247f59cf7f3148f5d9c620cc52e82"
+        },
+        "test": {
+          "frame_ids_sha256": "91bb5f1f9147dc4d1b22295d7391c475bf3938ae76a7954eb33a43789c2b0e3a",
+          "subject_count": 24,
+          "subject_ids": [
+            "numerical-test-subject-00000",
+            "numerical-test-subject-00001",
+            "numerical-test-subject-00002",
+            "numerical-test-subject-00003",
+            "numerical-test-subject-00004",
+            "numerical-test-subject-00005",
+            "numerical-test-subject-00006",
+            "numerical-test-subject-00007",
+            "numerical-test-subject-00008",
+            "numerical-test-subject-00009",
+            "numerical-test-subject-00010",
+            "numerical-test-subject-00011",
+            "numerical-test-subject-00012",
+            "numerical-test-subject-00013",
+            "numerical-test-subject-00014",
+            "numerical-test-subject-00015",
+            "numerical-test-subject-00016",
+            "numerical-test-subject-00017",
+            "numerical-test-subject-00018",
+            "numerical-test-subject-00019",
+            "numerical-test-subject-00020",
+            "numerical-test-subject-00021",
+            "numerical-test-subject-00022",
+            "numerical-test-subject-00023"
+          ],
+          "subject_ids_sha256": "8fd86daaa6fea363bed6b3c5d12fbe7f200ef040b21250fc6c352c968ba6e89d",
+          "video_ids_sha256": "a72f593941c1212d6d2c454da3a5c67d0f926402267ae14dfd9e98e6d64ccbb7"
+        }
+      }
+    },
+    "split_manifest_hash": "59a6509cab60098abaf6c0d1de0410bdfeca1f02b32412cb87060e73d7dab613",
+    "status": "verified",
+    "verified": true
+  },
+  "generated_at_utc": "2026-07-13T11:19:07.701047+00:00",
+  "invariants": {
+    "check_count": 130,
+    "failure_count": 0,
+    "failures": [],
+    "passed": true,
+    "status": "passed"
+  },
+  "manifest_schema_version": "1.0",
+  "manifest_sha256": "1ff12ce2f20425cbe6bfaac48cd0dce2c1e755ca1c7bc47186d7133ce3c1e2e7",
+  "network": {
+    "downlink_pause_limit_s": 2.0,
+    "max_snapshot_age_s": 0.5,
+    "metadata_bits": 2048,
+    "rsu_snapshot_period_s": 0.25,
+    "rsu_telemetry_delay_s": 0.04,
+    "rsu_telemetry_drop_every": 7,
+    "rsu_telemetry_quantum_work_s": 0.001,
+    "uplink_pause_limit_s": 2.0
+  },
+  "outputs": {
+    "files": {
+      "actions.jsonl": {
+        "filename": "actions.jsonl",
+        "row_count": 55,
+        "sha256": "4d2d987860d05debf62597ef00349d5c5c78d292d63e9c933757da6f889dc96e",
+        "size_bytes": 495206
+      },
+      "events.jsonl": {
+        "filename": "events.jsonl",
+        "row_count": 143,
+        "sha256": "c12ee423542dadd31152405794e30ea24910b590ab93f5b2d3498044b5d92c98",
+        "size_bytes": 56173
+      },
+      "resources.csv": {
+        "filename": "resources.csv",
+        "row_count": 1300,
+        "sha256": "f2d5da9001347c546ce2bce23b66f7250c2f535acfa952fc0bd39cb000494773",
+        "size_bytes": 220199
+      },
+      "summary.json": {
+        "filename": "summary.json",
+        "row_count": null,
+        "sha256": "df849a47ca704419411c9da00899672002bc3cf7cbfba703096c5be032a9621e",
+        "size_bytes": 13461
+      },
+      "tasks.csv": {
+        "filename": "tasks.csv",
+        "row_count": 12,
+        "sha256": "1d42b8b00a3eee65ba4eb590f9d459ad0734c6340d2cf9d670b713a5d2172435",
+        "size_bytes": 16198
+      },
+      "virtual_queues.csv": {
+        "filename": "virtual_queues.csv",
+        "row_count": 910,
+        "sha256": "ecc83793a29d22376ea16d94a48758a4546e8627a0fabfd2a2a480d407aef8ab",
+        "size_bytes": 24120
+      }
+    },
+    "parquet": {
+      "available": false,
+      "filename": null,
+      "generated": false,
+      "requested": false,
+      "status": "not_requested"
+    }
+  },
+  "parameter_sources": {
+    "configuration": {
+      "anonymous_transaction": "engineering_assumption",
+      "arrival_load": "engineering_assumption",
+      "deadlines": "engineering_assumption",
+      "encoded_output_size": "engineering_assumption",
+      "faults": "stress_test_boundary",
+      "interruptions_and_recovery": "stress_test_boundary",
+      "privacy_risk_values": "engineering_assumption",
+      "resource_capacity": "engineering_assumption",
+      "rsu_power": "engineering_assumption",
+      "task_buffer_hold_power": "engineering_assumption",
+      "thermal_throttling": "stress_test_boundary",
+      "vehicle_compute_latency_energy": "engineering_assumption",
+      "vehicle_power": "engineering_assumption",
+      "wireless_goodput": "engineering_assumption",
+      "wireless_link_packet_sharing": "engineering_assumption"
+    },
+    "profile": {
+      "deployment_resource_bounds": {
+        "category": "engineering_assumption",
+        "description": "Preregistered analytic finite physical envelopes over all allowed numerical variability controls; trace rows outside them are OOD.",
+        "unit": "resource_busy_s,J,bytes,bit"
+      },
+      "emission_support": {
+        "category": "engineering_assumption",
+        "description": "Numerical guard emission lower confidence bounds.",
+        "unit": "probability"
+      },
+      "privacy_bounds": {
+        "category": "engineering_assumption",
+        "description": "Recomputed from stored numerical subject outcomes using simultaneous Bonferroni-Hoeffding bounds.",
+        "unit": "probability"
+      },
+      "retry_limits": {
+        "category": "engineering_assumption",
+        "description": "Finite numerical transaction retry cap.",
+        "unit": "attempts"
+      },
+      "subject_support": {
+        "category": "engineering_assumption",
+        "description": "Mutually exclusive numerical profile-evaluation subjects.",
+        "unit": "subjects"
+      }
+    },
+    "scenario_trace": {
+      "anonymization_transactions": {
+        "category": "engineering_assumption",
+        "description": "Correlated numerical retries, guard, encoding, size, energy and artifact FER outcomes.",
+        "unit": "resource_busy_s,J,bytes"
+      },
+      "arrivals_deadlines": {
+        "category": "engineering_assumption",
+        "description": "Seeded finite arrival and deadline process.",
+        "unit": "s"
+      },
+      "faults": {
+        "category": "stress_test_boundary",
+        "description": "Seeded transient RSU fault process.",
+        "unit": "event"
+      },
+      "fer_compute": {
+        "category": "engineering_assumption",
+        "description": "Numerical local and edge FER service, energy and paired bounded loss.",
+        "unit": "resource_busy_s,J,bytes,probability"
+      },
+      "prep_compute": {
+        "category": "engineering_assumption",
+        "description": "Numerical finite vehicle preprocessing service and energy model.",
+        "unit": "resource_busy_s,J,bytes"
+      },
+      "thermal": {
+        "category": "stress_test_boundary",
+        "description": "Seeded bounded thermal throttling interval.",
+        "unit": "dimensionless"
+      },
+      "wireless": {
+        "category": "engineering_assumption",
+        "description": "Seeded piecewise application-goodput and paired radio-power process.",
+        "unit": "bit/s,W"
+      }
+    },
+    "trace": {
+      "anonymization_transactions": {
+        "category": "engineering_assumption",
+        "description": "Correlated numerical retries, guard, encoding, size, energy and artifact FER outcomes.",
+        "unit": "resource_busy_s,J,bytes"
+      },
+      "arrivals_deadlines": {
+        "category": "engineering_assumption",
+        "description": "Seeded finite arrival and deadline process.",
+        "unit": "s"
+      },
+      "faults": {
+        "category": "stress_test_boundary",
+        "description": "Seeded transient RSU fault process.",
+        "unit": "event"
+      },
+      "fer_compute": {
+        "category": "engineering_assumption",
+        "description": "Numerical local and edge FER service, energy and paired bounded loss.",
+        "unit": "resource_busy_s,J,bytes,probability"
+      },
+      "prep_compute": {
+        "category": "engineering_assumption",
+        "description": "Numerical finite vehicle preprocessing service and energy model.",
+        "unit": "resource_busy_s,J,bytes"
+      },
+      "thermal": {
+        "category": "stress_test_boundary",
+        "description": "Seeded bounded thermal throttling interval.",
+        "unit": "dimensionless"
+      },
+      "wireless": {
+        "category": "engineering_assumption",
+        "description": "Seeded piecewise application-goodput and paired radio-power process.",
+        "unit": "bit/s,W"
+      }
+    }
+  },
+  "profile_metadata": {
+    "contains_real_images": false,
+    "contains_real_measurements": false,
+    "cost_normalization_hash": "8da5af9b651924a5451cf45eb61f6bf8268058e818f88754c394f6b758a5f96e",
+    "evidence_hash": "9eb6c79730fec09f781c255f91c9da6deb02b04c8bdb2a239031916437afa04a",
+    "formal_experiment_eligible": false,
+    "generator": "privacy_edge_sim.numerical.generate_numerical_study",
+    "numerical_experiment_eligible": true,
+    "quality_classifier_hash": "f3b51625a23b76e24b66913dc52a2f8249161f167670fa7db44a18ff7323a473",
+    "quality_conformal_id": "numerical-quality-conformal-2.0.0",
+    "quality_partition_hash": "81ae00a73e56bd4d56277b3b51cebeb45f74d46d7f743c4ef7edcb14eba284f2",
+    "quality_regions": [
+      {
+        "coarse_class_probabilities": {
+          "challenging": 0.018181818,
+          "clear": 0.981818182
+        },
+        "mean_quality_score": 0.720113928,
+        "region_id": "quality-region-000",
+        "subject_count": 22
+      },
+      {
+        "coarse_class_probabilities": {
+          "challenging": 0.977777778,
+          "clear": 0.022222222
+        },
+        "mean_quality_score": 0.48962686,
+        "region_id": "quality-region-001",
+        "subject_count": 20
+      }
+    ],
+    "split_manifest_hash": "59a6509cab60098abaf6c0d1de0410bdfeca1f02b32412cb87060e73d7dab613",
+    "warning": "FROZEN NUMERICAL MODEL - NOT HARDWARE OR ATTACK MEASUREMENT"
+  },
+  "protocol_version": "anon-fer/1.0",
+  "resources": {
+    "rsus": [
+      {
+        "average_power_budget_w": 128.0,
+        "cached_models": [
+          "edge_fer_numerical_v1"
+        ],
+        "descriptor_capacity": 16,
+        "gpu_servers": 2,
+        "hold_power_w": 0.5,
+        "idle_power_w": 72.0,
+        "rsu_id": "rsu-1",
+        "vram_capacity_bytes": 8589934592,
+        "workload_capacity_gpu_s": 30.0
+      },
+      {
+        "average_power_budget_w": 108.0,
+        "cached_models": [
+          "edge_fer_numerical_v1"
+        ],
+        "descriptor_capacity": 10,
+        "gpu_servers": 1,
+        "hold_power_w": 0.4,
+        "idle_power_w": 58.0,
+        "rsu_id": "rsu-2",
+        "vram_capacity_bytes": 6442450944,
+        "workload_capacity_gpu_s": 18.0
+      }
+    ],
+    "vehicles": [
+      {
+        "accelerator_descriptors": 8,
+        "average_power_budget_w": 24.0,
+        "battery_capacity_j": 5000.0,
+        "cpu_descriptors": 8,
+        "device_type": "vehicle_gpu_class_a",
+        "encoder_descriptors": 8,
+        "hold_power_w": 0.15,
+        "idle_power_w": 8.0,
+        "initial_battery_j": 5000.0,
+        "memory_capacity_bytes": 1073741824,
+        "vehicle_id": "veh-1"
+      },
+      {
+        "accelerator_descriptors": 6,
+        "average_power_budget_w": 20.0,
+        "battery_capacity_j": 4200.0,
+        "cpu_descriptors": 6,
+        "device_type": "vehicle_cpu_class_b",
+        "encoder_descriptors": 6,
+        "hold_power_w": 0.12,
+        "idle_power_w": 6.5,
+        "initial_battery_j": 4200.0,
+        "memory_capacity_bytes": 805306368,
+        "vehicle_id": "veh-2"
+      }
+    ]
+  },
+  "run_metadata": {
+    "environment_replication_id": "numerical-environment-107",
+    "environment_seed": 107,
+    "pairing_id": "all_tasks",
+    "policy": "esl_smpc",
+    "replay_checkpoint_mode": "deterministic_replay",
+    "replay_checkpoint_resumed": false,
+    "study_id": "paper-main-10env"
+  },
+  "scenario_trace_identity": {
+    "evidence_status": "frozen_numerical_model",
+    "profile_hash": "7a9176b997ff4f2d2a4908eb560bf80c3916b4ecca4dfe2c3702ee5628583c44",
+    "protocol_version": "anon-fer/1.0",
+    "schema_version": "1.3.0",
+    "seed": 40715,
+    "trace_hash": "2a68c640310d0cb031324dc05ac0f2af9994e4ecc9c74698b04cdfdee9caaab5",
+    "trace_version": "numerical-scenario-2.2.0"
+  },
+  "scenario_trace_metadata": {
+    "contains_real_measurements": false,
+    "data_split": {
+      "artifact_namespace_disjoint": true,
+      "role": "training_validation",
+      "seed": 40715,
+      "subject_population_disjoint": true,
+      "subject_population_hash": "bbcb53ede2b49868bd990515571f31fe87deeb69663392ebc8d7df4cde77544e"
+    },
+    "evidence_hash": "9eb6c79730fec09f781c255f91c9da6deb02b04c8bdb2a239031916437afa04a",
+    "formal_experiment_eligible": false,
+    "generator": "privacy_edge_sim.numerical._build_trace",
+    "joint_rows_must_not_be_split": true,
+    "numerical_experiment_eligible": true,
+    "split_manifest_hash": "59a6509cab60098abaf6c0d1de0410bdfeca1f02b32412cb87060e73d7dab613",
+    "warning": "FROZEN NUMERICAL MODEL - NOT HARDWARE OR ATTACK MEASUREMENT"
+  },
+  "seeds": {
+    "arrivals": 9923731103683591151,
+    "environment": 9675243565560846821,
+    "fault": 3794096364542248235,
+    "mobility": 14480151098386033619,
+    "rsu": 17105601351370437120,
+    "scenario": 722,
+    "vehicle": 4851223583155155773,
+    "wireless": 16169370895481550176
+  },
+  "simulation": {
+    "duration_s": 9.662312441,
+    "end_time_s": 9.662312441,
+    "start_time_s": 0.0,
+    "task_count": 12,
+    "terminal_task_count": 12
+  },
+  "software_environment": {
+    "dependencies": {
+      "privacy-edge-sim": "0.1.0",
+      "pyarrow": null
+    },
+    "machine": "AMD64",
+    "os_name": "nt",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "processor": "AMD64 Family 26 Model 68 Stepping 0, AuthenticAMD",
+    "python_executable": "E:\\lunwen1\\weiweilun\\.venv\\Scripts\\python.exe",
+    "python_implementation": "CPython",
+    "python_version": "3.13.9"
+  },
+  "trace_checksums": [
+    {
+      "aggregate_sha256": "fa919cd14c3841257efa17350f4a9b850d530ce43ed14058ec164e9cf09bc47b",
+      "files": {
+        "numerical_evaluation_trace.json": "2547513ab9d523f6f674a3c1a13c1e8a8f65d83077fd5624adbc7ae76ec95584"
+      },
+      "kind": "file",
+      "path": "E:\\lunwen1\\weiweilun\\results\\paper-main-10env\\inputs\\environment-107\\traces\\numerical_evaluation_trace.json"
+    },
+    {
+      "aggregate_sha256": "ecd74f00cc8c9410b971027e2070ba4c8a881e861d1ef4b9b1ec672c2bfa8856",
+      "files": {
+        "numerical_scenario_trace.json": "792dea8684214e521d754bed68d5d77132f2401f6173994bf901b5e7e338824c"
+      },
+      "kind": "file",
+      "path": "E:\\lunwen1\\weiweilun\\results\\paper-main-10env\\inputs\\environment-107\\traces\\numerical_scenario_trace.json"
+    }
+  ],
+  "trace_identity": {
+    "evidence_status": "frozen_numerical_model",
+    "horizon_end_s": 12.0,
+    "horizon_start_s": 0.0,
+    "profile_hash": "7a9176b997ff4f2d2a4908eb560bf80c3916b4ecca4dfe2c3702ee5628583c44",
+    "protocol_version": "anon-fer/1.0",
+    "schema_version": "1.3.0",
+    "seed": 107,
+    "trace_hash": "821543010a0831f9c81a09913e04ec2c5e3cc15489a33f824370998e72ce02af",
+    "trace_version": "numerical-test-2.2.0"
+  },
+  "trace_metadata": {
+    "contains_real_measurements": false,
+    "data_split": {
+      "artifact_namespace_disjoint": true,
+      "role": "evaluation",
+      "seed": 107,
+      "subject_population_disjoint": true,
+      "subject_population_hash": "8fd86daaa6fea363bed6b3c5d12fbe7f200ef040b21250fc6c352c968ba6e89d"
+    },
+    "evidence_hash": "9eb6c79730fec09f781c255f91c9da6deb02b04c8bdb2a239031916437afa04a",
+    "formal_experiment_eligible": false,
+    "generator": "privacy_edge_sim.numerical._build_trace",
+    "joint_rows_must_not_be_split": true,
+    "numerical_experiment_eligible": true,
+    "split_manifest_hash": "59a6509cab60098abaf6c0d1de0410bdfeca1f02b32412cb87060e73d7dab613",
+    "warning": "FROZEN NUMERICAL MODEL - NOT HARDWARE OR ATTACK MEASUREMENT"
+  },
+  "versions": {
+    "edge_models": {
+      "edge_fer_numerical_v1": {
+        "deployment_resource_bounds": {
+          "max_gpu_energy_j": 1.2,
+          "max_gpu_work_s": 0.03,
+          "max_ingress_energy_j": 0.08,
+          "max_ingress_work_s": 0.005,
+          "max_result_size_bits": 4096,
+          "max_vram_bytes": 805306368
+        },
+        "model_hash": "a267279c18000843a2aa284f93d6d6cd5cacfa8094448a035ddefc1097a57fbe",
+        "protocol_version": "anon-fer/1.0"
+      }
+    },
+    "local_models": {
+      "local_fer_numerical_v1": {
+        "deployment_resource_bounds": {
+          "max_dynamic_energy_j": 0.7,
+          "max_memory_bytes": 268435456,
+          "max_service_work_s": 0.08
+        },
+        "model_hash": "d83b5434a3f5e843305c9e0f14902865f8127c22812266b41cb0f9ed0ebc782a",
+        "protocol_version": "anon-fer/1.0"
+      }
+    },
+    "pipelines": {
+      "blur_medium_numerical_v2": {
+        "deployment_resource_bounds": {
+          "max_anon_energy_j": 1.134,
+          "max_anon_work_s": 0.081,
+          "max_encode_energy_j": 0.06,
+          "max_encode_work_s": 0.012,
+          "max_guard_energy_j": 0.06,
+          "max_guard_work_s": 0.01,
+          "max_output_bytes": 115000,
+          "max_peak_memory_bytes": 100663296
+        },
+        "encoder_hash": "e161ec96de027271c055140ea3b3a2e801ca73cbe8d4f54762a581ad30abcedf",
+        "encoder_id": "jpeg_numerical_v1",
+        "guard_hash": "a4d5e33c71adea61801a472fe159dc8101883214a69c012f606fa6b767296f9a",
+        "guard_id": "guard_numerical_v1",
+        "pipeline_hash": "2300012b28880fc14109125a28401c2e96e61ae00dfeeee7c6771584bf73f831"
+      },
+      "blur_strong_numerical_v2": {
+        "deployment_resource_bounds": {
+          "max_anon_energy_j": 1.38348,
+          "max_anon_work_s": 0.09882,
+          "max_encode_energy_j": 0.06,
+          "max_encode_work_s": 0.012,
+          "max_guard_energy_j": 0.06,
+          "max_guard_work_s": 0.01,
+          "max_output_bytes": 115000,
+          "max_peak_memory_bytes": 100663296
+        },
+        "encoder_hash": "e161ec96de027271c055140ea3b3a2e801ca73cbe8d4f54762a581ad30abcedf",
+        "encoder_id": "jpeg_numerical_v1",
+        "guard_hash": "a4d5e33c71adea61801a472fe159dc8101883214a69c012f606fa6b767296f9a",
+        "guard_id": "guard_numerical_v1",
+        "pipeline_hash": "59832a057d27add18fe34ce86e90b1249b9295abfe88f3c2518d56b4df8678e0"
+      },
+      "blur_weak_numerical_v2": {
+        "deployment_resource_bounds": {
+          "max_anon_energy_j": 0.97524,
+          "max_anon_work_s": 0.06966,
+          "max_encode_energy_j": 0.06,
+          "max_encode_work_s": 0.012,
+          "max_guard_energy_j": 0.06,
+          "max_guard_work_s": 0.01,
+          "max_output_bytes": 115000,
+          "max_peak_memory_bytes": 100663296
+        },
+        "encoder_hash": "e161ec96de027271c055140ea3b3a2e801ca73cbe8d4f54762a581ad30abcedf",
+        "encoder_id": "jpeg_numerical_v1",
+        "guard_hash": "a4d5e33c71adea61801a472fe159dc8101883214a69c012f606fa6b767296f9a",
+        "guard_id": "guard_numerical_v1",
+        "pipeline_hash": "2598c3911a10bbf9f9822194ad00ece1eb9829df7fa88db48f47afcf61f39d35"
+      },
+      "diffusion_medium_numerical_v2": {
+        "deployment_resource_bounds": {
+          "max_anon_energy_j": 4.41,
+          "max_anon_work_s": 0.315,
+          "max_encode_energy_j": 0.06,
+          "max_encode_work_s": 0.012,
+          "max_guard_energy_j": 0.06,
+          "max_guard_work_s": 0.01,
+          "max_output_bytes": 152500,
+          "max_peak_memory_bytes": 469762048
+        },
+        "encoder_hash": "e161ec96de027271c055140ea3b3a2e801ca73cbe8d4f54762a581ad30abcedf",
+        "encoder_id": "jpeg_numerical_v1",
+        "guard_hash": "a4d5e33c71adea61801a472fe159dc8101883214a69c012f606fa6b767296f9a",
+        "guard_id": "guard_numerical_v1",
+        "pipeline_hash": "157481e89c7d8352d69f9b3ba28b5d62fdf6ff70b2844315ac66a918896e98cd"
+      },
+      "diffusion_strong_numerical_v2": {
+        "deployment_resource_bounds": {
+          "max_anon_energy_j": 5.3802,
+          "max_anon_work_s": 0.3843,
+          "max_encode_energy_j": 0.06,
+          "max_encode_work_s": 0.012,
+          "max_guard_energy_j": 0.06,
+          "max_guard_work_s": 0.01,
+          "max_output_bytes": 152500,
+          "max_peak_memory_bytes": 469762048
+        },
+        "encoder_hash": "e161ec96de027271c055140ea3b3a2e801ca73cbe8d4f54762a581ad30abcedf",
+        "encoder_id": "jpeg_numerical_v1",
+        "guard_hash": "a4d5e33c71adea61801a472fe159dc8101883214a69c012f606fa6b767296f9a",
+        "guard_id": "guard_numerical_v1",
+        "pipeline_hash": "33659195381a3131167ad7a1230fcd61b9278de8c91973f224403ade031f887f"
+      },
+      "diffusion_weak_numerical_v2": {
+        "deployment_resource_bounds": {
+          "max_anon_energy_j": 3.7926,
+          "max_anon_work_s": 0.2709,
+          "max_encode_energy_j": 0.06,
+          "max_encode_work_s": 0.012,
+          "max_guard_energy_j": 0.06,
+          "max_guard_work_s": 0.01,
+          "max_output_bytes": 152500,
+          "max_peak_memory_bytes": 469762048
+        },
+        "encoder_hash": "e161ec96de027271c055140ea3b3a2e801ca73cbe8d4f54762a581ad30abcedf",
+        "encoder_id": "jpeg_numerical_v1",
+        "guard_hash": "a4d5e33c71adea61801a472fe159dc8101883214a69c012f606fa6b767296f9a",
+        "guard_id": "guard_numerical_v1",
+        "pipeline_hash": "479f347f0419be980729cfc563753281d4a9c14654b53ab724c31a970fbcde28"
+      },
+      "generative_medium_numerical_v2": {
+        "deployment_resource_bounds": {
+          "max_anon_energy_j": 2.772,
+          "max_anon_work_s": 0.198,
+          "max_encode_energy_j": 0.06,
+          "max_encode_work_s": 0.012,
+          "max_guard_energy_j": 0.06,
+          "max_guard_work_s": 0.01,
+          "max_output_bytes": 140500,
+          "max_peak_memory_bytes": 469762048
+        },
+        "encoder_hash": "e161ec96de027271c055140ea3b3a2e801ca73cbe8d4f54762a581ad30abcedf",
+        "encoder_id": "jpeg_numerical_v1",
+        "guard_hash": "a4d5e33c71adea61801a472fe159dc8101883214a69c012f606fa6b767296f9a",
+        "guard_id": "guard_numerical_v1",
+        "pipeline_hash": "226c9a46663e26f4f16b4c8a7ee03f356aafaf0ddad207a0d4a80f89ea061067"
+      },
+      "generative_strong_numerical_v2": {
+        "deployment_resource_bounds": {
+          "max_anon_energy_j": 3.38184,
+          "max_anon_work_s": 0.24156,
+          "max_encode_energy_j": 0.06,
+          "max_encode_work_s": 0.012,
+          "max_guard_energy_j": 0.06,
+          "max_guard_work_s": 0.01,
+          "max_output_bytes": 140500,
+          "max_peak_memory_bytes": 469762048
+        },
+        "encoder_hash": "e161ec96de027271c055140ea3b3a2e801ca73cbe8d4f54762a581ad30abcedf",
+        "encoder_id": "jpeg_numerical_v1",
+        "guard_hash": "a4d5e33c71adea61801a472fe159dc8101883214a69c012f606fa6b767296f9a",
+        "guard_id": "guard_numerical_v1",
+        "pipeline_hash": "f3490ce37a6d1750a47d4aa17ec8c0fa1e15caa56e565b893058bacc1b4c9a5b"
+      },
+      "generative_weak_numerical_v2": {
+        "deployment_resource_bounds": {
+          "max_anon_energy_j": 2.38392,
+          "max_anon_work_s": 0.17028,
+          "max_encode_energy_j": 0.06,
+          "max_encode_work_s": 0.012,
+          "max_guard_energy_j": 0.06,
+          "max_guard_work_s": 0.01,
+          "max_output_bytes": 140500,
+          "max_peak_memory_bytes": 469762048
+        },
+        "encoder_hash": "e161ec96de027271c055140ea3b3a2e801ca73cbe8d4f54762a581ad30abcedf",
+        "encoder_id": "jpeg_numerical_v1",
+        "guard_hash": "a4d5e33c71adea61801a472fe159dc8101883214a69c012f606fa6b767296f9a",
+        "guard_id": "guard_numerical_v1",
+        "pipeline_hash": "26fb557f016bb2d9649cc8183096cdb3254e6ae284cf179a30b0d0acc8f2b4df"
+      },
+      "pixelate_medium_numerical_v2": {
+        "deployment_resource_bounds": {
+          "max_anon_energy_j": 0.84,
+          "max_anon_work_s": 0.06,
+          "max_encode_energy_j": 0.06,
+          "max_encode_work_s": 0.012,
+          "max_guard_energy_j": 0.06,
+          "max_guard_work_s": 0.01,
+          "max_output_bytes": 103000,
+          "max_peak_memory_bytes": 100663296
+        },
+        "encoder_hash": "e161ec96de027271c055140ea3b3a2e801ca73cbe8d4f54762a581ad30abcedf",
+        "encoder_id": "jpeg_numerical_v1",
+        "guard_hash": "a4d5e33c71adea61801a472fe159dc8101883214a69c012f606fa6b767296f9a",
+        "guard_id": "guard_numerical_v1",
+        "pipeline_hash": "33a361c5ecf16a8d2cf32ca623d31c46af663e4b2f8113e92238843f77548fdd"
+      },
+      "pixelate_strong_numerical_v2": {
+        "deployment_resource_bounds": {
+          "max_anon_energy_j": 1.0248,
+          "max_anon_work_s": 0.0732,
+          "max_encode_energy_j": 0.06,
+          "max_encode_work_s": 0.012,
+          "max_guard_energy_j": 0.06,
+          "max_guard_work_s": 0.01,
+          "max_output_bytes": 103000,
+          "max_peak_memory_bytes": 100663296
+        },
+        "encoder_hash": "e161ec96de027271c055140ea3b3a2e801ca73cbe8d4f54762a581ad30abcedf",
+        "encoder_id": "jpeg_numerical_v1",
+        "guard_hash": "a4d5e33c71adea61801a472fe159dc8101883214a69c012f606fa6b767296f9a",
+        "guard_id": "guard_numerical_v1",
+        "pipeline_hash": "2afa405dc2fba52de79d24a09aa884af66a27788c718dfbc2bff4322eaa8211e"
+      },
+      "pixelate_weak_numerical_v2": {
+        "deployment_resource_bounds": {
+          "max_anon_energy_j": 0.7224,
+          "max_anon_work_s": 0.0516,
+          "max_encode_energy_j": 0.06,
+          "max_encode_work_s": 0.012,
+          "max_guard_energy_j": 0.06,
+          "max_guard_work_s": 0.01,
+          "max_output_bytes": 103000,
+          "max_peak_memory_bytes": 100663296
+        },
+        "encoder_hash": "e161ec96de027271c055140ea3b3a2e801ca73cbe8d4f54762a581ad30abcedf",
+        "encoder_id": "jpeg_numerical_v1",
+        "guard_hash": "a4d5e33c71adea61801a472fe159dc8101883214a69c012f606fa6b767296f9a",
+        "guard_id": "guard_numerical_v1",
+        "pipeline_hash": "133d3ebd6aae15f234255e0e5fe621ad73f8c86803bdda3a11f02c0e7de328a3"
+      }
+    },
+    "preprocessing_resource_bounds": {
+      "max_dynamic_energy_j": 0.7,
+      "max_memory_bytes": 67108864,
+      "max_service_work_s": 0.06
+    },
+    "privacy_policy": {
+      "confidence_error": 0.05,
+      "min_emission_lcb": 0.5,
+      "min_subjects": 64,
+      "quality_bins": [
+        "quality-region-000",
+        "quality-region-001"
+      ],
+      "risk_threshold": 0.35
+    },
+    "profile_hash": "7a9176b997ff4f2d2a4908eb560bf80c3916b4ecca4dfe2c3702ee5628583c44",
+    "profile_version": "numerical-2.2.0",
+    "protocol_version": "anon-fer/1.0",
+    "schema_version": "1.3.0"
+  },
+  "workload": {
+    "arrival_end_s": 9.621347641,
+    "arrival_span_s": 8.83094533,
+    "arrival_start_s": 0.790402311,
+    "empirical_arrival_rate_tasks_per_s": 1.2456197597137655,
+    "task_count": 12,
+    "tasks_by_vehicle": {
+      "veh-1": 6,
+      "veh-2": 6
+    }
+  }
+}
