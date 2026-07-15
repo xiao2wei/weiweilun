@@ -84,6 +84,30 @@ def _load_study(load_level: str, family_id: str = "registered-load-family"):
         for metric in ("latency_s", "energy_j")
     }
     analyses, local_family = apply_holm_family_adjustment(analyses)
+    clean_source = {
+        "require_clean_source": True,
+        "requirement_status": "passed",
+        "source_commit_reproducible": True,
+        "git_commit": "1" * 40,
+    }
+    experiment_registration = {
+        "status": "VERIFIED",
+        "registration_content_sha256": "2" * 64,
+        "registration_scale": "formal",
+        "registration_regime": load_level,
+        "registered_scale_regimes": ["high", "low"],
+        "registration_family": "primary",
+        "registered_family_id": family_id,
+        "registered_load_level": load_level,
+        "registered_policies": ["baseline", "candidate", "other"],
+        "registered_metrics": ["latency_s", "energy_j"],
+        "registered_baseline": "baseline",
+        "source_cleanliness_preflight": clean_source,
+        "record_sha256": "",
+    }
+    experiment_registration["record_sha256"] = _self_hash(
+        experiment_registration, "record_sha256"
+    )
     registration = {
         "schema_version": "1.0",
         "family_id": family_id,
@@ -92,12 +116,15 @@ def _load_study(load_level: str, family_id: str = "registered-load-family"):
         "registered_policies": ["baseline", "candidate", "other"],
         "baseline": "baseline",
         "family_dimensions": ["load", "metric", "policy_vs_baseline"],
+        "experiment_registration": experiment_registration,
         "registration_sha256": "",
     }
     registration["registration_sha256"] = _self_hash(
         registration, "registration_sha256"
     )
     report = {
+        "source_cleanliness_preflight": clean_source,
+        "experiment_registration": experiment_registration,
         "statistical_family_registration": registration,
         "analyses": analyses,
         "multiple_testing": local_family,
@@ -267,6 +294,23 @@ def test_aggregate_preregistered_load_family_applies_one_global_holm():
     assert report["report_sha256"] == _self_hash(report, "report_sha256")
 
 
+def test_aggregate_load_family_rejects_dirty_source_override():
+    reports = [_load_study("low"), _load_study("high")]
+    reports[1]["source_cleanliness_preflight"].update(
+        require_clean_source=False,
+        requirement_status="not_required",
+        source_commit_reproducible=False,
+    )
+    reports[1]["study_report_sha256"] = _self_hash(
+        reports[1], "study_report_sha256"
+    )
+
+    with pytest.raises(StatisticalValidationError) as caught:
+        aggregate_preregistered_study_families(reports)
+
+    assert caught.value.code == "STAT_LOAD_SOURCE_UNVERIFIED"
+
+
 @pytest.mark.parametrize(
     ("mutator", "code"),
     (
@@ -305,6 +349,14 @@ def test_aggregate_load_family_rejects_duplicate_missing_or_inconsistent_inputs(
     # family check rather than being stopped only by the outer checksum.
     for report in reports:
         registration = report["statistical_family_registration"]
+        experiment = registration["experiment_registration"]
+        if "load_level" in registration:
+            experiment["registration_regime"] = registration["load_level"]
+            experiment["registered_load_level"] = registration["load_level"]
+        experiment["registered_family_id"] = registration["family_id"]
+        experiment["record_sha256"] = _self_hash(
+            experiment, "record_sha256"
+        )
         registration["registration_sha256"] = _self_hash(
             registration, "registration_sha256"
         )
@@ -320,6 +372,25 @@ def test_aggregate_load_family_rejects_invalid_outer_hash():
     with pytest.raises(StatisticalValidationError) as caught:
         aggregate_preregistered_study_families(reports)
     assert caught.value.code == "STAT_LOAD_STUDY_HASH"
+
+
+def test_aggregate_load_family_rejects_missing_registered_regime():
+    reports = [_load_study("low"), _load_study("high")]
+    for report in reports:
+        experiment = report["experiment_registration"]
+        experiment["registered_scale_regimes"] = ["high", "low", "medium"]
+        experiment["record_sha256"] = _self_hash(
+            experiment, "record_sha256"
+        )
+        registration = report["statistical_family_registration"]
+        registration["registration_sha256"] = _self_hash(
+            registration, "registration_sha256"
+        )
+        report["study_report_sha256"] = _self_hash(report, "study_report_sha256")
+
+    with pytest.raises(StatisticalValidationError) as caught:
+        aggregate_preregistered_study_families(reports)
+    assert caught.value.code == "STAT_LOAD_INCOMPLETE_FAMILY"
 
 
 def test_aggregate_statistical_families_cli_writes_self_hashed_report(tmp_path):

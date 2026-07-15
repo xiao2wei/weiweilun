@@ -1,78 +1,166 @@
 {
-  "schema_version": "paper-v1-generator-matrix-v1",
-  "document_role": "preregistered_generator_parameter_record",
+  "schema_version": "paper-v1-generator-matrix-v2",
+  "document_role": "preregistered_generator_and_capacity_stress_record",
   "cli_command": "generate-numerical-study",
-  "note": "This is a human-readable parameter record, not a --config input for run-numerical-study. Use docs/PAPER_V1_EXPERIMENTS.md for the exact commands.",
-  "shared_generator_options": {
-    "seed": 20260713,
+  "note": "This is a machine-readable experiment-design record, not a direct --config input. Every performance regime keeps the preregistered privacy threshold at 0.35; capacity-pressure overrides must be applied to a copy of the generated config before it is frozen and validated.",
+  "scientific_controls": {
+    "privacy_risk_threshold": 0.35,
+    "privacy_threshold_role": "preregistered_main_policy_value",
+    "privacy_threshold_tuning_prohibited": true,
+    "preprocessing_failure_mode": "none",
+    "arrival_jitter_fraction": 0.15,
+    "anon_time_variability_scale": 1.0,
+    "output_size_variability_scale": 1.0,
+    "profile_seed": 20260713,
     "profile_subjects": 256,
     "test_subjects": 64,
     "scenario_subjects": 48,
-    "tasks": 24,
-    "horizon_s": 12.0,
-    "arrival_center_s": 6.0,
-    "arrival_jitter_fraction": 0.15,
-    "privacy_threshold": 0.35,
-    "preprocessing_failure_mode": "none",
-    "preprocessing_failure_count": 0,
-    "preprocessing_failure_probability": 0.0,
-    "local_service_scale": 1.0,
-    "anon_time_variability_scale": 1.0,
-    "output_size_variability_scale": 1.0
+    "parameter_source": "engineering_assumption"
   },
-  "load_conditions": {
-    "low": {
-      "arrival_window_s": 4.0,
-      "nominal_arrival_rate_tasks_per_s": 6.0,
-      "description": "24 tasks in the [4.0, 8.0] second arrival window."
-    },
-    "medium": {
-      "arrival_window_s": 1.0,
-      "nominal_arrival_rate_tasks_per_s": 24.0,
-      "description": "24 tasks in the [5.5, 6.5] second arrival window."
-    },
-    "high": {
-      "arrival_window_s": 0.6,
-      "nominal_arrival_rate_tasks_per_s": 40.0,
-      "description": "24 tasks in the [5.7, 6.3] second arrival window."
+  "capacity_pressure_overrides": {
+    "description": "One conservative edge job can be reserved at each RSU. The 0.03 GPU-s and 805306368-byte values equal the frozen edge model deployment bounds, so admission remains feasible but concurrent reservations are rejected atomically.",
+    "parameter_source": "stress_test_boundary",
+    "config_values": {
+      "rsus.0.descriptor_capacity": 1,
+      "rsus.0.vram_capacity_bytes": 805306368,
+      "rsus.0.workload_capacity_gpu_s": 0.03,
+      "rsus.0.gpu_servers": 1,
+      "rsus.1.descriptor_capacity": 1,
+      "rsus.1.vram_capacity_bytes": 805306368,
+      "rsus.1.workload_capacity_gpu_s": 0.03,
+      "rsus.1.gpu_servers": 1,
+      "parameter_sources.resource_capacity": "stress_test_boundary"
     }
   },
-  "formal_evaluation": {
-    "environment_seeds": [
-      301,
-      302,
-      303,
-      304,
-      305,
-      306,
-      307,
-      308,
-      309,
-      310,
-      311,
-      312,
-      313,
-      314,
-      315,
-      316,
-      317,
-      318,
-      319,
-      320,
-      321,
-      322,
-      323,
-      324,
-      325,
-      326,
-      327,
-      328,
-      329,
-      330
-    ],
+  "scales": {
+    "pilot": {
+      "purpose": "mechanism and audit calibration only; excluded from confirmatory statistics",
+      "environment_seeds": [201, 202, 203, 204, 205],
+      "shared_generator_options": {
+        "tasks": 48,
+        "horizon_s": 12.0,
+        "arrival_center_s": 6.0
+      },
+      "regimes": {
+        "default": {
+          "arrival_window_s": 4.0,
+          "nominal_arrival_rate_tasks_per_s": 12.0,
+          "local_service_scale": 1.0,
+          "config_overrides": {},
+          "mechanism": "low-pressure reference with finite resources"
+        },
+        "burst": {
+          "arrival_window_s": 1.6,
+          "nominal_arrival_rate_tasks_per_s": 30.0,
+          "local_service_scale": 1.0,
+          "config_overrides": {},
+          "mechanism": "arrival burst creates measurable finite-buffer and single-server waiting without making every task structurally impossible"
+        },
+        "compute_pressure": {
+          "arrival_window_s": 1.6,
+          "nominal_arrival_rate_tasks_per_s": 30.0,
+          "local_service_scale": 3.0,
+          "config_overrides": {},
+          "mechanism": "same arrivals as burst; only local FER work and paired dynamic energy are tripled"
+        },
+        "capacity_pressure": {
+          "arrival_window_s": 1.6,
+          "nominal_arrival_rate_tasks_per_s": 30.0,
+          "local_service_scale": 3.0,
+          "config_overrides_ref": "capacity_pressure_overrides.config_values",
+          "mechanism": "same arrivals and local compute pressure as compute_pressure; only finite RSU admission and GPU capacity are tightened"
+        }
+      }
+    },
+    "formal": {
+      "purpose": "paper-scale paired numerical experiment after pilot gates pass",
+      "environment_seeds": [301, 302, 303, 304, 305, 306, 307, 308, 309, 310, 311, 312, 313, 314, 315, 316, 317, 318, 319, 320, 321, 322, 323, 324, 325, 326, 327, 328, 329, 330],
+      "shared_generator_options": {
+        "tasks": 240,
+        "horizon_s": 20.0,
+        "arrival_center_s": 10.0
+      },
+      "regimes": {
+        "default": {
+          "arrival_window_s": 16.0,
+          "nominal_arrival_rate_tasks_per_s": 15.0,
+          "local_service_scale": 1.0,
+          "config_overrides": {},
+          "mechanism": "bounded sustained-load reference"
+        },
+        "burst": {
+          "arrival_window_s": 8.0,
+          "nominal_arrival_rate_tasks_per_s": 30.0,
+          "local_service_scale": 1.0,
+          "config_overrides": {},
+          "mechanism": "same 30 tasks/s offered burst intensity as the pilot with five times as many tasks"
+        },
+        "compute_pressure": {
+          "arrival_window_s": 8.0,
+          "nominal_arrival_rate_tasks_per_s": 30.0,
+          "local_service_scale": 3.0,
+          "config_overrides": {},
+          "mechanism": "same arrivals as formal burst; constrained-device local FER takes about 102-205 ms per task"
+        },
+        "capacity_pressure": {
+          "arrival_window_s": 8.0,
+          "nominal_arrival_rate_tasks_per_s": 30.0,
+          "local_service_scale": 3.0,
+          "config_overrides_ref": "capacity_pressure_overrides.config_values",
+          "mechanism": "same arrivals and local compute pressure as compute_pressure; one conservative in-flight edge reservation per RSU"
+        }
+      }
+    }
+  },
+  "analysis_plan": {
     "baseline": "all_local",
     "primary_policy": "esl_smpc",
     "primary_metric": "all_task_loss",
+    "pilot_family_id": "paper-v1-pilot-mechanism",
+    "pilot_policies": [
+      "all_local",
+      "fixed_safe_shortest_visible_queue",
+      "safe_lyapunov_h1",
+      "esl_smpc"
+    ],
+    "pilot_metrics": [
+      "all_task_loss",
+      "failure_rate",
+      "coverage",
+      "latency_p95_s",
+      "energy_j.task_attributed.total",
+      "edge_done_rate",
+      "pipeline_attempt_rate",
+      "pipeline_to_edge_rate",
+      "pipeline_to_local_rate"
+    ],
+    "primary_family_id": "paper-v1-primary-v2",
+    "primary_policies": [
+      "all_local",
+      "esl_smpc"
+    ],
+    "primary_metrics": [
+      "all_task_loss"
+    ],
+    "secondary_family_id": "paper-v1-secondary-v2",
+    "secondary_registered_policies": [
+      "all_local",
+      "fixed_safe_lowest_link_cost",
+      "fixed_safe_shortest_visible_queue",
+      "safe_greedy",
+      "safe_lyapunov_h1",
+      "esl_smpc"
+    ],
+    "secondary_registered_metrics": [
+      "failure_rate",
+      "coverage",
+      "latency_p95_s",
+      "energy_j.task_attributed.total",
+      "edge_done_rate",
+      "pipeline_attempt_rate",
+      "pipeline_to_edge_rate",
+      "pipeline_to_local_rate"
+    ],
     "secondary_policies": [
       "fixed_safe_lowest_link_cost",
       "fixed_safe_shortest_visible_queue",
@@ -88,6 +176,15 @@
       "pipeline_attempt_rate",
       "pipeline_to_edge_rate",
       "pipeline_to_local_rate"
+    ],
+    "required_mechanism_gates": [
+      "zero invariant failures",
+      "zero selected hard-masked actions",
+      "nonzero resource waiting in at least one pressure regime",
+      "nonzero edge completion in at least one pressure regime",
+      "nonzero atomic admission rejection in capacity_pressure for at least one edge-using baseline",
+      "capacity_pressure differs from compute_pressure only through registered config overrides",
+      "pilot outputs excluded from formal hypothesis tests"
     ]
   }
 }

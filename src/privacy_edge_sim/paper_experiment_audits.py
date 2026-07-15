@@ -1,18 +1,79 @@
 """Strict offline audits and a finite exact oracle for paper experiments.
 
-Every function is pure and counterfactual.  In particular, hard-mask audit
-rows are never converted into executable actions.  Missing cost-accounting
-fields cause a structured refusal instead of an inferred or zero-filled cost.
+Every function is pure and read-only.  The hard-mask audit validates logged
+physical decisions against their causal mask, while rejected rows remain
+counterfactual and are never converted into executable actions.  Missing
+pairing or cost-accounting fields cause a structured refusal instead of an
+inferred or zero-filled result.
 """
 
 from __future__ import annotations
 
 import itertools
+import json
 import math
 from collections import Counter
 from typing import Any, Mapping, Sequence
 
 from .profiles import canonical_document_sha256, canonical_json_bytes
+
+
+_FAILURE_COVERAGE_CATEGORIES = (
+    "retry",
+    "anonymization_failure",
+    "uplink",
+    "uplink_failure",
+    "admission_accept",
+    "admission_reject",
+    "rsu_ingress",
+    "edge_execution",
+    "rsu_failure",
+    "rsu_attributed_energy",
+    "downlink",
+    "downlink_failure",
+    "local_fallback",
+    "explicit_fail_action",
+    "failure_penalty",
+)
+
+_FAILURE_ACCOUNTING_CATEGORIES = frozenset(
+    {
+        "retry",
+        "anonymization_failure",
+        "uplink",
+        "uplink_failure",
+        "rsu_attributed_energy",
+        "downlink",
+        "downlink_failure",
+        "failure_penalty",
+    }
+)
+
+_FAILURE_COVERAGE_SCOPES = {
+    "retry": "measured retry latency and vehicle energy",
+    "anonymization_failure": "measured failed-attempt work and vehicle energy",
+    "uplink": "paired start/terminal records and paired endpoint energy",
+    "uplink_failure": "paired failed-uplink terminal record and endpoint energy",
+    "admission_accept": "recorded admission outcome only; not an atomicity proof",
+    "admission_reject": "recorded admission outcome only; not an atomicity proof",
+    "rsu_ingress": "paired ingress start/terminal structure",
+    "edge_execution": "executed path contains an edge stage",
+    "rsu_failure": "recorded RSU/edge failure marker",
+    "rsu_attributed_energy": "nonzero numeric RSU attributed energy",
+    "downlink": "paired start/terminal records and paired endpoint energy",
+    "downlink_failure": "paired failed-downlink terminal record and endpoint energy",
+    "local_fallback": "executed path contains a post-attempt local fallback",
+    "explicit_fail_action": "executed POLICY_DECISION fail action",
+    "failure_penalty": "nonzero numeric all-task failure penalty",
+}
+
+
+def _coverage_status(category: str, observed: int) -> str:
+    if not observed:
+        return "NOT_OBSERVED"
+    if category in _FAILURE_ACCOUNTING_CATEGORIES:
+        return "OBSERVED_ACCOUNTING_VALIDATED"
+    return "OBSERVED_STRUCTURE_VALIDATED"
 
 
 class AuditValidationError(ValueError):
@@ -116,17 +177,455 @@ def _expected_cost(row: Mapping[str, Any], field: str) -> float | None:
     return _number(value, f"{field}.details.bounds.expected_cost", minimum=0.0)
 
 
+def _logged_action_id(value: Any, field: str) -> tuple[str, str]:
+    """Return the canonical ID and stage of one logged closed action.
+
+    This intentionally mirrors the small, closed wire representation instead
+    of accepting an arbitrary identifier supplied by an audit producer.
+    """
+
+    action = _mapping(value, field)
+    stage = _text(action.get("stage"), f"{field}.stage")
+    kind = _text(action.get("kind"), f"{field}.kind")
+    if stage not in {"RAW", "READY"}:
+        raise AuditValidationError(
+            "AUDIT_EXECUTED_ACTION_INVALID",
+            "executed action has an invalid stage",
+            field=field,
+            stage=stage,
+        )
+    expected: set[str]
+    if kind == "FAIL":
+        expected = set()
+    elif kind == "LOCAL":
+        expected = {"local_model_id"}
+    elif kind == "PIPE" and stage == "RAW":
+        expected = {"pipeline_id"}
+    elif kind == "EDGE" and stage == "READY":
+        expected = {"rsu_id", "edge_model_id"}
+    else:
+        raise AuditValidationError(
+            "AUDIT_EXECUTED_ACTION_INVALID",
+            "executed action kind is illegal at its stage",
+            field=field,
+            stage=stage,
+            kind=kind,
+        )
+    identifiers: dict[str, str] = {}
+    for name in ("local_model_id", "pipeline_id", "rsu_id", "edge_model_id"):
+        raw = action.get(name)
+        if raw is not None:
+            identifiers[name] = _text(raw, f"{field}.{name}")
+    if set(identifiers) != expected:
+        raise AuditValidationError(
+            "AUDIT_EXECUTED_ACTION_INVALID",
+            "executed action identifiers do not match its kind",
+            field=field,
+            stage=stage,
+            kind=kind,
+            expected_identifiers=sorted(expected),
+            present_identifiers=sorted(identifiers),
+        )
+    action_id = "|".join(
+        (
+            stage,
+            kind,
+            identifiers.get("local_model_id", ""),
+            identifiers.get("pipeline_id", ""),
+            identifiers.get("rsu_id", ""),
+            identifiers.get("edge_model_id", ""),
+        )
+    )
+    return action_id, stage
+
+
+def _selected_execution_records(
+    action_records: Sequence[Mapping[str, Any]],
+) -> tuple[list[dict[str, Any]], int, int]:
+    """Select committed repair rows, falling back to policy rows per stage."""
+
+    repairs: dict[tuple[str, str], list[dict[str, Any]]] = {}
+    policies: dict[tuple[str, str], list[dict[str, Any]]] = {}
+    ignored_automatic_repairs = 0
+    for index, raw in enumerate(_sequence(action_records, "action_records")):
+        record = _mapping(raw, f"action_records[{index}]")
+        kind = record.get("record_kind")
+        if kind not in {"EXECUTION_REPAIR", "POLICY_DECISION"}:
+            continue
+        if "executed" not in record:
+            if (
+                kind == "EXECUTION_REPAIR"
+                and record.get("repair") == "FROZEN_LOCAL_FALLBACK"
+            ):
+                # This is an automatic post-failure transition, not a RAW or
+                # READY decision member.  It has no corresponding decision mask.
+                ignored_automatic_repairs += 1
+                continue
+            raise AuditValidationError(
+                "AUDIT_EXECUTED_ACTION_MISSING",
+                "decision record has no executed action",
+                record_index=index,
+                record_kind=kind,
+            )
+        action_id, stage = _logged_action_id(
+            record.get("executed"), f"action_records[{index}].executed"
+        )
+        task_id = _text(record.get("task_id"), f"action_records[{index}].task_id")
+        declared_stage = record.get("executed_stage", record.get("stage"))
+        if declared_stage is not None and declared_stage != stage:
+            raise AuditValidationError(
+                "AUDIT_EXECUTION_STAGE_MISMATCH",
+                "execution record stage disagrees with executed action",
+                record_index=index,
+                task_id=task_id,
+                declared_stage=declared_stage,
+                executed_stage=stage,
+            )
+        raw_time = record.get("time_s")
+        execution_time_s = (
+            None
+            if raw_time is None
+            else _number(raw_time, f"action_records[{index}].time_s", minimum=0.0)
+        )
+        normalized = {
+            "record_index": index,
+            "record_kind": kind,
+            "task_id": task_id,
+            "stage": stage,
+            "action_id": action_id,
+            "time_s": execution_time_s,
+            "execution_check_id": record.get("execution_check_id"),
+        }
+        if kind == "EXECUTION_REPAIR":
+            if record.get("execution_check_id") is None:
+                raise AuditValidationError(
+                    "AUDIT_EXECUTION_BINDING_MISSING",
+                    "execution repair has no execution-time mask binding",
+                    record_index=index,
+                    task_id=task_id,
+                    stage=stage,
+                )
+            normalized["execution_check_id"] = _text(
+                record.get("execution_check_id"),
+                f"action_records[{index}].execution_check_id",
+            )
+        elif normalized["execution_check_id"] is not None:
+            normalized["execution_check_id"] = _text(
+                normalized["execution_check_id"],
+                f"action_records[{index}].execution_check_id",
+            )
+        target = repairs if kind == "EXECUTION_REPAIR" else policies
+        target.setdefault((task_id, stage), []).append(normalized)
+
+    selected: list[dict[str, Any]] = []
+    ignored_policy_count = 0
+    for key in sorted(set(repairs) | set(policies)):
+        if repairs.get(key):
+            selected.extend(repairs[key])
+            ignored_policy_count += len(policies.get(key, ()))
+        else:
+            selected.extend(policies[key])
+
+    by_moment: set[tuple[str, str, float | None]] = set()
+    for record in selected:
+        moment = (record["task_id"], record["stage"], record["time_s"])
+        if moment in by_moment:
+            raise AuditValidationError(
+                "AUDIT_EXECUTION_AMBIGUOUS",
+                "multiple selected execution records occupy the same task/stage moment",
+                task_id=record["task_id"],
+                stage=record["stage"],
+                time_s=record["time_s"],
+            )
+        by_moment.add(moment)
+    selected.sort(
+        key=lambda row: (
+            row["task_id"],
+            row["stage"],
+            math.inf if row["time_s"] is None else row["time_s"],
+            row["record_index"],
+        )
+    )
+    return selected, ignored_policy_count, ignored_automatic_repairs
+
+
+def _validate_executed_mask_membership(
+    action_records: Sequence[Mapping[str, Any]],
+    masks: Sequence[tuple[int, str, str, Mapping[str, Any], Sequence[Any]]],
+) -> dict[str, Any]:
+    grouped_masks: dict[
+        tuple[str, str],
+        list[tuple[int, float | None, Mapping[str, Any], Sequence[Any]]],
+    ] = {}
+    for index, task_id, stage, record, rows in masks:
+        raw_time = record.get("time_s")
+        mask_time_s = (
+            None
+            if raw_time is None
+            else _number(raw_time, f"action_records[{index}].time_s", minimum=0.0)
+        )
+        grouped_masks.setdefault((task_id, stage), []).append(
+            (index, mask_time_s, record, rows)
+        )
+
+    executions, ignored_policy_count, ignored_automatic_repairs = (
+        _selected_execution_records(action_records)
+    )
+    pairings: list[dict[str, Any]] = []
+    violations: list[dict[str, Any]] = []
+    validated_count = 0
+    for execution in executions:
+        key = (execution["task_id"], execution["stage"])
+        candidates = grouped_masks.get(key, [])
+        if not candidates:
+            raise AuditValidationError(
+                "AUDIT_EXECUTION_MASK_MISSING",
+                "executed action has no same-task, same-stage hard mask",
+                task_id=execution["task_id"],
+                stage=execution["stage"],
+                action_id=execution["action_id"],
+            )
+        execution_time_s = execution["time_s"]
+        execution_check_id = execution["execution_check_id"]
+        if execution_check_id is not None:
+            bound = [
+                mask
+                for mask in candidates
+                if mask[2].get("execution_check_id") == execution_check_id
+            ]
+            if len(bound) != 1:
+                raise AuditValidationError(
+                    "AUDIT_EXECUTION_BINDING_INVALID",
+                    "execution check ID does not bind exactly one hard mask",
+                    task_id=execution["task_id"],
+                    stage=execution["stage"],
+                    execution_check_id=execution_check_id,
+                    bound_mask_count=len(bound),
+                )
+            matched = bound[0]
+            if matched[2].get("mask_epoch") != "EXECUTION_RECHECK":
+                raise AuditValidationError(
+                    "AUDIT_EXECUTION_BINDING_INVALID",
+                    "execution check ID is not bound to an execution-time mask",
+                    task_id=execution["task_id"],
+                    stage=execution["stage"],
+                    execution_check_id=execution_check_id,
+                    mask_epoch=matched[2].get("mask_epoch"),
+                )
+            if execution_time_s is None or matched[1] is None:
+                raise AuditValidationError(
+                    "AUDIT_EXECUTION_TIME_MISSING",
+                    "bound execution and execution-time mask require timestamps",
+                    task_id=execution["task_id"],
+                    stage=execution["stage"],
+                    execution_check_id=execution_check_id,
+                )
+            if matched[1] != execution_time_s:
+                raise AuditValidationError(
+                    "AUDIT_EXECUTION_TIME_MISMATCH",
+                    "bound execution-time mask and repair have different timestamps",
+                    task_id=execution["task_id"],
+                    stage=execution["stage"],
+                    execution_check_id=execution_check_id,
+                    mask_time_s=matched[1],
+                    execution_time_s=execution_time_s,
+                )
+        else:
+            # Legacy POLICY_DECISION fallback is allowed only when its
+            # decision-epoch mask can still be identified uniquely.  Repair
+            # records never take this path: they require an exact execution
+            # check binding above.
+            decision_candidates = [
+                mask
+                for mask in candidates
+                if mask[2].get("mask_epoch") != "EXECUTION_RECHECK"
+            ]
+            if execution_time_s is None:
+                if len(decision_candidates) != 1:
+                    raise AuditValidationError(
+                        "AUDIT_EXECUTION_TIME_MISSING",
+                        "untimed policy execution cannot be paired uniquely",
+                        task_id=execution["task_id"],
+                        stage=execution["stage"],
+                        mask_count=len(decision_candidates),
+                    )
+                matched = decision_candidates[0]
+            elif any(mask[1] is None for mask in decision_candidates):
+                raise AuditValidationError(
+                    "AUDIT_MASK_TIME_MISSING",
+                    "an untimed decision mask prevents causal policy pairing",
+                    task_id=execution["task_id"],
+                    stage=execution["stage"],
+                )
+            else:
+                prior = [
+                    mask
+                    for mask in decision_candidates
+                    if mask[1] <= execution_time_s
+                ]
+                if not prior:
+                    raise AuditValidationError(
+                        "AUDIT_CAUSAL_MASK_MISSING",
+                        "no decision mask precedes the policy execution",
+                        task_id=execution["task_id"],
+                        stage=execution["stage"],
+                        execution_time_s=execution_time_s,
+                    )
+                latest_time = max(float(mask[1]) for mask in prior)
+                nearest = [mask for mask in prior if mask[1] == latest_time]
+                if len(nearest) != 1:
+                    raise AuditValidationError(
+                        "AUDIT_MASK_PAIR_AMBIGUOUS",
+                        "multiple masks are equally recent before policy execution",
+                        task_id=execution["task_id"],
+                        stage=execution["stage"],
+                        execution_time_s=execution_time_s,
+                        mask_time_s=latest_time,
+                    )
+                matched = nearest[0]
+
+        mask_index, mask_time_s, _, raw_rows = matched
+        rows = [
+            _mapping(row, f"action_records[{mask_index}].rows[{row_index}]")
+            for row_index, row in enumerate(raw_rows)
+        ]
+        matching_rows = [
+            (row_index, row)
+            for row_index, row in enumerate(rows)
+            if row.get("action_id") == execution["action_id"]
+        ]
+        pairing = {
+            "task_id": execution["task_id"],
+            "stage": execution["stage"],
+            "action_id": execution["action_id"],
+            "execution_record_kind": execution["record_kind"],
+            "execution_record_index": execution["record_index"],
+            "execution_time_s": execution_time_s,
+            "execution_check_id": execution_check_id,
+            "mask_record_index": mask_index,
+            "mask_time_s": mask_time_s,
+        }
+        if not matching_rows:
+            violation = {
+                **pairing,
+                "violation_code": "EXECUTED_ACTION_ABSENT_FROM_MASK",
+                "reason_codes": [],
+            }
+            violations.append(violation)
+            pairings.append({**pairing, "validation_status": "VIOLATION"})
+            continue
+        if len(matching_rows) != 1:
+            raise AuditValidationError(
+                "AUDIT_MASK_ACTION_AMBIGUOUS",
+                "executed action appears more than once in its paired mask",
+                task_id=execution["task_id"],
+                stage=execution["stage"],
+                action_id=execution["action_id"],
+                mask_record_index=mask_index,
+            )
+        row_index, row = matching_rows[0]
+        logged_mask_id, logged_mask_stage = _logged_action_id(
+            row.get("action"),
+            f"action_records[{mask_index}].rows[{row_index}].action",
+        )
+        if logged_mask_id != execution["action_id"] or logged_mask_stage != execution["stage"]:
+            raise AuditValidationError(
+                "AUDIT_MASK_ACTION_ID_MISMATCH",
+                "hard-mask action_id disagrees with its structured action",
+                task_id=execution["task_id"],
+                stage=execution["stage"],
+                action_id=execution["action_id"],
+                structured_action_id=logged_mask_id,
+                mask_record_index=mask_index,
+            )
+        allowed = row.get("allowed")
+        if not isinstance(allowed, bool):
+            raise AuditValidationError(
+                "AUDIT_MASK_ALLOWED_INVALID",
+                "paired hard-mask row has no Boolean allowed decision",
+                task_id=execution["task_id"],
+                stage=execution["stage"],
+                action_id=execution["action_id"],
+                mask_record_index=mask_index,
+            )
+        if not allowed:
+            reason_codes = sorted(
+                _text(value, "reason_code")
+                for value in _sequence(
+                    row.get("reason_codes"),
+                    f"action_records[{mask_index}].rows[{row_index}].reason_codes",
+                )
+            )
+            if not reason_codes:
+                raise AuditValidationError(
+                    "AUDIT_REJECTION_REASON_MISSING",
+                    "executed action's rejected hard-mask row has no reason",
+                    task_id=execution["task_id"],
+                    stage=execution["stage"],
+                    action_id=execution["action_id"],
+                    mask_record_index=mask_index,
+                )
+            violation = {
+                **pairing,
+                "violation_code": "EXECUTED_ACTION_REJECTED_BY_MASK",
+                "reason_codes": reason_codes,
+            }
+            violations.append(violation)
+            pairings.append({**pairing, "validation_status": "VIOLATION"})
+            continue
+        validated_count += 1
+        pairings.append({**pairing, "validation_status": "VALIDATED_ALLOWED_MEMBER"})
+
+    violation_count = len(violations)
+    if not executions:
+        status = "NOT_OBSERVED"
+        hard_mask_bypassed: bool | None = None
+    elif violation_count:
+        status = "VIOLATION"
+        hard_mask_bypassed = True
+    else:
+        status = "VALIDATED"
+        hard_mask_bypassed = False
+    return {
+        "execution_validation_status": status,
+        "execution_validation_scope": (
+            "RAW_READY_POLICY_DECISIONS_AND_EXECUTION_TIME_REPAIRS_ONLY"
+        ),
+        "automatic_failure_successor_rule": (
+            "FROZEN_LOCAL_FALLBACK_IS_SEPARATELY_GUARDED_BY_"
+            "LOCAL_FALLBACK_FEASIBILITY_AND_RUNTIME_INVARIANTS"
+        ),
+        "execution_source_rule": "EXECUTION_REPAIR_PER_TASK_STAGE_ELSE_POLICY_DECISION",
+        "pairing_rule": (
+            "EXACT_EXECUTION_CHECK_ID_FOR_REPAIR;"
+            "LATEST_CAUSAL_DECISION_MASK_ONLY_FOR_POLICY_FALLBACK"
+        ),
+        "executed_action_count": len(executions),
+        "validated_count": validated_count,
+        "violation_count": violation_count,
+        "hard_mask_bypassed": hard_mask_bypassed,
+        "ignored_policy_decision_count": ignored_policy_count,
+        "ignored_automatic_fallback_repair_count": ignored_automatic_repairs,
+        "execution_pairings": pairings,
+        "violations": violations,
+    }
+
+
 def audit_hard_mask_counterfactual(
     action_records: Sequence[Mapping[str, Any]],
 ) -> dict[str, Any]:
-    """Count rejected actions that look cheaper without ever executing them."""
+    """Validate logged executions and count cheaper rejected counterfactuals."""
 
     decisions: list[dict[str, Any]] = []
     reasons: Counter[str] = Counter()
     rejected_count = 0
     seemingly_better_count = 0
     unavailable_count = 0
-    for index, task_id, stage, _, raw_rows in _mask_records(action_records):
+    masks = _mask_records(action_records)
+    decision_masks = [
+        mask for mask in masks if mask[3].get("mask_epoch") != "EXECUTION_RECHECK"
+    ]
+    for index, task_id, stage, _, raw_rows in decision_masks:
         rows = [
             _mapping(row, f"action_records[{index}].rows[{row_index}]")
             for row_index, row in enumerate(raw_rows)
@@ -200,20 +699,23 @@ def audit_hard_mask_counterfactual(
                 ),
             }
         )
+    execution_validation = _validate_executed_mask_membership(action_records, masks)
     return _finish(
         {
-            "schema_version": "1.0",
+            "schema_version": "1.1",
             "analysis": "hard_mask_safety_counterfactual",
-            "counterfactual_only": True,
+            "counterfactual_only": False,
+            "rejected_action_analysis_counterfactual_only": True,
             "unsafe_actions_executed_by_audit": 0,
-            "hard_mask_bypassed": False,
             "units": {"expected_cost": "normalized_cost"},
             "mask_count": len(decisions),
+            "execution_recheck_mask_count": len(masks) - len(decision_masks),
             "rejected_action_count": rejected_count,
             "rejected_with_cost_unavailable": unavailable_count,
             "rejected_seemingly_better_count": seemingly_better_count,
             "reason_counts": dict(sorted(reasons.items())),
             "decisions": decisions,
+            **execution_validation,
         },
         action_records,
     )
@@ -626,6 +1128,218 @@ def _task_actual_path(task: Mapping[str, Any], task_id: str) -> tuple[str, ...]:
     return path
 
 
+def _optional_task_array(
+    task: Mapping[str, Any], task_id: str, field: str
+) -> Sequence[Any]:
+    """Read an optional parsed array or its CSV JSON representation."""
+
+    raw = task.get(field)
+    if raw is None:
+        encoded = task.get(f"{field}_json")
+        if encoded in (None, ""):
+            return ()
+        if not isinstance(encoded, str):
+            raise AuditValidationError(
+                "FAILURE_OPTIONAL_ARRAY",
+                f"{field}_json must be text",
+                task_id=task_id,
+            )
+        try:
+            raw = json.loads(encoded)
+        except json.JSONDecodeError as exc:
+            raise AuditValidationError(
+                "FAILURE_OPTIONAL_ARRAY_JSON",
+                f"{field}_json is invalid",
+                task_id=task_id,
+            ) from exc
+    return _sequence(raw, f"task[{task_id}].{field}")
+
+
+def _task_network_observations(
+    task: Mapping[str, Any], task_id: str
+) -> dict[str, dict[str, int]]:
+    """Validate observed UL/DL transaction pairing and count terminal outcomes."""
+
+    audit = _sequence(task.get("network_audit"), f"task[{task_id}].network_audit")
+    open_attempt = {"UL": False, "DL": False}
+    counts = {
+        "UL": {"started": 0, "done": 0, "failed": 0},
+        "DL": {"started": 0, "done": 0, "failed": 0},
+    }
+    for index, raw in enumerate(audit):
+        row = _mapping(raw, f"task[{task_id}].network_audit[{index}]")
+        direction = row.get("direction")
+        if direction not in counts:
+            continue
+        status = _text(row.get("status"), "network_audit.status")
+        _number(row.get("time_s"), "network_audit.time_s", minimum=0.0)
+        if status == "START":
+            if open_attempt[direction]:
+                raise AuditValidationError(
+                    "FAILURE_NETWORK_OVERLAP",
+                    "overlapping network attempts are ambiguous",
+                    task_id=task_id,
+                    direction=direction,
+                )
+            open_attempt[direction] = True
+            counts[direction]["started"] += 1
+        elif status in {"PAUSED", "RESUMED"}:
+            if not open_attempt[direction]:
+                raise AuditValidationError(
+                    "FAILURE_NETWORK_STATE",
+                    "pause/resume record has no active network attempt",
+                    task_id=task_id,
+                    direction=direction,
+                    status=status,
+                )
+        elif status in {"DONE", "FAIL"}:
+            if not open_attempt[direction]:
+                raise AuditValidationError(
+                    "FAILURE_NETWORK_PAIR",
+                    "network terminal record has no active start",
+                    task_id=task_id,
+                    direction=direction,
+                )
+            for field in ("vehicle_energy_j", "rsu_energy_j"):
+                if field not in row:
+                    raise AuditValidationError(
+                        "FAILURE_NETWORK_FIELDS_MISSING",
+                        "network terminal record lacks paired energy",
+                        task_id=task_id,
+                        direction=direction,
+                        field=field,
+                    )
+                _number(row[field], f"network.{field}", minimum=0.0)
+            counts[direction]["done" if status == "DONE" else "failed"] += 1
+            open_attempt[direction] = False
+        else:
+            raise AuditValidationError(
+                "FAILURE_NETWORK_STATUS",
+                "network audit contains an unknown status",
+                task_id=task_id,
+                direction=direction,
+                status=status,
+            )
+    incomplete = [direction for direction, active in open_attempt.items() if active]
+    if incomplete:
+        raise AuditValidationError(
+            "FAILURE_NETWORK_INCOMPLETE",
+            "network start has no terminal accounting record",
+            task_id=task_id,
+            directions=incomplete,
+        )
+    return counts
+
+
+def _task_rsu_observations(
+    task: Mapping[str, Any], task_id: str
+) -> dict[str, Any]:
+    """Validate the observed admission/ingress sequence without claiming atomicity."""
+
+    counts = {
+        "admission_accept": 0,
+        "admission_reject": 0,
+        "rsu_ingress": 0,
+        "rsu_failure": 0,
+    }
+    admission_reject_reasons: Counter[str] = Counter()
+    ingress_open = False
+    for index, raw in enumerate(_optional_task_array(task, task_id, "rsu_audit")):
+        row = _mapping(raw, f"task[{task_id}].rsu_audit[{index}]")
+        if "admission" in row:
+            admission = _text(row.get("admission"), "rsu_audit.admission")
+            if admission == "ACCEPT":
+                counts["admission_accept"] += 1
+            elif admission == "REJECT":
+                counts["admission_reject"] += 1
+                if "reason_codes" not in row:
+                    raise AuditValidationError(
+                        "FAILURE_ADMISSION_REASON_MISSING",
+                        "rejected RSU admission has no reason code",
+                        task_id=task_id,
+                        audit_index=index,
+                    )
+                reasons = [
+                    _text(value, "rsu_audit.reason_code")
+                    for value in _sequence(
+                        row.get("reason_codes"), "rsu_audit.reason_codes"
+                    )
+                ]
+                if not reasons:
+                    raise AuditValidationError(
+                        "FAILURE_ADMISSION_REASON_MISSING",
+                        "rejected RSU admission has no reason code",
+                        task_id=task_id,
+                        audit_index=index,
+                    )
+                if len(reasons) != len(set(reasons)):
+                    raise AuditValidationError(
+                        "FAILURE_ADMISSION_REASON_DUPLICATE",
+                        "rejected RSU admission repeats a reason code",
+                        task_id=task_id,
+                        audit_index=index,
+                        reason_codes=reasons,
+                    )
+                admission_reject_reasons.update(reasons)
+            else:
+                raise AuditValidationError(
+                    "FAILURE_ADMISSION_STATUS",
+                    "RSU audit contains an unknown admission outcome",
+                    task_id=task_id,
+                    admission=admission,
+                )
+            continue
+        phase = row.get("phase")
+        if phase is None:
+            continue
+        phase_text = _text(phase, "rsu_audit.phase")
+        if phase_text == "ingress_start":
+            if ingress_open:
+                raise AuditValidationError(
+                    "FAILURE_RSU_INGRESS_OVERLAP",
+                    "overlapping RSU ingress attempts are ambiguous",
+                    task_id=task_id,
+                )
+            ingress_open = True
+        elif phase_text == "ingress_done":
+            if not ingress_open:
+                raise AuditValidationError(
+                    "FAILURE_RSU_INGRESS_PAIR",
+                    "RSU ingress terminal record has no start",
+                    task_id=task_id,
+                )
+            counts["rsu_ingress"] += 1
+            if row.get("valid") is False:
+                counts["rsu_failure"] += 1
+            ingress_open = False
+        elif "fail" in phase_text.lower():
+            counts["rsu_failure"] += 1
+            ingress_open = False
+    if ingress_open:
+        raise AuditValidationError(
+            "FAILURE_RSU_INGRESS_INCOMPLETE",
+            "RSU ingress start has no terminal accounting record",
+            task_id=task_id,
+        )
+    failure_reason = task.get("failure_reason")
+    if (
+        counts["rsu_failure"] == 0
+        and isinstance(failure_reason, str)
+        and (
+            "RSU" in failure_reason.upper()
+            or "EDGE" in failure_reason.upper()
+        )
+    ):
+        # The task-level reason is a conservative fallback for older rows that
+        # lack an explicit RSU failure marker.  It must not count the same
+        # realized failure a second time when rsu_audit already recorded it.
+        counts["rsu_failure"] += 1
+    counts["admission_reject_reason_counts"] = dict(
+        sorted(admission_reject_reasons.items())
+    )
+    return counts
+
+
 def _failed_anon_attempts(
     task: Mapping[str, Any], task_id: str
 ) -> list[dict[str, Any]]:
@@ -720,7 +1434,12 @@ def audit_failure_cost_completeness(
         },
     }
     anon_failure_reasons: Counter[str] = Counter()
+    admission_reject_reasons: Counter[str] = Counter()
     fallback_task_ids: list[str] = []
+    coverage_task_ids = {
+        category: set() for category in _FAILURE_COVERAGE_CATEGORIES
+    }
+    coverage_observations: Counter[str] = Counter()
     task_details = []
     for index, raw in enumerate(tasks):
         task = _mapping(raw, f"task_rows[{index}]")
@@ -745,6 +1464,9 @@ def audit_failure_cost_completeness(
         )
         failed_attempts = _failed_anon_attempts(task, task_id)
         actual_path = _task_actual_path(task, task_id)
+        network = _task_network_observations(task, task_id)
+        rsu = _task_rsu_observations(task, task_id)
+        admission_reject_reasons.update(rsu["admission_reject_reason_counts"])
         local_fallback = bool(
             actual_path
             and actual_path[-1] == "LOCAL_FER"
@@ -758,6 +1480,9 @@ def audit_failure_cost_completeness(
         )
         if retry_latency > 0.0 or retry_energy > 0.0:
             omissions["retry"]["tasks_affected"] += 1
+        if int(task["attempt_started_count"]) > 1:
+            coverage_task_ids["retry"].add(task_id)
+            coverage_observations["retry"] += int(task["attempt_started_count"]) - 1
         omissions["retry"]["latency_s"] += retry_latency
         omissions["retry"]["vehicle_energy_j"] += retry_energy
         if dl_latency > 0.0 or dl_vehicle > 0.0 or dl_rsu > 0.0:
@@ -773,6 +1498,8 @@ def audit_failure_cost_completeness(
         omissions["failure"]["normalized_cost"] += failure
         if failed_attempts:
             omissions["anonymization_failure"]["tasks_affected"] += 1
+            coverage_task_ids["anonymization_failure"].add(task_id)
+            coverage_observations["anonymization_failure"] += len(failed_attempts)
         omissions["anonymization_failure"]["failed_attempt_count"] += len(
             failed_attempts
         )
@@ -785,6 +1512,36 @@ def audit_failure_cost_completeness(
         anon_failure_reasons.update(row["reason"] for row in failed_attempts)
         if local_fallback:
             fallback_task_ids.append(task_id)
+            coverage_task_ids["local_fallback"].add(task_id)
+            coverage_observations["local_fallback"] += 1
+        for direction, category, failure_category in (
+            ("UL", "uplink", "uplink_failure"),
+            ("DL", "downlink", "downlink_failure"),
+        ):
+            if network[direction]["started"]:
+                coverage_task_ids[category].add(task_id)
+                coverage_observations[category] += network[direction]["started"]
+            if network[direction]["failed"]:
+                coverage_task_ids[failure_category].add(task_id)
+                coverage_observations[failure_category] += network[direction]["failed"]
+        for category in (
+            "admission_accept",
+            "admission_reject",
+            "rsu_ingress",
+            "rsu_failure",
+        ):
+            if rsu[category]:
+                coverage_task_ids[category].add(task_id)
+                coverage_observations[category] += rsu[category]
+        if any(stage.startswith("EDGE:") for stage in actual_path):
+            coverage_task_ids["edge_execution"].add(task_id)
+            coverage_observations["edge_execution"] += 1
+        if rsu_total > 0.0:
+            coverage_task_ids["rsu_attributed_energy"].add(task_id)
+            coverage_observations["rsu_attributed_energy"] += 1
+        if failure > 0.0:
+            coverage_task_ids["failure_penalty"].add(task_id)
+            coverage_observations["failure_penalty"] += 1
         task_details.append(
             {
                 "task_id": task_id,
@@ -817,6 +1574,8 @@ def audit_failure_cost_completeness(
             }
         )
     explicit_fail_count, explicit_fail_task_ids = _explicit_fail_actions(actions)
+    coverage_task_ids["explicit_fail_action"].update(explicit_fail_task_ids)
+    coverage_observations["explicit_fail_action"] += explicit_fail_count
     omissions["anonymization_failure"]["reason_counts"] = dict(
         sorted(anon_failure_reasons.items())
     )
@@ -833,11 +1592,57 @@ def audit_failure_cost_completeness(
             "task_ids": list(explicit_fail_task_ids),
         }
     )
+    coverage_categories = {}
+    for category in _FAILURE_COVERAGE_CATEGORIES:
+        observed = coverage_observations[category]
+        coverage_categories[category] = {
+            "observation_count": observed,
+            "task_count": len(coverage_task_ids[category]),
+            "task_ids": sorted(coverage_task_ids[category]),
+            "status": _coverage_status(category, observed),
+            "validation_scope": _FAILURE_COVERAGE_SCOPES[category],
+        }
+    coverage_categories["admission_reject"]["reason_counts"] = dict(
+        sorted(admission_reject_reasons.items())
+    )
+    observed_categories = [
+        category
+        for category in _FAILURE_COVERAGE_CATEGORIES
+        if coverage_observations[category]
+    ]
+    not_observed_categories = [
+        category
+        for category in _FAILURE_COVERAGE_CATEGORIES
+        if not coverage_observations[category]
+    ]
+    coverage_complete = not not_observed_categories
+    coverage_status = (
+        "COMPLETE_OBSERVED_CATEGORY_COVERAGE"
+        if coverage_complete
+        else "PARTIAL_OBSERVED_CATEGORY_COVERAGE"
+    )
     return _finish(
         {
             "schema_version": "1.0",
+            "coverage_schema_version": "1.1",
             "analysis": "failure_cost_completeness",
+            # Preserve the pre-coverage API contract for existing consumers.
+            # Coverage completeness is deliberately reported separately: the
+            # accounting audit can be complete for every observed path without
+            # claiming that every registered failure category occurred.
             "status": "COMPLETE",
+            "coverage_status": coverage_status,
+            "accounting_validation_status": "COMPLETE_FOR_OBSERVED_PATHS",
+            "coverage_scope": {
+                "claim": "empirical coverage of categories observed in supplied runs",
+                "does_not_claim_unobserved_categories": True,
+                "does_not_prove_admission_atomicity": True,
+                "registered_categories": list(_FAILURE_COVERAGE_CATEGORIES),
+                "observed_categories": observed_categories,
+                "not_observed_categories": not_observed_categories,
+                "all_registered_categories_observed": coverage_complete,
+            },
+            "observed_coverage": coverage_categories,
             "units": {
                 "latency": "s",
                 "vehicle_energy": "J",
@@ -851,6 +1656,146 @@ def audit_failure_cost_completeness(
             "tasks": task_details,
         },
         {"tasks": tasks, "actions": actions, "events": events},
+    )
+
+
+def audit_failure_cost_coverage(
+    runs: Sequence[Mapping[str, Any]],
+) -> dict[str, Any]:
+    """Aggregate strict failure-cost coverage across one or more independent runs.
+
+    Each run must contain ``task_rows``, ``action_records`` and ``event_records``.
+    A run may also supply a stable ``run_id``.  The aggregate never upgrades an
+    unobserved category to validated merely because another cost term was present.
+    """
+
+    raw_runs = _sequence(runs, "runs")
+    if not raw_runs:
+        raise AuditValidationError("FAILURE_NO_RUNS", "run audit is empty")
+    seen_ids: set[str] = set()
+    run_summaries: list[dict[str, Any]] = []
+    observed_run_counts: Counter[str] = Counter()
+    observation_counts: Counter[str] = Counter()
+    task_counts: Counter[str] = Counter()
+    admission_reject_reasons: Counter[str] = Counter()
+    aggregate_costs = {
+        "retry_latency_s": 0.0,
+        "retry_vehicle_energy_j": 0.0,
+        "downlink_latency_s": 0.0,
+        "downlink_vehicle_energy_j": 0.0,
+        "downlink_rsu_energy_j": 0.0,
+        "rsu_attributed_energy_j": 0.0,
+        "failure_penalty_normalized_cost": 0.0,
+        "failed_anonymization_executed_work_s": 0.0,
+        "failed_anonymization_vehicle_energy_j": 0.0,
+    }
+    total_tasks = 0
+    for index, raw in enumerate(raw_runs):
+        run = _mapping(raw, f"runs[{index}]")
+        raw_id = run.get("run_id", f"run-{index:05d}")
+        run_id = _text(raw_id, f"runs[{index}].run_id")
+        if run_id in seen_ids:
+            raise AuditValidationError(
+                "FAILURE_DUPLICATE_RUN", "run IDs must be unique", run_id=run_id
+            )
+        seen_ids.add(run_id)
+        report = audit_failure_cost_completeness(
+            _sequence(run.get("task_rows"), f"runs[{index}].task_rows"),
+            _sequence(run.get("action_records"), f"runs[{index}].action_records"),
+            _sequence(run.get("event_records"), f"runs[{index}].event_records"),
+        )
+        total_tasks += int(report["task_count"])
+        observed = report["coverage_scope"]["observed_categories"]
+        for category in observed:
+            observed_run_counts[category] += 1
+            entry = report["observed_coverage"][category]
+            observation_counts[category] += int(entry["observation_count"])
+            task_counts[category] += int(entry["task_count"])
+        admission_reject_reasons.update(
+            report["observed_coverage"]["admission_reject"]["reason_counts"]
+        )
+        omissions = report["omissions"]
+        aggregate_costs["retry_latency_s"] += omissions["retry"]["latency_s"]
+        aggregate_costs["retry_vehicle_energy_j"] += omissions["retry"][
+            "vehicle_energy_j"
+        ]
+        aggregate_costs["downlink_latency_s"] += omissions["downlink"]["latency_s"]
+        aggregate_costs["downlink_vehicle_energy_j"] += omissions["downlink"][
+            "vehicle_energy_j"
+        ]
+        aggregate_costs["downlink_rsu_energy_j"] += omissions["downlink"][
+            "rsu_energy_j"
+        ]
+        aggregate_costs["rsu_attributed_energy_j"] += omissions["rsu_energy"][
+            "rsu_energy_j"
+        ]
+        aggregate_costs["failure_penalty_normalized_cost"] += omissions["failure"][
+            "normalized_cost"
+        ]
+        aggregate_costs[
+            "failed_anonymization_executed_work_s"
+        ] += omissions["anonymization_failure"]["executed_work_s"]
+        aggregate_costs[
+            "failed_anonymization_vehicle_energy_j"
+        ] += omissions["anonymization_failure"]["vehicle_energy_j"]
+        run_summaries.append(
+            {
+                "run_id": run_id,
+                "status": report["status"],
+                "task_count": report["task_count"],
+                "observed_categories": list(observed),
+                "not_observed_categories": list(
+                    report["coverage_scope"]["not_observed_categories"]
+                ),
+                "report_sha256": report["report_sha256"],
+            }
+        )
+    aggregate_coverage = {}
+    for category in _FAILURE_COVERAGE_CATEGORIES:
+        count = observation_counts[category]
+        aggregate_coverage[category] = {
+            "observed_run_count": observed_run_counts[category],
+            "observation_count": count,
+            "task_count": task_counts[category],
+            "status": _coverage_status(category, count),
+            "validation_scope": _FAILURE_COVERAGE_SCOPES[category],
+        }
+    aggregate_coverage["admission_reject"]["reason_counts"] = dict(
+        sorted(admission_reject_reasons.items())
+    )
+    not_observed = [
+        category
+        for category in _FAILURE_COVERAGE_CATEGORIES
+        if not observation_counts[category]
+    ]
+    coverage_status = (
+        "COMPLETE_OBSERVED_CATEGORY_COVERAGE"
+        if not not_observed
+        else "PARTIAL_OBSERVED_CATEGORY_COVERAGE"
+    )
+    return _finish(
+        {
+            "schema_version": "1.0",
+            "coverage_schema_version": "1.1",
+            "analysis": "failure_cost_coverage_aggregate",
+            "status": coverage_status,
+            "coverage_status": coverage_status,
+            "accounting_validation_status": "COMPLETE_FOR_OBSERVED_PATHS",
+            "run_count": len(raw_runs),
+            "task_count": total_tasks,
+            "coverage_scope": {
+                "claim": "aggregate empirical coverage of supplied runs",
+                "does_not_claim_unobserved_categories": True,
+                "does_not_prove_admission_atomicity": True,
+                "registered_categories": list(_FAILURE_COVERAGE_CATEGORIES),
+                "not_observed_categories": not_observed,
+                "all_registered_categories_observed": not not_observed,
+            },
+            "observed_coverage": aggregate_coverage,
+            "aggregate_costs": aggregate_costs,
+            "runs": run_summaries,
+        },
+        raw_runs,
     )
 
 
@@ -1283,6 +2228,7 @@ def exact_adaptive_scenario_tree_oracle(
 __all__ = [
     "AuditValidationError",
     "audit_failure_cost_completeness",
+    "audit_failure_cost_coverage",
     "audit_hard_mask_counterfactual",
     "build_preregistered_one_shot_commitments",
     "evaluate_two_stage_information_ablation",

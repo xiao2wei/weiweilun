@@ -6,19 +6,30 @@ import copy
 from dataclasses import replace
 import hashlib
 import json
+import shutil
 import subprocess
 import sys
 from types import SimpleNamespace
 
 import pytest
 
+import privacy_edge_sim.cli as cli_module
 from privacy_edge_sim.cli import (
     _execute,
+    _expand_sweep_coordinates,
+    _mechanism_snapshot,
     _parquet_safe_rows,
+    _study_experiment_registration,
+    _study_mechanism_diagnostics,
+    _sweep_experiment_registration,
+    _sweep_mechanism_diagnostics,
     build_parser,
     command_aggregate,
+    command_derive_config,
+    command_audit_failure_coverage,
     command_audit_failure_integrity,
     command_audit_hard_mask,
+    command_sweep,
 )
 from privacy_edge_sim.config import load_config
 from privacy_edge_sim.evidence import verify_run_evidence
@@ -29,6 +40,7 @@ from privacy_edge_sim.numerical import NumericalStudySpec, generate_numerical_st
 from privacy_edge_sim.profiles import canonical_document_sha256, canonical_json_bytes
 from privacy_edge_sim.profiles import load_profile
 from privacy_edge_sim.safety import Observation
+from privacy_edge_sim.simulator import DiscreteEventSimulator
 from privacy_edge_sim.traces import load_trace
 
 
@@ -41,6 +53,556 @@ REQUIRED_RUN_FILES = {
     "summary.json",
     "manifest.json",
 }
+
+
+def _mechanism_summary(
+    *, edge: float, pipeline: float, waiting: int, loss: float = 0.3
+) -> dict:
+    return {
+        "edge_done_rate": edge,
+        "pipeline_attempt_rate": pipeline,
+        "pipeline_to_edge_rate": edge / pipeline if pipeline else 0.0,
+        "pipeline_to_local_rate": 1.0 if pipeline else 0.0,
+        "all_task_loss": loss,
+        "coverage": 1.0,
+        "failure_rate": 0.0,
+        "timeout_rate": 0.0,
+        "latency_p95_s": 0.2,
+        "energy_j": {"task_attributed": {"total": 2.0}},
+        "resources": {"max_utilization": 0.4, "max_waiting_jobs": waiting},
+    }
+
+
+def _write_audit_manifest(run):
+    files = {}
+    for name in ("tasks.csv", "actions.jsonl", "events.jsonl"):
+        path = run / name
+        files[name] = {
+            "filename": name,
+            "sha256": sha256_file(path),
+            "size_bytes": path.stat().st_size,
+            "row_count": 0,
+        }
+    manifest = {
+        "schema_version": "1.0",
+        "invariants": {"passed": True, "failure_count": 0},
+        "source_cleanliness_preflight": {
+            "require_clean_source": True,
+            "requirement_status": "passed",
+            "source_commit_reproducible": True,
+            "source_git_dirty": False,
+            "git_commit": "1" * 40,
+        },
+        "outputs": {"files": files},
+    }
+    manifest_hash = hashlib.sha256(canonical_json_bytes(manifest)).hexdigest()
+    manifest["manifest_sha256"] = manifest_hash
+    (run / "manifest.json").write_text(
+        json.dumps(manifest, sort_keys=True), encoding="utf-8"
+    )
+    return manifest_hash
+
+
+def test_study_mechanism_diagnostics_flags_unexercised_edge_and_queueing():
+    rows = [
+        {
+            "policy": "all_local",
+            "mechanism_metrics": _mechanism_snapshot(
+                _mechanism_summary(edge=0.0, pipeline=0.0, waiting=0)
+            ),
+        },
+        {
+            "policy": "esl_smpc",
+            "mechanism_metrics": _mechanism_snapshot(
+                _mechanism_summary(edge=0.0, pipeline=0.5, waiting=0)
+            ),
+        },
+    ]
+
+    report = _study_mechanism_diagnostics(rows, baseline="all_local")
+
+    codes = {(row["code"], row.get("policy")) for row in report["warnings"]}
+    assert ("POLICY_NO_EDGE_COMPLETION", "esl_smpc") in codes
+    assert ("PIPELINE_WITHOUT_EDGE_COMPLETION", "esl_smpc") in codes
+    assert ("NO_OBSERVED_RESOURCE_QUEUEING", None) in codes
+
+
+def test_sweep_mechanism_diagnostics_distinguishes_configuration_from_behavior():
+    snapshot = _mechanism_snapshot(
+        _mechanism_summary(edge=0.0, pipeline=0.0, waiting=0)
+    )
+    rows = [
+        {
+            "parameters": {"controller.lyapunov_v": value},
+            "mechanism_metrics": dict(snapshot),
+        }
+        for value in (6.0, 12.0)
+    ]
+
+    report = _sweep_mechanism_diagnostics(
+        rows, coordinate_keys=["controller.lyapunov_v"]
+    )
+
+    assert report["unique_behavior_signature_count"] == 1
+    assert report["parameter_observed_effect"] == {
+        "controller.lyapunov_v": False
+    }
+    assert all(row["behavior_signature_sha256"] for row in rows)
+    assert {
+        warning["code"] for warning in report["warnings"]
+    } >= {
+        "NO_OBSERVED_BEHAVIOR_VARIATION",
+        "PARAMETER_NO_OBSERVED_EFFECT",
+        "SWEEP_NO_EDGE_COMPLETION",
+        "SWEEP_NO_RESOURCE_QUEUEING",
+    }
+
+
+def test_sweep_mechanism_diagnostics_detects_conditional_parameter_effect():
+    rows = []
+    for v in (6.0, 12.0):
+        for capacity in (0.03, 0.12):
+            rows.append(
+                {
+                    "parameters": {
+                        "controller.lyapunov_v": v,
+                        "rsus.0.workload_capacity_gpu_s": capacity,
+                    },
+                    "mechanism_metrics": _mechanism_snapshot(
+                        _mechanism_summary(
+                            edge=0.25 if capacity > 0.03 else 0.0,
+                            pipeline=0.5,
+                            waiting=1 if capacity > 0.03 else 0,
+                        )
+                    ),
+                }
+            )
+
+    report = _sweep_mechanism_diagnostics(
+        rows,
+        coordinate_keys=[
+            "controller.lyapunov_v",
+            "rsus.0.workload_capacity_gpu_s",
+        ],
+    )
+    assert report["parameter_observed_effect"]["controller.lyapunov_v"] is False
+    assert (
+        report["parameter_observed_effect"][
+            "rsus.0.workload_capacity_gpu_s"
+        ]
+        is True
+    )
+
+
+def test_paired_sweep_expands_lockstep_not_cartesian(repo_root):
+    base = json.loads(
+        (repo_root / "configs" / "default.json").read_text(encoding="utf-8")
+    )
+    grid = {
+        "$paired": [
+            {
+                "rsus.0.workload_capacity_gpu_s": 0.03,
+                "rsus.1.workload_capacity_gpu_s": 0.03,
+            },
+            {
+                "rsus.0.workload_capacity_gpu_s": 30.0,
+                "rsus.1.workload_capacity_gpu_s": 18.0,
+            },
+        ]
+    }
+
+    keys, cases = _expand_sweep_coordinates(base, grid)
+    assert keys == [
+        "rsus.0.workload_capacity_gpu_s",
+        "rsus.1.workload_capacity_gpu_s",
+    ]
+    assert cases == grid["$paired"]
+    assert len(cases) == 2
+
+
+def test_failure_coverage_cli_aggregates_run_directories(monkeypatch, tmp_path):
+    run = tmp_path / "run-a"
+    run.mkdir()
+    for name in ("tasks.csv", "actions.jsonl", "events.jsonl"):
+        (run / name).write_text("", encoding="utf-8")
+    manifest_hash = _write_audit_manifest(run)
+    monkeypatch.setattr(
+        "privacy_edge_sim.cli._read_failure_task_rows", lambda path: [{"task_id": "t"}]
+    )
+    monkeypatch.setattr(
+        "privacy_edge_sim.cli._read_jsonl", lambda path: [{"record_kind": "TEST"}]
+    )
+
+    def fake_coverage(runs):
+        assert len(runs) == 1
+        assert runs[0]["run_id"] == f"manifest:{manifest_hash}"
+        return {
+            "schema_version": "1.0",
+            "analysis": "failure_cost_coverage_aggregate",
+            "status": "PARTIAL_OBSERVED_CATEGORY_COVERAGE",
+            "run_count": 1,
+            "task_count": 1,
+            "coverage_scope": {
+                "not_observed_categories": ["downlink_failure"]
+            },
+            "observed_coverage": {
+                "uplink": {"status": "OBSERVED_ACCOUNTING_VALIDATED"},
+                "downlink_failure": {"status": "NOT_OBSERVED"},
+            },
+            "report_sha256": "",
+        }
+
+    monkeypatch.setattr(
+        "privacy_edge_sim.cli.audit_failure_cost_coverage", fake_coverage
+    )
+    output = tmp_path / "coverage.json"
+    args = build_parser().parse_args(
+        [
+            "audit-failure-coverage",
+            "--runs",
+            str(run),
+            "--require-categories",
+            "uplink",
+            "--output",
+            str(output),
+        ]
+    )
+
+    assert args.func is command_audit_failure_coverage
+    assert args.func(args) == 0
+    report = json.loads(output.read_text(encoding="utf-8"))
+    assert report["required_observed_categories"] == ["uplink"]
+    assert report["required_observed_categories_satisfied"] is True
+    assert report["input_artifact_verification"]["status"] == "VERIFIED"
+    assert report["report_sha256"] == canonical_document_sha256(
+        report, "report_sha256"
+    )
+
+
+def test_failure_coverage_cli_required_category_is_a_prewrite_gate(
+    monkeypatch, tmp_path
+):
+    run = tmp_path / "run-a"
+    run.mkdir()
+    for name in ("tasks.csv", "actions.jsonl", "events.jsonl"):
+        (run / name).write_text("", encoding="utf-8")
+    _write_audit_manifest(run)
+    monkeypatch.setattr(
+        "privacy_edge_sim.cli._read_failure_task_rows", lambda path: [{"task_id": "t"}]
+    )
+    monkeypatch.setattr("privacy_edge_sim.cli._read_jsonl", lambda path: [])
+    monkeypatch.setattr(
+        "privacy_edge_sim.cli.audit_failure_cost_coverage",
+        lambda runs: {
+            "coverage_scope": {"not_observed_categories": ["downlink_failure"]},
+            "observed_coverage": {"downlink_failure": {"status": "NOT_OBSERVED"}},
+        },
+    )
+    output = tmp_path / "coverage.json"
+    args = build_parser().parse_args(
+        [
+            "audit-failure-coverage",
+            "--runs",
+            str(run),
+            "--require-categories",
+            "downlink_failure",
+            "--output",
+            str(output),
+        ]
+    )
+
+    with pytest.raises(ValueError, match="were not observed"):
+        args.func(args)
+    assert not output.exists()
+
+
+def test_failure_coverage_cli_discovers_runs_below_study_root(monkeypatch, tmp_path):
+    run = tmp_path / "study" / "env-1" / "all_local"
+    run.mkdir(parents=True)
+    for name in ("tasks.csv", "actions.jsonl", "events.jsonl"):
+        (run / name).write_text("", encoding="utf-8")
+    manifest_hash = _write_audit_manifest(run)
+    monkeypatch.setattr(
+        "privacy_edge_sim.cli._read_failure_task_rows", lambda path: [{"task_id": "t"}]
+    )
+    monkeypatch.setattr("privacy_edge_sim.cli._read_jsonl", lambda path: [])
+    captured = {}
+
+    def fake_coverage(runs):
+        captured["runs"] = runs
+        return {
+            "schema_version": "1.0",
+            "analysis": "failure_cost_coverage_aggregate",
+            "status": "COMPLETE_OBSERVED_CATEGORY_COVERAGE",
+            "run_count": 1,
+            "task_count": 1,
+            "coverage_scope": {"not_observed_categories": []},
+            "observed_coverage": {"uplink": {"status": "OBSERVED"}},
+            "report_sha256": "",
+        }
+
+    monkeypatch.setattr(
+        "privacy_edge_sim.cli.audit_failure_cost_coverage", fake_coverage
+    )
+    output = tmp_path / "coverage.json"
+    args = build_parser().parse_args(
+        [
+            "audit-failure-coverage",
+            "--study-roots",
+            str(tmp_path / "study"),
+            "--output",
+            str(output),
+        ]
+    )
+
+    assert args.func(args) == 0
+    assert len(captured["runs"]) == 1
+    assert captured["runs"][0]["run_id"] == f"manifest:{manifest_hash}"
+
+
+def test_failure_coverage_cli_rejects_manifest_bound_artifact_tampering(tmp_path):
+    run = tmp_path / "run-a"
+    run.mkdir()
+    for name in ("tasks.csv", "actions.jsonl", "events.jsonl"):
+        (run / name).write_text("", encoding="utf-8")
+    _write_audit_manifest(run)
+    (run / "actions.jsonl").write_text('{"tampered":true}\n', encoding="utf-8")
+    output = tmp_path / "coverage.json"
+    args = build_parser().parse_args(
+        [
+            "audit-failure-coverage",
+            "--runs",
+            str(run),
+            "--output",
+            str(output),
+        ]
+    )
+
+    with pytest.raises(ValueError, match="checksum mismatch"):
+        args.func(args)
+    assert not output.exists()
+
+
+def test_failure_coverage_cli_rejects_dirty_source_manifest(tmp_path):
+    run = tmp_path / "run-a"
+    run.mkdir()
+    for name in ("tasks.csv", "actions.jsonl", "events.jsonl"):
+        (run / name).write_text("", encoding="utf-8")
+    _write_audit_manifest(run)
+    manifest_path = run / "manifest.json"
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    manifest["source_cleanliness_preflight"].update(
+        require_clean_source=False,
+        requirement_status="not_required",
+        source_commit_reproducible=False,
+        source_git_dirty=True,
+    )
+    manifest["manifest_sha256"] = canonical_document_sha256(
+        manifest, "manifest_sha256"
+    )
+    manifest_path.write_text(json.dumps(manifest), encoding="utf-8")
+    output = tmp_path / "coverage.json"
+    args = build_parser().parse_args(
+        [
+            "audit-failure-coverage",
+            "--runs",
+            str(run),
+            "--output",
+            str(output),
+        ]
+    )
+
+    with pytest.raises(ValueError, match="clean committed run source"):
+        args.func(args)
+    assert not output.exists()
+
+
+def test_sweep_rejects_duplicate_coordinate_levels_before_output(repo_root, tmp_path):
+    grid = tmp_path / "grid.json"
+    grid.write_text(
+        json.dumps({"controller.lyapunov_v": [6.0, 6.0]}), encoding="utf-8"
+    )
+    output = tmp_path / "sweep"
+    args = build_parser().parse_args(
+        [
+            "sweep",
+            "--config",
+            str(repo_root / "configs" / "default.json"),
+            "--grid",
+            str(grid),
+            "--output-root",
+            str(output),
+            "--allow-dirty-source",
+        ]
+    )
+
+    with pytest.raises(ValueError, match="at least two distinct levels"):
+        args.func(args)
+    assert not output.exists()
+
+
+def test_sweep_rejects_duplicate_json_grid_keys(repo_root, tmp_path):
+    grid = tmp_path / "grid.json"
+    grid.write_text(
+        '{"controller.lyapunov_v":[6,12],"controller.lyapunov_v":[3,24]}',
+        encoding="utf-8",
+    )
+    output = tmp_path / "sweep"
+    args = build_parser().parse_args(
+        [
+            "sweep",
+            "--config",
+            str(repo_root / "configs" / "default.json"),
+            "--grid",
+            str(grid),
+            "--output-root",
+            str(output),
+            "--allow-dirty-source",
+        ]
+    )
+
+    with pytest.raises(ValueError, match="duplicate JSON key"):
+        args.func(args)
+    assert not output.exists()
+
+
+def test_interrupted_sweep_keeps_marker_and_no_index(
+    monkeypatch, repo_root, tmp_path
+):
+    grid = tmp_path / "grid.json"
+    grid.write_text(
+        json.dumps({"controller.lyapunov_v": [6.0, 12.0]}), encoding="utf-8"
+    )
+    output = tmp_path / "sweep"
+    monkeypatch.setattr(
+        "privacy_edge_sim.cli._execute",
+        lambda *args, **kwargs: (_ for _ in ()).throw(RuntimeError("interrupted")),
+    )
+    args = build_parser().parse_args(
+        [
+            "sweep",
+            "--config",
+            str(repo_root / "configs" / "default.json"),
+            "--grid",
+            str(grid),
+            "--output-root",
+            str(output),
+            "--allow-dirty-source",
+        ]
+    )
+
+    assert args.func is command_sweep
+    with pytest.raises(RuntimeError, match="interrupted"):
+        args.func(args)
+    assert (output / "sweep.in_progress.json").is_file()
+    assert not (output / "sweep.json").exists()
+    assert not (output / "sweep_diagnostics.json").exists()
+
+    aggregate_args = build_parser().parse_args(
+        [
+            "aggregate",
+            "--inputs",
+            str(output),
+            "--output",
+            str(tmp_path / "aggregate.csv"),
+        ]
+    )
+    with pytest.raises(RuntimeError, match="refuses incomplete sweep"):
+        aggregate_args.func(aggregate_args)
+
+
+def test_derive_config_applies_named_overrides_and_rebases_assets(repo_root, tmp_path):
+    overrides = tmp_path / "overrides.json"
+    overrides.write_text(
+        json.dumps(
+            {
+                "capacity": {
+                    "config_values": {
+                        "rsus.0.descriptor_capacity": 1,
+                        "parameter_sources.resource_capacity": "stress_test_boundary",
+                    }
+                }
+            }
+        ),
+        encoding="utf-8",
+    )
+    output = tmp_path / "derived" / "config.json"
+    source = repo_root / "configs" / "default.json"
+    source_hash = sha256_file(source)
+    args = build_parser().parse_args(
+        [
+            "derive-config",
+            "--config",
+            str(source),
+            "--overrides",
+            str(overrides),
+            "--section",
+            "capacity.config_values",
+            "--output",
+            str(output),
+        ]
+    )
+
+    assert args.func is command_derive_config
+    assert args.func(args) == 0
+    derived = load_config(output)
+    original = load_config(source)
+    assert derived.rsus[0].descriptor_capacity == 1
+    assert derived.parameter_sources["resource_capacity"] == "stress_test_boundary"
+    assert derived.profile_path == original.profile_path
+    assert derived.trace_path == original.trace_path
+    assert derived.scenario_trace_path == original.scenario_trace_path
+    assert sha256_file(source) == source_hash
+
+
+def test_derive_config_rejects_frozen_asset_path_override(repo_root, tmp_path):
+    overrides = tmp_path / "overrides.json"
+    overrides.write_text(
+        json.dumps({"block": {"profile_path": "different-profile.json"}}),
+        encoding="utf-8",
+    )
+    output = tmp_path / "derived.json"
+    args = build_parser().parse_args(
+        [
+            "derive-config",
+            "--config",
+            str(repo_root / "configs" / "default.json"),
+            "--overrides",
+            str(overrides),
+            "--section",
+            "block",
+            "--output",
+            str(output),
+        ]
+    )
+
+    with pytest.raises(ValueError, match="cannot override frozen asset paths"):
+        args.func(args)
+    assert not output.exists()
+
+
+def test_derive_config_cannot_replace_override_document(repo_root, tmp_path):
+    overrides = tmp_path / "overrides.json"
+    original = json.dumps({"block": {"controller.lyapunov_v": 7.0}})
+    overrides.write_text(original, encoding="utf-8")
+    args = build_parser().parse_args(
+        [
+            "derive-config",
+            "--config",
+            str(repo_root / "configs" / "default.json"),
+            "--overrides",
+            str(overrides),
+            "--section",
+            "block",
+            "--output",
+            str(overrides),
+            "--overwrite",
+        ]
+    )
+
+    with pytest.raises(ValueError, match="cannot replace"):
+        args.func(args)
+    assert overrides.read_text(encoding="utf-8") == original
 
 
 def test_generate_numerical_cli_maps_paper_v1_generator_controls(
@@ -100,6 +662,53 @@ def test_generate_numerical_cli_maps_paper_v1_generator_controls(
     assert spec.local_service_scale == 1.5
 
 
+def test_numerical_study_requires_clean_source_unless_explicitly_overridden():
+    parser = build_parser()
+    common = [
+        "run-numerical-study",
+        "--base-study-root",
+        "study",
+        "--environment-seeds",
+        "1,2",
+        "--output-root",
+        "results",
+    ]
+
+    assert parser.parse_args(common).allow_dirty_source is False
+    assert parser.parse_args([*common, "--allow-dirty-source"]).allow_dirty_source is True
+
+
+def test_numerical_study_parser_registers_analysis_family():
+    args = build_parser().parse_args(
+        [
+            "run-numerical-study",
+            "--base-study-root",
+            "study",
+            "--environment-seeds",
+            "1,2",
+            "--output-root",
+            "results",
+            "--registration-family",
+            "primary",
+        ]
+    )
+    assert args.registration_family == "primary"
+
+
+def test_formal_sweep_requires_complete_registration_tuple(config):
+    with pytest.raises(ValueError, match="formal sweeps require"):
+        _sweep_experiment_registration(
+            sensitivity_path=None,
+            registration_factor=None,
+            experiment_path=None,
+            config_document={},
+            config=config,
+            grid_document={},
+            policy=config.controller.policy,
+            require_clean=True,
+        )
+
+
 def _tamper_quality_support_count(document):
     support = document["quality_conformal"]["profile_evaluation_quality_support"]
     support["cells"][0]["subject_count"] += 1
@@ -136,6 +745,202 @@ def numerical_cli_bundle(tmp_path_factory):
     evaluation = load_trace(config.trace_path, profile)
     scenario = load_trace(config.scenario_trace_path, profile)
     return paths, config, profile, evaluation, scenario
+
+
+def test_study_registration_binds_generator_and_analysis_domain(
+    numerical_cli_bundle, tmp_path
+):
+    paths, config, _, _, _ = numerical_cli_bundle
+    evidence = json.loads(config.evidence_path.read_text(encoding="utf-8"))
+    spec = evidence["spec"]
+    registration = {
+        "scientific_controls": {
+            "profile_seed": spec["seed"],
+            "profile_subjects": spec["profile_evaluation_subjects"],
+            "test_subjects": spec["test_subjects"],
+            "scenario_subjects": spec["scenario_subjects"],
+            "arrival_jitter_fraction": spec["arrival_jitter_fraction"],
+            "privacy_risk_threshold": spec["privacy_threshold"],
+            "preprocessing_failure_mode": spec["preprocessing_failure_mode"],
+            "anon_time_variability_scale": spec["anon_time_variability_scale"],
+            "output_size_variability_scale": spec[
+                "output_size_variability_scale"
+            ],
+        },
+        "scales": {
+            "formal": {
+                "environment_seeds": [1, 2],
+                "shared_generator_options": {
+                    "tasks": spec["task_count"],
+                    "horizon_s": spec["horizon_s"],
+                    "arrival_center_s": spec["arrival_center_s"],
+                },
+                "regimes": {
+                    "default": {
+                        "arrival_window_s": spec["arrival_window_s"],
+                        "local_service_scale": spec["local_service_scale"],
+                        "config_overrides": {},
+                    }
+                },
+            }
+        },
+        "analysis_plan": {
+            "baseline": "all_local",
+            "primary_family_id": "registered-primary",
+            "primary_policies": ["all_local", "esl_smpc"],
+            "primary_metrics": ["all_task_loss"],
+        },
+    }
+    registration_path = tmp_path / "registration.json"
+    registration_path.write_text(json.dumps(registration), encoding="utf-8")
+    common = dict(
+        registration_path=str(registration_path),
+        registration_scale="formal",
+        registration_regime="default",
+        registration_family="primary",
+        base_study_root=paths.config_path.parent.parent,
+        environment_seeds=(1, 2),
+        load_level="default",
+        family_id="registered-primary",
+        policies=("all_local", "esl_smpc"),
+        baseline="all_local",
+        metrics=("all_task_loss",),
+        require_clean=False,
+    )
+
+    record = _study_experiment_registration(**common)
+    assert record["status"] == "VERIFIED"
+    assert record["registration_family"] == "primary"
+    assert record["registered_policies"] == ["all_local", "esl_smpc"]
+    with pytest.raises(ValueError, match="analysis domain differs"):
+        _study_experiment_registration(
+            **{**common, "metrics": ("failure_rate",)}
+        )
+
+
+def test_sweep_registration_binds_factor_reference_and_environment(
+    numerical_cli_bundle, tmp_path
+):
+    paths, config, _, _, _ = numerical_cli_bundle
+    config_document = json.loads(paths.config_path.read_text(encoding="utf-8"))
+    evidence = json.loads(config.evidence_path.read_text(encoding="utf-8"))
+    spec = evidence["spec"]
+    trace = json.loads(config.trace_path.read_text(encoding="utf-8"))
+    experiment = {
+        "scientific_controls": {
+            "profile_seed": spec["seed"],
+            "profile_subjects": spec["profile_evaluation_subjects"],
+            "test_subjects": spec["test_subjects"],
+            "scenario_subjects": spec["scenario_subjects"],
+            "arrival_jitter_fraction": spec["arrival_jitter_fraction"],
+            "privacy_risk_threshold": spec["privacy_threshold"],
+            "preprocessing_failure_mode": spec["preprocessing_failure_mode"],
+            "anon_time_variability_scale": spec["anon_time_variability_scale"],
+            "output_size_variability_scale": spec[
+                "output_size_variability_scale"
+            ],
+        },
+        "scales": {
+            "formal": {
+                "shared_generator_options": {
+                    "tasks": spec["task_count"],
+                    "horizon_s": spec["horizon_s"],
+                    "arrival_center_s": spec["arrival_center_s"],
+                },
+                "regimes": {
+                    "burst": {
+                        "arrival_window_s": spec["arrival_window_s"],
+                        "local_service_scale": spec["local_service_scale"],
+                    }
+                },
+            }
+        },
+    }
+    sensitivity = {
+        "reference": {
+            "scale": "formal",
+            "regime": "burst",
+            "experiment_registration_content_sha256": hashlib.sha256(
+                canonical_json_bytes(experiment)
+            ).hexdigest(),
+            "privacy_risk_threshold": config_document["privacy"]["risk_threshold"],
+            "controller.lyapunov_v": config_document["controller"]["lyapunov_v"],
+            "controller.horizon_events": config_document["controller"][
+                "horizon_events"
+            ],
+            "controller.scenarios": config_document["controller"]["scenarios"],
+            "rsu_workload_capacity_gpu_s": [30.0, 18.0],
+        },
+        "rules": {"environment_seeds": [trace["seed"]]},
+        "factors": {
+            "lyapunov_tradeoff": {
+                "application": "config_sweep",
+                "path": "controller.lyapunov_v",
+                "values": [6.0, 12.0],
+                "policy": "esl_smpc",
+            }
+        },
+    }
+    experiment_path = tmp_path / "experiment.json"
+    sensitivity_path = tmp_path / "sensitivity.json"
+    experiment_path.write_text(json.dumps(experiment), encoding="utf-8")
+    sensitivity_path.write_text(json.dumps(sensitivity), encoding="utf-8")
+    common = dict(
+        sensitivity_path=str(sensitivity_path),
+        registration_factor="lyapunov_tradeoff",
+        experiment_path=str(experiment_path),
+        config_document=config_document,
+        config=config,
+        grid_document={"controller.lyapunov_v": [6.0, 12.0]},
+        policy="esl_smpc",
+        require_clean=False,
+    )
+
+    record = _sweep_experiment_registration(**common)
+    assert record["status"] == "VERIFIED"
+    assert record["registered_policy"] == "esl_smpc"
+    assert record["environment_seed"] == trace["seed"]
+    with pytest.raises(ValueError, match="policy differs"):
+        _sweep_experiment_registration(**{**common, "policy": "all_local"})
+    with pytest.raises(ValueError, match="differs from the registered"):
+        _sweep_experiment_registration(
+            **{
+                **common,
+                "grid_document": {"controller.lyapunov_v": [3.0, 12.0]},
+            }
+        )
+    sensitivity["factors"]["rsu_admission_concurrency"] = {
+        "application": "paired_config_override",
+        "paths": [
+            "rsus.0.workload_capacity_gpu_s",
+            "rsus.1.workload_capacity_gpu_s",
+        ],
+        "paired_values_gpu_s": [[0.03, 0.03], [30.0, 18.0]],
+        "policy": "esl_smpc",
+    }
+    sensitivity_path.write_text(json.dumps(sensitivity), encoding="utf-8")
+    paired = _sweep_experiment_registration(
+        **{
+            **common,
+            "registration_factor": "rsu_admission_concurrency",
+            "grid_document": {
+                "$paired": [
+                    {
+                        "rsus.0.workload_capacity_gpu_s": 0.03,
+                        "rsus.1.workload_capacity_gpu_s": 0.03,
+                    },
+                    {
+                        "rsus.0.workload_capacity_gpu_s": 30.0,
+                        "rsus.1.workload_capacity_gpu_s": 18.0,
+                    },
+                ]
+            },
+        }
+    )
+    assert paired["factor_paths"] == [
+        "rsus.0.workload_capacity_gpu_s",
+        "rsus.1.workload_capacity_gpu_s",
+    ]
 
 
 def test_numerical_evidence_is_required_and_tamper_evident(
@@ -284,7 +1089,33 @@ def test_numerical_run_manifest_and_selected_path_fer_metrics(
         (tmp_path / "numerical-run" / "summary.json").read_text(encoding="utf-8")
     )
     evidence = manifest["frozen_evidence"]
+    frozen_assets = manifest["frozen_input_assets"]
+    assert frozen_assets["hash_semantics"] == (
+        "exact_raw_file_bytes_at_frozen_load_boundary"
+    )
+    expected_assets = {
+        "profile": config.profile_path,
+        "evaluation_trace": config.trace_path,
+        "scenario_trace": config.scenario_trace_path,
+        "evidence": config.evidence_path,
+    }
+    for role, path in expected_assets.items():
+        record = frozen_assets["assets"][role]
+        assert record["status"] == "captured"
+        assert record["path"] == str(path.resolve())
+        assert record["raw_sha256"] == sha256_file(path)
+        assert record["size_bytes"] == path.stat().st_size
+    assert list(manifest["trace_checksums"][0]["files"].values()) == [
+        frozen_assets["assets"]["evaluation_trace"]["raw_sha256"]
+    ]
+    assert list(manifest["trace_checksums"][1]["files"].values()) == [
+        frozen_assets["assets"]["scenario_trace"]["raw_sha256"]
+    ]
     assert evidence["verified"] is True
+    assert (
+        evidence["file_sha256"]
+        == frozen_assets["assets"]["evidence"]["raw_sha256"]
+    )
     assert len(evidence["file_sha256"]) == 64
     assert evidence["size_bytes"] > 0
     assert len(evidence["split_manifest"]["splits"]) == 6
@@ -337,6 +1168,7 @@ def test_numerical_run_manifest_and_selected_path_fer_metrics(
     task_csv = (tmp_path / "numerical-run" / "tasks.csv").read_text(encoding="utf-8")
     assert "true_label" not in task_csv
     assert "class_probabilities" not in task_csv
+
     assert "failure_penalty_cost" in task_csv
     assert "realized_fer_true_label" not in Observation.__dataclass_fields__
     assert "realized_fer_class_probabilities" not in Observation.__dataclass_fields__
@@ -352,6 +1184,7 @@ def test_numerical_run_manifest_and_selected_path_fer_metrics(
             argparse.Namespace(
                 actions=str(tmp_path / "numerical-run" / "actions.jsonl"),
                 output=str(hard_mask_output),
+                allow_unverified_inputs=True,
                 overwrite=False,
             )
         )
@@ -360,6 +1193,9 @@ def test_numerical_run_manifest_and_selected_path_fer_metrics(
     hard_mask = json.loads(hard_mask_output.read_text(encoding="utf-8"))
     assert hard_mask["hard_mask_bypassed"] is False
     assert hard_mask["unsafe_actions_executed_by_audit"] == 0
+    assert hard_mask["input_artifact_verification"]["status"] == (
+        "UNVERIFIED_DEVELOPMENT_OVERRIDE"
+    )
 
     failure_output = tmp_path / "failure-integrity-audit.json"
     assert (
@@ -377,6 +1213,208 @@ def test_numerical_run_manifest_and_selected_path_fer_metrics(
     failure_audit = json.loads(failure_output.read_text(encoding="utf-8"))
     assert failure_audit["analysis"] == "failure_cost_completeness"
     assert failure_audit["omissions"]["failure"]["tasks_affected"] >= 1
+
+
+@pytest.mark.parametrize(
+    "asset_attribute",
+    ("profile_path", "trace_path", "scenario_trace_path", "evidence_path"),
+)
+def test_execute_rejects_frozen_input_change_during_simulation_before_outputs(
+    numerical_cli_bundle,
+    tmp_path,
+    monkeypatch,
+    asset_attribute,
+):
+    _, config, _, _, _ = numerical_cli_bundle
+    asset_path = getattr(config, asset_attribute)
+    assert asset_path is not None
+    original_bytes = asset_path.read_bytes()
+    original_run = DiscreteEventSimulator.run
+
+    def run_then_mutate(self, *args, **kwargs):
+        result = original_run(self, *args, **kwargs)
+        asset_path.write_bytes(original_bytes + b"\n")
+        return result
+
+    monkeypatch.setattr(DiscreteEventSimulator, "run", run_then_mutate)
+    output = tmp_path / asset_attribute
+    try:
+        with pytest.raises(RuntimeError, match="frozen input bytes changed"):
+            _execute(config, "all_local", output, overwrite=False)
+    finally:
+        asset_path.write_bytes(original_bytes)
+
+    assert not (output / "manifest.json").exists()
+    assert not (output / "summary.json").exists()
+
+
+def test_execute_rejects_frozen_input_change_while_loading(
+    numerical_cli_bundle, tmp_path, monkeypatch
+):
+    _, config, _, _, _ = numerical_cli_bundle
+    asset_path = config.scenario_trace_path
+    original_bytes = asset_path.read_bytes()
+    original_verify = cli_module.verify_run_evidence
+
+    def verify_then_mutate(*args, **kwargs):
+        verification = original_verify(*args, **kwargs)
+        asset_path.write_bytes(original_bytes + b"\n")
+        return verification
+
+    monkeypatch.setattr(cli_module, "verify_run_evidence", verify_then_mutate)
+    output = tmp_path / "load-boundary"
+    try:
+        with pytest.raises(
+            RuntimeError, match="while loading frozen inputs"
+        ):
+            _execute(config, "all_local", output, overwrite=False)
+    finally:
+        asset_path.write_bytes(original_bytes)
+
+    assert not (output / "manifest.json").exists()
+    assert not (output / "summary.json").exists()
+
+
+def test_execute_rechecks_frozen_inputs_immediately_before_manifest_publication(
+    numerical_cli_bundle, tmp_path, monkeypatch
+):
+    _, config, _, _, _ = numerical_cli_bundle
+    asset_path = config.profile_path
+    original_bytes = asset_path.read_bytes()
+    original_build_manifest = cli_module.build_manifest
+
+    def build_then_mutate(*args, **kwargs):
+        manifest = original_build_manifest(*args, **kwargs)
+        asset_path.write_bytes(original_bytes + b"\n")
+        return manifest
+
+    monkeypatch.setattr(cli_module, "build_manifest", build_then_mutate)
+    output = tmp_path / "manifest-boundary"
+    try:
+        with pytest.raises(
+            RuntimeError, match="before manifest publication"
+        ):
+            _execute(config, "all_local", output, overwrite=False)
+    finally:
+        asset_path.write_bytes(original_bytes)
+
+    assert (output / "summary.json").exists()
+    assert not (output / "manifest.json").exists()
+
+
+def test_numerical_study_rejects_base_bundle_change_between_replications(
+    numerical_cli_bundle, tmp_path, monkeypatch
+):
+    paths, config, _, _, _ = numerical_cli_bundle
+    profile_path = config.profile_path
+    original_bytes = profile_path.read_bytes()
+    original_generate = cli_module.generate_numerical_replication
+
+    def generate_then_mutate(*args, **kwargs):
+        replication = original_generate(*args, **kwargs)
+        profile_path.write_bytes(original_bytes + b"\n")
+        return replication
+
+    monkeypatch.setattr(
+        cli_module, "generate_numerical_replication", generate_then_mutate
+    )
+    args = build_parser().parse_args(
+        [
+            "run-numerical-study",
+            "--base-study-root",
+            str(paths.config_path.parent.parent),
+            "--environment-seeds",
+            "501,502",
+            "--policies",
+            "all_local,safe_lyapunov_h1",
+            "--baseline",
+            "all_local",
+            "--output-root",
+            str(tmp_path / "study-batch-toctou"),
+            "--allow-dirty-source",
+        ]
+    )
+    try:
+        with pytest.raises(RuntimeError, match="frozen input bytes changed"):
+            args.func(args)
+    finally:
+        profile_path.write_bytes(original_bytes)
+
+
+def test_numerical_study_rejects_replication_config_drift(
+    numerical_cli_bundle, tmp_path, monkeypatch
+):
+    paths, _, _, _, _ = numerical_cli_bundle
+    original_generate = cli_module.generate_numerical_replication
+
+    def generate_then_tamper(*args, **kwargs):
+        replication = original_generate(*args, **kwargs)
+        document = json.loads(replication.config_path.read_text(encoding="utf-8"))
+        document["controller"]["lyapunov_v"] += 1.0
+        replication.config_path.write_text(json.dumps(document), encoding="utf-8")
+        return replication
+
+    monkeypatch.setattr(
+        cli_module, "generate_numerical_replication", generate_then_tamper
+    )
+    args = build_parser().parse_args(
+        [
+            "run-numerical-study",
+            "--base-study-root",
+            str(paths.config_path.parent.parent),
+            "--environment-seeds",
+            "503,504",
+            "--policies",
+            "all_local,safe_lyapunov_h1",
+            "--baseline",
+            "all_local",
+            "--output-root",
+            str(tmp_path / "study-config-drift"),
+            "--allow-dirty-source",
+        ]
+    )
+
+    with pytest.raises(RuntimeError, match="outside the registered RNG streams"):
+        args.func(args)
+
+
+def test_sweep_rejects_base_asset_change_between_cases(
+    numerical_cli_bundle, tmp_path, monkeypatch
+):
+    paths, config, _, _, _ = numerical_cli_bundle
+    scenario_path = config.scenario_trace_path
+    original_bytes = scenario_path.read_bytes()
+    grid_path = tmp_path / "batch-grid.json"
+    grid_path.write_text(
+        json.dumps({"controller.lyapunov_v": [1.0, 2.0]}), encoding="utf-8"
+    )
+    original_execute = cli_module._execute
+
+    def execute_then_mutate(*args, **kwargs):
+        result = original_execute(*args, **kwargs)
+        scenario_path.write_bytes(original_bytes + b"\n")
+        return result
+
+    monkeypatch.setattr(cli_module, "_execute", execute_then_mutate)
+    args = build_parser().parse_args(
+        [
+            "sweep",
+            "--config",
+            str(paths.config_path),
+            "--policy",
+            "all_local",
+            "--grid",
+            str(grid_path),
+            "--output-root",
+            str(tmp_path / "sweep-batch-toctou"),
+            "--allow-dirty-source",
+        ]
+    )
+    try:
+        with pytest.raises(RuntimeError, match="frozen input bytes changed"):
+            args.func(args)
+    finally:
+        scenario_path.write_bytes(original_bytes)
 
 
 def test_subject_evidence_report_uses_subject_clusters(numerical_cli_bundle):
@@ -446,6 +1484,199 @@ def _write_aggregate_fixture(root, *, summary_record: str = "valid"):
         encoding="utf-8",
     )
     return summary_path
+
+
+def _write_completed_sweep_fixture(root, *, case_count: int = 2):
+    rows = []
+    for index in range(case_count):
+        case_directory = root / f"case-{index:04d}"
+        _write_aggregate_fixture(case_directory)
+        manifest_path = case_directory / "manifest.json"
+        manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+        manifest.pop("manifest_sha256")
+        parameters = {"controller.lyapunov_v": float(index + 1)}
+        manifest["core_digest"] = f"{index + 1:064x}"
+        manifest["run_metadata"].update(
+            case=index,
+            parameters=parameters,
+            policy="all_local",
+        )
+        manifest["manifest_sha256"] = canonical_document_sha256(
+            manifest, "manifest_sha256"
+        )
+        manifest_path.write_text(
+            json.dumps(manifest, indent=2, sort_keys=True) + "\n",
+            encoding="utf-8",
+        )
+        rows.append(
+            {
+                "case": index,
+                "parameters": parameters,
+                "policy": "all_local",
+                "core_digest": manifest["core_digest"],
+                "output_relative": case_directory.name,
+                "manifest_sha256": manifest["manifest_sha256"],
+            }
+        )
+    (root / "sweep.json").write_text(
+        json.dumps(rows, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+    )
+    diagnostics = {
+        "schema_version": "1.0",
+        "case_count": case_count,
+        "sweep_rows_sha256": hashlib.sha256(canonical_json_bytes(rows)).hexdigest(),
+        "sensitivity_registration": {
+            "status": "UNREGISTERED_DEVELOPMENT_OVERRIDE",
+            "require_clean_registration": False,
+        },
+    }
+    diagnostics["report_sha256"] = canonical_document_sha256(
+        diagnostics, "report_sha256"
+    )
+    (root / "sweep_diagnostics.json").write_text(
+        json.dumps(diagnostics, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+    )
+    return rows
+
+
+def test_aggregate_rejects_completed_sweep_with_deleted_case(tmp_path):
+    sweep = tmp_path / "sweep"
+    _write_completed_sweep_fixture(sweep)
+    shutil.rmtree(sweep / "case-0001")
+    output = tmp_path / "aggregate" / "result"
+
+    with pytest.raises(ValueError, match="completed sweep integrity.*case directories"):
+        command_aggregate(
+            argparse.Namespace(
+                inputs=[str(sweep)],
+                output=str(output),
+                overwrite=False,
+                parquet=False,
+            )
+        )
+    assert not output.with_suffix(".json").exists()
+
+
+def test_aggregate_rejects_completed_sweep_with_deleted_index_from_case_input(
+    tmp_path,
+):
+    sweep = tmp_path / "sweep"
+    _write_completed_sweep_fixture(sweep)
+    (sweep / "sweep_diagnostics.json").unlink()
+    output = tmp_path / "aggregate" / "result"
+
+    with pytest.raises(FileNotFoundError, match="completed sweep integrity"):
+        command_aggregate(
+            argparse.Namespace(
+                inputs=[str(sweep / "case-0000")],
+                output=str(output),
+                overwrite=False,
+                parquet=False,
+            )
+        )
+    assert not output.with_suffix(".json").exists()
+
+
+@pytest.mark.parametrize(
+    ("tamper_target", "message"),
+    [
+        ("rows", "sweep rows checksum mismatch"),
+        ("diagnostics", "diagnostics self-hash mismatch"),
+    ],
+)
+def test_aggregate_rejects_completed_sweep_index_tampering(
+    tmp_path, tamper_target, message
+):
+    sweep = tmp_path / "sweep"
+    _write_completed_sweep_fixture(sweep)
+    if tamper_target == "rows":
+        path = sweep / "sweep.json"
+        rows = json.loads(path.read_text(encoding="utf-8"))
+        rows[0]["policy"] = "safe_greedy"
+        path.write_text(json.dumps(rows), encoding="utf-8")
+    else:
+        path = sweep / "sweep_diagnostics.json"
+        diagnostics = json.loads(path.read_text(encoding="utf-8"))
+        diagnostics["case_count"] = 99
+        path.write_text(json.dumps(diagnostics), encoding="utf-8")
+
+    with pytest.raises(ValueError, match=message):
+        command_aggregate(
+            argparse.Namespace(
+                inputs=[str(sweep)],
+                output=str(tmp_path / "aggregate" / "result"),
+                overwrite=False,
+                parquet=False,
+            )
+        )
+
+
+def test_aggregate_rejects_sweep_row_manifest_hash_mismatch(tmp_path):
+    sweep = tmp_path / "sweep"
+    _write_completed_sweep_fixture(sweep)
+    rows_path = sweep / "sweep.json"
+    rows = json.loads(rows_path.read_text(encoding="utf-8"))
+    rows[0]["manifest_sha256"] = "0" * 64
+    rows_path.write_text(json.dumps(rows), encoding="utf-8")
+    diagnostics_path = sweep / "sweep_diagnostics.json"
+    diagnostics = json.loads(diagnostics_path.read_text(encoding="utf-8"))
+    diagnostics["sweep_rows_sha256"] = hashlib.sha256(
+        canonical_json_bytes(rows)
+    ).hexdigest()
+    diagnostics["report_sha256"] = canonical_document_sha256(
+        diagnostics, "report_sha256"
+    )
+    diagnostics_path.write_text(json.dumps(diagnostics), encoding="utf-8")
+
+    with pytest.raises(ValueError, match="row 0 manifest checksum mismatch"):
+        command_aggregate(
+            argparse.Namespace(
+                inputs=[str(sweep)],
+                output=str(tmp_path / "aggregate" / "result"),
+                overwrite=False,
+                parquet=False,
+            )
+        )
+
+
+def test_failure_coverage_rejects_completed_sweep_with_deleted_case(tmp_path):
+    sweep = tmp_path / "sweep"
+    _write_completed_sweep_fixture(sweep)
+    shutil.rmtree(sweep / "case-0001")
+    output = tmp_path / "coverage.json"
+    args = build_parser().parse_args(
+        [
+            "audit-failure-coverage",
+            "--runs",
+            str(sweep / "case-0000"),
+            "--output",
+            str(output),
+        ]
+    )
+
+    with pytest.raises(ValueError, match="completed sweep integrity.*case directories"):
+        args.func(args)
+    assert not output.exists()
+
+
+def test_failure_coverage_rejects_completed_sweep_with_deleted_index(tmp_path):
+    sweep = tmp_path / "sweep"
+    _write_completed_sweep_fixture(sweep)
+    (sweep / "sweep.json").unlink()
+    output = tmp_path / "coverage.json"
+    args = build_parser().parse_args(
+        [
+            "audit-failure-coverage",
+            "--study-roots",
+            str(sweep),
+            "--output",
+            str(output),
+        ]
+    )
+
+    with pytest.raises(FileNotFoundError, match="completed sweep integrity"):
+        args.func(args)
+    assert not output.exists()
 
 
 def test_parquet_aggregate_preserves_unsigned_seed_streams_as_text():

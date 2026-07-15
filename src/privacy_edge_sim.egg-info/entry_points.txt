@@ -1,2 +1,0 @@
-[console_scripts]
-privacy-edge-sim = privacy_edge_sim.cli:main

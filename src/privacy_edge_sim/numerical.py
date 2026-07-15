@@ -2975,6 +2975,27 @@ def _build_config(
     }
 
 
+def build_numerical_config_from_evidence(
+    evidence: Mapping[str, Any],
+) -> dict[str, Any]:
+    """Reconstruct the canonical generated config from frozen evidence.
+
+    This is used by formal experiment registration checks to prove that a
+    study config has no unregistered edits.  It performs no sampling and does
+    not mutate the frozen evidence.
+    """
+
+    raw_spec = evidence.get("spec")
+    if not isinstance(raw_spec, Mapping):
+        raise ValueError("numerical evidence is missing its generator spec")
+    try:
+        spec = NumericalStudySpec(**dict(raw_spec))
+    except TypeError as exc:
+        raise ValueError("numerical evidence generator spec is incompatible") from exc
+    spec.validate()
+    return _build_config(spec, evidence)
+
+
 def _write_json(path: Path, document: Mapping[str, Any], *, overwrite: bool) -> None:
     if path.exists() and not overwrite:
         raise FileExistsError(f"refusing to overwrite numerical study file: {path}")
@@ -3191,6 +3212,7 @@ __all__ = [
     "ATTACKERS",
     "NumericalStudyPaths",
     "NumericalStudySpec",
+    "build_numerical_config_from_evidence",
     "classification_metrics",
     "generate_numerical_replication",
     "generate_numerical_study",

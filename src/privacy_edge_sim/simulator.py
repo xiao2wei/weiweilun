@@ -2322,6 +2322,7 @@ class DiscreteEventSimulator:
                 {
                     "time_s": self.state.clock_s,
                     "stage": observation.stage.value,
+                    "mask_epoch": "DECISION",
                     "rows": list(mask.audit_rows()),
                 }
             )
@@ -2546,6 +2547,18 @@ class DiscreteEventSimulator:
     ) -> None:
         observation = self._observation(task)
         current_mask = self.mask_engine.enumerate(task, observation, self.state)
+        execution_check_id = (
+            f"{task.task_id}|{observation.stage.value}|exec-{len(task.mask_audit):06d}"
+        )
+        task.mask_audit.append(
+            {
+                "time_s": self.state.clock_s,
+                "stage": observation.stage.value,
+                "mask_epoch": "EXECUTION_RECHECK",
+                "execution_check_id": execution_check_id,
+                "rows": list(current_mask.audit_rows()),
+            }
+        )
         score_source = (
             "decision_epoch_policy_scores" if score is not None else "generic"
         )
@@ -2564,6 +2577,7 @@ class DiscreteEventSimulator:
             {
                 "time_s": self.state.clock_s,
                 "executed_stage": observation.stage.value,
+                "execution_check_id": execution_check_id,
                 "repair_score_source": score_source,
             }
         )

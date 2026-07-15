@@ -1,5 +1,5 @@
 {
-  "controller.lyapunov_v": [6.0, 12.0],
-  "privacy.risk_threshold": [0.08, 0.1],
-  "rsus.0.workload_capacity_gpu_s": [15.0, 30.0]
+  "controller.lyapunov_v": [6.0, 24.0],
+  "rsus.0.workload_capacity_gpu_s": [0.03, 0.12],
+  "rsus.1.workload_capacity_gpu_s": [0.03, 0.12]
 }

@@ -1258,3 +1258,215 @@ def test_replication_persists_scenario_controls_in_frozen_evidence(tmp_path: Pat
     assert evidence["spec"]["preprocessing_failure_count"] == 2
     assert evidence["spec"]["local_service_scale"] == 1.5
     assert first.evaluation_trace_path.read_bytes() == repeat.evaluation_trace_path.read_bytes()
+
+
+def _example_document(name: str) -> dict[str, object]:
+    path = Path(__file__).resolve().parents[1] / "examples" / name
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def test_paper_v1_load_matrix_has_valid_paired_pilot_and_formal_regimes():
+    matrix = _example_document("paper-v1-load-matrix.json")
+    controls = matrix["scientific_controls"]
+    assert controls["privacy_risk_threshold"] == 0.35
+    assert controls["privacy_threshold_tuning_prohibited"] is True
+    assert controls["preprocessing_failure_mode"] == "none"
+
+    scales = matrix["scales"]
+    assert set(scales) == {"pilot", "formal"}
+    for scale in scales.values():
+        shared = scale["shared_generator_options"]
+        regimes = scale["regimes"]
+        assert set(regimes) == {
+            "default",
+            "burst",
+            "compute_pressure",
+            "capacity_pressure",
+        }
+        for regime in regimes.values():
+            spec = NumericalStudySpec(
+                seed=controls["profile_seed"],
+                profile_evaluation_subjects=controls["profile_subjects"],
+                test_subjects=controls["test_subjects"],
+                scenario_subjects=controls["scenario_subjects"],
+                task_count=shared["tasks"],
+                horizon_s=shared["horizon_s"],
+                arrival_center_s=shared["arrival_center_s"],
+                arrival_window_s=regime["arrival_window_s"],
+                arrival_jitter_fraction=controls["arrival_jitter_fraction"],
+                privacy_threshold=controls["privacy_risk_threshold"],
+                preprocessing_failure_mode=controls["preprocessing_failure_mode"],
+                local_service_scale=regime["local_service_scale"],
+                anon_time_variability_scale=controls[
+                    "anon_time_variability_scale"
+                ],
+                output_size_variability_scale=controls[
+                    "output_size_variability_scale"
+                ],
+            )
+            spec.validate()
+            offered_rate = shared["tasks"] / regime["arrival_window_s"]
+            assert offered_rate == pytest.approx(
+                regime["nominal_arrival_rate_tasks_per_s"]
+            )
+
+        # These pairs isolate one mechanism: arrivals are identical and only
+        # local work or RSU capacity changes.
+        assert regimes["default"]["local_service_scale"] == 1.0
+        assert regimes["burst"]["arrival_window_s"] == regimes[
+            "compute_pressure"
+        ]["arrival_window_s"]
+        assert regimes["burst"]["local_service_scale"] == 1.0
+        assert regimes["compute_pressure"]["local_service_scale"] == 3.0
+        assert regimes["compute_pressure"]["arrival_window_s"] == regimes[
+            "capacity_pressure"
+        ]["arrival_window_s"]
+        assert regimes["compute_pressure"]["local_service_scale"] == regimes[
+            "capacity_pressure"
+        ]["local_service_scale"]
+        assert regimes["capacity_pressure"]["config_overrides_ref"] == (
+            "capacity_pressure_overrides.config_values"
+        )
+
+    assert scales["pilot"]["shared_generator_options"]["tasks"] == 48
+    assert scales["formal"]["shared_generator_options"]["tasks"] == 240
+    assert (
+        scales["pilot"]["regimes"]["burst"][
+            "nominal_arrival_rate_tasks_per_s"
+        ]
+        == scales["formal"]["regimes"]["burst"][
+            "nominal_arrival_rate_tasks_per_s"
+        ]
+        == 30.0
+    )
+    assert set(scales["pilot"]["environment_seeds"]).isdisjoint(
+        scales["formal"]["environment_seeds"]
+    )
+    analysis = matrix["analysis_plan"]
+    assert analysis["pilot_family_id"] == "paper-v1-pilot-mechanism"
+    assert analysis["primary_family_id"] == "paper-v1-primary-v2"
+    assert analysis["primary_policies"] == ["all_local", "esl_smpc"]
+    assert analysis["primary_metrics"] == ["all_task_loss"]
+    assert analysis["secondary_family_id"] == "paper-v1-secondary-v2"
+    assert analysis["secondary_registered_policies"] == [
+        "all_local",
+        "fixed_safe_lowest_link_cost",
+        "fixed_safe_shortest_visible_queue",
+        "safe_greedy",
+        "safe_lyapunov_h1",
+        "esl_smpc",
+    ]
+    assert analysis["secondary_registered_metrics"] == analysis[
+        "secondary_metrics"
+    ]
+
+
+def test_paper_v1_capacity_pressure_equals_one_conservative_edge_reservation(
+    numerical_bundle,
+):
+    _, paths, _ = numerical_bundle
+    profile = load_profile(paths.profile_path)
+    edge_model = profile.edge_models["edge_fer_numerical_v1"]
+    edge_work_bound = float(edge_model.deployment_resource_bounds["max_gpu_work_s"])
+    edge_vram_bound = int(edge_model.deployment_resource_bounds["max_vram_bytes"])
+    matrix = _example_document("paper-v1-load-matrix.json")
+    override_record = matrix["capacity_pressure_overrides"]
+    assert override_record["parameter_source"] == "stress_test_boundary"
+    overrides = override_record["config_values"]
+    assert overrides["parameter_sources.resource_capacity"] == (
+        "stress_test_boundary"
+    )
+
+    assert edge_work_bound == pytest.approx(0.03)
+    assert edge_vram_bound == 805306368
+    for index in (0, 1):
+        prefix = f"rsus.{index}"
+        assert overrides[f"{prefix}.descriptor_capacity"] == 1
+        assert overrides[f"{prefix}.workload_capacity_gpu_s"] == pytest.approx(
+            edge_work_bound
+        )
+        assert overrides[f"{prefix}.vram_capacity_bytes"] == (
+            edge_vram_bound
+        )
+        assert overrides[f"{prefix}.gpu_servers"] == 1
+
+
+def test_small_sweep_keeps_privacy_fixed_and_crosses_admission_concurrency(
+    numerical_bundle,
+):
+    _, paths, _ = numerical_bundle
+    profile = load_profile(paths.profile_path)
+    edge_model = profile.edge_models["edge_fer_numerical_v1"]
+    edge_work_bound = float(edge_model.deployment_resource_bounds["max_gpu_work_s"])
+    grid = _example_document("sweep-small.json")
+
+    assert "privacy.risk_threshold" not in grid
+    assert grid["controller.lyapunov_v"] == [6.0, 24.0]
+    for rsu_index in (0, 1):
+        capacities = grid[f"rsus.{rsu_index}.workload_capacity_gpu_s"]
+        assert capacities[0] == pytest.approx(edge_work_bound)
+        assert capacities[1] == pytest.approx(4 * edge_work_bound)
+
+
+def test_paper_v1_sensitivity_is_exploratory_ofat_and_seed_disjoint():
+    sensitivity = _example_document("paper-v1-sensitivity.json")
+    matrix = _example_document("paper-v1-load-matrix.json")
+    rules = sensitivity["rules"]
+    factors = sensitivity["factors"]
+
+    assert rules["confirmatory"] is False
+    assert rules["one_factor_at_a_time"] is True
+    assert rules["reuse_test_labels_for_tuning"] is False
+    assert sensitivity["reporting"]["separate_from_primary_family"] is True
+    privacy = factors["privacy_policy_boundary"]
+    assert privacy["application"] == "config_sweep"
+    assert privacy["values"] == sorted(privacy["values"])
+    assert privacy["values"][-1] == matrix["scientific_controls"][
+        "privacy_risk_threshold"
+    ]
+    assert len(privacy["values"]) == len(privacy["expected_role"])
+    assert _example_document("sweep-privacy-boundary.json") == {
+        privacy["path"]: privacy["values"]
+    }
+    assert set(factors) == {
+        "privacy_policy_boundary",
+        "lyapunov_tradeoff",
+        "mpc_horizon",
+        "scenario_count",
+        "rsu_admission_concurrency",
+    }
+
+    mpc_horizon = factors["mpc_horizon"]
+    assert mpc_horizon["policy"] == "esl_smpc"
+    assert mpc_horizon["values"] == [2, 4]
+    assert 1 not in mpc_horizon["values"]
+    assert _example_document("sweep-lyapunov-v.json") == {
+        factors["lyapunov_tradeoff"]["path"]: factors["lyapunov_tradeoff"][
+            "values"
+        ]
+    }
+    assert _example_document("sweep-mpc-horizon.json") == {
+        mpc_horizon["path"]: mpc_horizon["values"]
+    }
+    assert _example_document("sweep-scenario-count.json") == {
+        factors["scenario_count"]["path"]: factors["scenario_count"]["values"]
+    }
+    rsu_factor = factors["rsu_admission_concurrency"]
+    assert _example_document("sweep-rsu-admission-concurrency.json") == {
+        "$paired": [
+            dict(zip(rsu_factor["paths"], values, strict=True))
+            for values in rsu_factor["paired_values_gpu_s"]
+        ]
+    }
+
+    formal_seeds = set(matrix["scales"]["formal"]["environment_seeds"])
+    pilot_seeds = set(matrix["scales"]["pilot"]["environment_seeds"])
+    sensitivity_seeds = set(rules["environment_seeds"])
+    assert sensitivity_seeds.isdisjoint(formal_seeds | pilot_seeds)
+
+    admission = factors["rsu_admission_concurrency"]
+    assert admission["paired_values_gpu_s"][:3] == [
+        [0.03, 0.03],
+        [0.06, 0.06],
+        [0.12, 0.12],
+    ]

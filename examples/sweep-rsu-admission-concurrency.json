@@ -1,0 +1,20 @@
+{
+  "$paired": [
+    {
+      "rsus.0.workload_capacity_gpu_s": 0.03,
+      "rsus.1.workload_capacity_gpu_s": 0.03
+    },
+    {
+      "rsus.0.workload_capacity_gpu_s": 0.06,
+      "rsus.1.workload_capacity_gpu_s": 0.06
+    },
+    {
+      "rsus.0.workload_capacity_gpu_s": 0.12,
+      "rsus.1.workload_capacity_gpu_s": 0.12
+    },
+    {
+      "rsus.0.workload_capacity_gpu_s": 30.0,
+      "rsus.1.workload_capacity_gpu_s": 18.0
+    }
+  ]
+}

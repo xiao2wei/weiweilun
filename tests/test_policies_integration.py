@@ -1262,6 +1262,16 @@ def test_delayed_execution_repair_preserves_policy_alternative_scores(
     assert commit_audit["executed"]["pipeline_id"] == "blur_balanced_v1"
     assert commit_audit["scores"][blur.canonical_id] == 1.0
     assert commit_audit["scores"][local.canonical_id] == 2.0
+    execution_mask = next(
+        row
+        for row in fixture.task.mask_audit
+        if row.get("execution_check_id") == commit_audit["execution_check_id"]
+    )
+    assert execution_mask["mask_epoch"] == "EXECUTION_RECHECK"
+    assert execution_mask["time_s"] == commit_audit["time_s"]
+    execution_rows = {row["action_id"]: row for row in execution_mask["rows"]}
+    assert execution_rows[blur.canonical_id]["allowed"] is True
+    assert execution_rows[pixelate.canonical_id]["allowed"] is False
 
 
 def test_controller_scenario_library_is_separate_and_has_no_future_environment(

@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import hashlib
 import importlib.metadata
+import io
 import json
 import math
 import os
@@ -17,6 +18,7 @@ import platform
 import re
 import subprocess
 import sys
+import tarfile
 from dataclasses import fields, is_dataclass
 from datetime import datetime, timezone
 from enum import Enum
@@ -31,8 +33,14 @@ from .profiles import FrozenProfileBundle, canonical_json_bytes, thaw_json
 from .state import SimulationState
 
 
-MANIFEST_SCHEMA_VERSION = "1.0"
+MANIFEST_SCHEMA_VERSION = "1.1"
 _SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
+_GENERATED_SOURCE_PARTS = frozenset(
+    {"__pycache__", ".pytest_cache", ".mypy_cache", ".ruff_cache"}
+)
+_CONFIG_PATH_IDENTITY_KEYS = frozenset(
+    {"profile_path", "trace_path", "scenario_trace_path", "evidence_path"}
+)
 KNOWN_OUTPUT_FILES = frozenset(
     {
         "tasks.csv",
@@ -87,22 +95,90 @@ def sha256_file(path: str | Path) -> str:
     return digest.hexdigest()
 
 
+def _portable_text_bytes(path: Path) -> bytes:
+    """Normalize platform newlines only for the portable source identity.
+
+    Raw checksums remain the byte-level evidence.  Undecodable or NUL-bearing
+    files are treated as binary and are never transformed.
+    """
+
+    return _portable_content_bytes(path.read_bytes())
+
+
+def _portable_content_bytes(raw: bytes) -> bytes:
+    """Normalize line endings for UTF-8 content already held in memory."""
+
+    try:
+        text = raw.decode("utf-8")
+    except UnicodeDecodeError:
+        return raw
+    if "\x00" in text:
+        return raw
+    return text.replace("\r\n", "\n").replace("\r", "\n").encode("utf-8")
+
+
+def _head_source_tree_digest(
+    *, top: Path, root: Path, relative: str
+) -> tuple[str, int]:
+    """Hash committed source bytes without trusting index stat shortcuts.
+
+    ``git status`` and ``git diff`` may honor assume-unchanged/skip-worktree.
+    Reading a HEAD archive bypasses those flags and lets us compare the actual
+    portable working-tree digest with committed blobs and paths.
+    """
+
+    completed = subprocess.run(
+        ["git", "-C", str(top), "archive", "--format=tar", "HEAD", "--", relative],
+        check=True,
+        capture_output=True,
+        timeout=10,
+    )
+    prefix = "" if relative == "." else relative.rstrip("/") + "/"
+    rows: list[tuple[str, bytes]] = []
+    with tarfile.open(fileobj=io.BytesIO(completed.stdout), mode="r:") as archive:
+        for member in archive.getmembers():
+            if not member.isfile():
+                continue
+            name = member.name.replace("\\", "/")
+            if root.is_file():
+                source_relative = root.name
+            elif prefix and name.startswith(prefix):
+                source_relative = name[len(prefix) :]
+            else:
+                source_relative = name
+            parts = set(Path(source_relative).parts)
+            if (
+                parts & _GENERATED_SOURCE_PARTS
+                or Path(source_relative).suffix in {".pyc", ".pyo"}
+            ):
+                continue
+            extracted = archive.extractfile(member)
+            if extracted is None:
+                raise RuntimeError(f"unable to read committed source: {name}")
+            rows.append((source_relative, _portable_content_bytes(extracted.read())))
+    digest = hashlib.sha256()
+    for source_relative, content in sorted(rows):
+        encoded = source_relative.encode("utf-8")
+        digest.update(len(encoded).to_bytes(8, "big"))
+        digest.update(encoded)
+        digest.update(hashlib.sha256(content).digest())
+    return digest.hexdigest(), len(rows)
+
+
 def _eligible_tree_file(path: Path) -> bool:
     parts = set(path.parts)
-    if parts & {".git", "__pycache__", ".pytest_cache", ".mypy_cache", ".ruff_cache"}:
+    if ".git" in parts or parts & _GENERATED_SOURCE_PARTS:
         return False
     if path.suffix in {".pyc", ".pyo"}:
         return False
     return path.is_file()
 
 
-def source_tree_sha256(source_root: str | Path | None = None) -> tuple[str, int]:
-    """Hash source paths and bytes in stable lexical order.
-
-    By default only the installed package source tree is hashed.  Generated
-    experiment outputs can therefore never change the code identity.
-    """
-
+def _source_tree_digest(
+    source_root: str | Path | None,
+    *,
+    portable_text: bool,
+) -> tuple[str, int]:
     root = (
         Path(source_root).resolve()
         if source_root is not None
@@ -125,12 +201,65 @@ def source_tree_sha256(source_root: str | Path | None = None) -> tuple[str, int]
         encoded = relative.encode("utf-8")
         digest.update(len(encoded).to_bytes(8, "big"))
         digest.update(encoded)
-        digest.update(bytes.fromhex(sha256_file(path)))
+        file_bytes = _portable_text_bytes(path) if portable_text else path.read_bytes()
+        digest.update(hashlib.sha256(file_bytes).digest())
     return digest.hexdigest(), len(paths)
 
 
+def source_tree_sha256(source_root: str | Path | None = None) -> tuple[str, int]:
+    """Hash source paths and raw bytes in stable lexical order.
+
+    By default only the installed package source tree is hashed.  Generated
+    experiment outputs can therefore never change the code identity.
+    """
+
+    return _source_tree_digest(source_root, portable_text=False)
+
+
+def source_tree_portable_sha256(
+    source_root: str | Path | None = None,
+) -> tuple[str, int]:
+    """Hash source with UTF-8 text newlines normalized to LF."""
+
+    return _source_tree_digest(source_root, portable_text=True)
+
+
+def _is_generated_status_path(path_text: str) -> bool:
+    normalized = path_text.strip().strip('"').replace("\\", "/")
+    parts = set(part for part in normalized.split("/") if part)
+    return bool(parts & _GENERATED_SOURCE_PARTS) or normalized.endswith(
+        (".pyc", ".pyo")
+    )
+
+
+def _is_generated_status_line(line: str) -> bool:
+    path_text = line[3:] if len(line) >= 3 else line
+    renamed_paths = path_text.split(" -> ")
+    return bool(renamed_paths) and all(
+        _is_generated_status_path(item) for item in renamed_paths
+    )
+
+
+def _git_output(arguments: Sequence[str], *, cwd: Path) -> str:
+    return subprocess.run(
+        ["git", "-C", str(cwd), *arguments],
+        check=True,
+        capture_output=True,
+        text=True,
+        encoding="utf-8",
+        errors="replace",
+        timeout=3,
+    ).stdout.strip()
+
+
 def detect_code_version(source_root: str | Path | None = None) -> dict[str, Any]:
-    """Report Git identity when available and always include a tree checksum."""
+    """Report Git identity plus raw and portable package-source checksums.
+
+    ``git_dirty`` is retained as a whole-repository diagnostic.  Publication
+    reproducibility uses ``source_git_dirty``, scoped to the executable source
+    tree.  Outputs created elsewhere in the repository therefore cannot make
+    the second run of a batch spuriously dirty.
+    """
 
     root = (
         Path(source_root).resolve()
@@ -138,42 +267,167 @@ def detect_code_version(source_root: str | Path | None = None) -> dict[str, Any]
         else Path(__file__).resolve().parent
     )
     tree_hash, file_count = source_tree_sha256(root)
+    portable_tree_hash, portable_file_count = source_tree_portable_sha256(root)
+    if portable_file_count != file_count:
+        raise RuntimeError("raw and portable source hash file counts disagree")
     result: dict[str, Any] = {
         "kind": "source_tree_sha256",
         "value": tree_hash,
         "source_tree_sha256": tree_hash,
+        "source_tree_sha256_semantics": "raw_working_tree_bytes",
+        "source_tree_portable_sha256": portable_tree_hash,
+        "source_tree_portable_sha256_semantics": (
+            "utf8_text_newlines_normalized_to_lf"
+        ),
         "source_file_count": file_count,
+        "source_git_dirty": None,
+        "source_commit_reproducible": False,
+        "source_git_status": [],
     }
     try:
-        top = subprocess.run(
-            ["git", "-C", str(root), "rev-parse", "--show-toplevel"],
-            check=True,
-            capture_output=True,
-            text=True,
-            timeout=3,
-        ).stdout.strip()
-        commit = subprocess.run(
-            ["git", "-C", top, "rev-parse", "HEAD"],
-            check=True,
-            capture_output=True,
-            text=True,
-            timeout=3,
-        ).stdout.strip()
-        dirty = bool(
-            subprocess.run(
-                ["git", "-C", top, "status", "--porcelain"],
-                check=True,
-                capture_output=True,
-                text=True,
-                timeout=3,
-            ).stdout.strip()
+        probe = root if root.is_dir() else root.parent
+        top = Path(_git_output(["rev-parse", "--show-toplevel"], cwd=probe)).resolve()
+        commit = _git_output(["rev-parse", "HEAD"], cwd=top)
+        repository_status = _git_output(
+            ["status", "--porcelain=v1", "--untracked-files=all"], cwd=top
         )
-    except (FileNotFoundError, subprocess.SubprocessError, OSError):
+        relative = root.relative_to(top).as_posix()
+        source_status_raw = _git_output(
+            [
+                "status",
+                "--porcelain=v1",
+                "--untracked-files=all",
+                "--",
+                relative,
+            ],
+            cwd=top,
+        )
+        source_status_all = [
+            line for line in source_status_raw.splitlines() if line.strip()
+        ]
+        source_status = [
+            line for line in source_status_all if not _is_generated_status_line(line)
+        ]
+        ignored_generated_count = len(source_status_all) - len(source_status)
+        source_object = _git_output(
+            ["rev-parse", f"HEAD:{relative}" if relative != "." else "HEAD^{tree}"],
+            cwd=top,
+        )
+        head_portable_hash, head_file_count = _head_source_tree_digest(
+            top=top, root=root, relative=relative
+        )
+        index_rows = _git_output(
+            ["ls-files", "-v", "--", relative], cwd=top
+        ).splitlines()
+        hidden_index_flags = sorted(
+            row for row in index_rows if row and (row[0].islower() or row[0] == "S")
+        )
+    except (FileNotFoundError, subprocess.SubprocessError, tarfile.TarError, OSError):
         return result
+    if head_portable_hash != portable_tree_hash or head_file_count != file_count:
+        source_status.append("!! working source differs from committed HEAD archive")
+    if hidden_index_flags:
+        source_status.append("!! assume-unchanged or skip-worktree source entries")
     result.update(
-        {"kind": "git", "value": commit, "git_commit": commit, "git_dirty": dirty}
+        {
+            "kind": "git",
+            "value": commit if not source_status else tree_hash,
+            "value_semantics": (
+                "git_commit_when_source_clean_else_raw_source_tree_sha256"
+            ),
+            "git_commit": commit,
+            "git_dirty": bool(repository_status),
+            "source_scope": relative,
+            "source_git_object": source_object,
+            "source_head_tree_portable_sha256": head_portable_hash,
+            "source_head_file_count": head_file_count,
+            "source_head_matches_working_tree": (
+                head_portable_hash == portable_tree_hash
+                and head_file_count == file_count
+            ),
+            "source_hidden_index_flags": hidden_index_flags,
+            "source_git_dirty": bool(source_status),
+            "source_commit_reproducible": not source_status,
+            "source_git_status": source_status,
+            "ignored_generated_source_status_count": ignored_generated_count,
+        }
     )
     return result
+
+
+def _preflight_record(
+    code_version: Mapping[str, Any], *, require_clean: bool
+) -> dict[str, Any]:
+    git_available = code_version.get("kind") == "git"
+    source_dirty = code_version.get("source_git_dirty")
+    reproducible = bool(code_version.get("source_commit_reproducible"))
+    if not git_available:
+        assessment = "git_unavailable"
+        reason_codes = ["GIT_SOURCE_IDENTITY_UNAVAILABLE"]
+    elif source_dirty:
+        assessment = "source_dirty"
+        reason_codes = ["SOURCE_TREE_DIRTY"]
+    else:
+        assessment = "source_clean"
+        reason_codes = []
+    requirement_status = (
+        "not_required"
+        if not require_clean
+        else ("passed" if reproducible else "failed")
+    )
+    return {
+        "require_clean_source": require_clean,
+        "requirement_status": requirement_status,
+        "assessment": assessment,
+        "git_available": git_available,
+        "git_commit": code_version.get("git_commit"),
+        "source_git_dirty": source_dirty,
+        "source_commit_reproducible": reproducible,
+        "source_scope": code_version.get("source_scope"),
+        "source_git_object": code_version.get("source_git_object"),
+        "source_head_tree_portable_sha256": code_version.get(
+            "source_head_tree_portable_sha256"
+        ),
+        "source_head_file_count": code_version.get("source_head_file_count"),
+        "source_head_matches_working_tree": code_version.get(
+            "source_head_matches_working_tree"
+        ),
+        "source_hidden_index_flags": list(
+            code_version.get("source_hidden_index_flags", [])
+        ),
+        "source_tree_sha256": code_version.get("source_tree_sha256"),
+        "source_tree_portable_sha256": code_version.get(
+            "source_tree_portable_sha256"
+        ),
+        "reason_codes": reason_codes,
+        "source_git_status": list(code_version.get("source_git_status", [])),
+    }
+
+
+def source_cleanliness_preflight(
+    source_root: str | Path | None = None, *, require_clean: bool = False
+) -> dict[str, Any]:
+    """Assess or require executable source that exactly matches a Git commit.
+
+    A publication command should call this before simulation with
+    ``require_clean=True``.  ``build_manifest`` repeats the gate so a mutation
+    during the simulation is also rejected.  Development and smoke runs retain
+    the audit record without enforcing it.
+    """
+
+    if not isinstance(require_clean, bool):
+        raise TypeError("require_clean must be a bool")
+    record = _preflight_record(
+        detect_code_version(source_root), require_clean=require_clean
+    )
+    if require_clean and record["requirement_status"] != "passed":
+        raise RuntimeError(
+            "clean committed source is required for this run: "
+            f"assessment={record['assessment']}, "
+            f"reason_codes={record['reason_codes']}, "
+            f"source_git_status={record['source_git_status']}"
+        )
+    return record
 
 
 def prepare_output_directory(path: str | Path, *, overwrite: bool = False) -> Path:
@@ -230,6 +484,78 @@ def _path_checksum_record(path: Path) -> dict[str, Any]:
         "aggregate_sha256": aggregate,
         "files": files,
     }
+
+
+def _semantic_configuration_value(
+    value: Any,
+    *,
+    path_identities: Mapping[str, Mapping[str, Any]],
+) -> Any:
+    """Replace runtime locations with role-bound content identities."""
+
+    if isinstance(value, dict):
+        return {
+            key: (
+                _plain(path_identities[key])
+                if key in _CONFIG_PATH_IDENTITY_KEYS and key in path_identities
+                else _semantic_configuration_value(
+                    item, path_identities=path_identities
+                )
+            )
+            for key, item in value.items()
+        }
+    if isinstance(value, list):
+        return [
+            _semantic_configuration_value(item, path_identities=path_identities)
+            for item in value
+        ]
+    return value
+
+
+def _configuration_semantic_identity(
+    config_plain: Any,
+    *,
+    profile_hash: str,
+    trace_checksums: Sequence[Mapping[str, Any]],
+    evidence_record: Mapping[str, Any],
+) -> tuple[str, dict[str, Any]]:
+    def content_sha(record: Mapping[str, Any] | None) -> Any:
+        if record is None:
+            return None
+        files = record.get("files")
+        if record.get("kind") == "file" and isinstance(files, Mapping):
+            values = list(files.values())
+            if len(values) == 1:
+                return values[0]
+        return record.get("aggregate_sha256")
+
+    evidence_sha = evidence_record.get("file_sha256")
+    identities: dict[str, dict[str, Any]] = {
+        "profile_path": {
+            "role": "frozen_profile",
+            "content_sha256": profile_hash,
+        },
+        "trace_path": {
+            "role": "evaluation_trace",
+            "content_sha256": content_sha(
+                trace_checksums[0] if trace_checksums else None
+            ),
+        },
+        "scenario_trace_path": {
+            "role": "scenario_trace",
+            "content_sha256": content_sha(
+                trace_checksums[1] if len(trace_checksums) > 1 else None
+            ),
+        },
+        "evidence_path": {
+            "role": "frozen_evidence",
+            "content_sha256": evidence_sha,
+        },
+    }
+    semantic = _semantic_configuration_value(
+        config_plain, path_identities=identities
+    )
+    return hashlib.sha256(canonical_json_bytes(semantic)).hexdigest(), identities
 
 
 _NON_CORE_EXACT = frozenset(
@@ -405,9 +731,23 @@ def build_manifest(
     dependencies: Mapping[str, str] | None = None,
     run_metadata: Mapping[str, Any] | None = None,
     evidence_verification: EvidenceVerification | None = None,
+    require_clean_source: bool = False,
 ) -> dict[str, Any]:
     """Build a complete, strict-JSON reproducibility manifest."""
 
+    if not isinstance(require_clean_source, bool):
+        raise TypeError("require_clean_source must be a bool")
+    code_version = detect_code_version(source_root)
+    source_preflight = _preflight_record(
+        code_version, require_clean=require_clean_source
+    )
+    if require_clean_source and source_preflight["requirement_status"] != "passed":
+        raise RuntimeError(
+            "clean committed source is required for this run: "
+            f"assessment={source_preflight['assessment']}, "
+            f"reason_codes={source_preflight['reason_codes']}, "
+            f"source_git_status={source_preflight['source_git_status']}"
+        )
     if not math.isfinite(simulation_start_s) or simulation_start_s < 0:
         raise ValueError("simulation_start_s must be finite and nonnegative")
     if state.clock_s < simulation_start_s:
@@ -497,6 +837,12 @@ def build_manifest(
     evidence_record = evidence_manifest_record(
         evidence_verification or EvidenceVerification.not_required()
     )
+    semantic_config_hash, config_path_identities = _configuration_semantic_identity(
+        config_plain,
+        profile_hash=profile.profile_hash,
+        trace_checksums=trace_checksums,
+        evidence_record=evidence_record,
+    )
     numerical_evidence_verified = bool(
         evidence_record.get("required") and evidence_record.get("verified")
     )
@@ -555,8 +901,16 @@ def build_manifest(
         "manifest_schema_version": MANIFEST_SCHEMA_VERSION,
         "generated_at_utc": datetime.now(timezone.utc).isoformat(),
         "core_digest": core_digest,
-        "code_version": detect_code_version(source_root),
-        "configuration": {"canonical_sha256": config_hash, "content": config_plain},
+        "code_version": code_version,
+        "source_cleanliness_preflight": source_preflight,
+        "configuration": {
+            "canonical_sha256": config_hash,
+            "canonical_sha256_semantics": "runtime_content_including_paths",
+            "semantic_sha256": semantic_config_hash,
+            "semantic_sha256_semantics": "path_roles_bound_to_content_sha256",
+            "path_identities": config_path_identities,
+            "content": config_plain,
+        },
         "versions": _profile_versions(profile),
         "protocol_version": config.protocol_version,
         "trace_checksums": trace_checksums,
@@ -594,6 +948,9 @@ def build_manifest(
             "scenario_trace_data_kind": scenario_trace_kind,
             "evidence_status": profile.evidence_status,
             "result_label": result_label,
+            "source_commit_reproducible": source_preflight[
+                "source_commit_reproducible"
+            ],
             "formal_experiment_eligible": bool(
                 profile_kind == "measured"
                 and trace_kind == "measured"
@@ -700,6 +1057,8 @@ __all__ = [
     "deterministic_core_value",
     "prepare_output_directory",
     "sha256_file",
+    "source_cleanliness_preflight",
+    "source_tree_portable_sha256",
     "source_tree_sha256",
     "write_manifest",
 ]

@@ -1,0 +1,25 @@
+# Keep repository-authored text artifacts byte-stable across operating systems.
+* text=auto
+
+*.py       text eol=lf
+*.pyi      text eol=lf
+*.toml     text eol=lf
+*.json     text eol=lf
+*.jsonl    text eol=lf
+*.csv      text eol=lf
+*.md       text eol=lf
+*.txt      text eol=lf
+*.yaml     text eol=lf
+*.yml      text eol=lf
+*.gitattributes text eol=lf
+*.gitignore     text eol=lf
+
+# Binary research artifacts must never be newline-normalized.
+*.parquet binary
+*.png     binary
+*.jpg     binary
+*.jpeg    binary
+*.gif     binary
+*.pdf     binary
+*.pyc     binary
+*.pyo     binary

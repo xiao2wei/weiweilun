@@ -1,0 +1,91 @@
+{
+  "schema_version": "paper-v1-sensitivity-v1",
+  "document_role": "preregistered_exploratory_one_factor_at_a_time_record",
+  "reference": {
+    "scale": "formal",
+    "regime": "burst",
+    "experiment_registration_content_sha256": "05a0c9fa2d90052e5a507c34b3c08ffd421da2e79b335941b61ad7d87c1d32b8",
+    "privacy_risk_threshold": 0.35,
+    "controller.lyapunov_v": 12.0,
+    "controller.horizon_events": 2,
+    "controller.scenarios": 8,
+    "rsu_workload_capacity_gpu_s": [30.0, 18.0]
+  },
+  "rules": {
+    "confirmatory": false,
+    "one_factor_at_a_time": true,
+    "environment_seeds": [401, 402, 403, 404, 405, 406, 407, 408, 409, 410, 411, 412, 413, 414, 415, 416, 417, 418, 419, 420],
+    "reuse_test_labels_for_tuning": false,
+    "controller_scenario_seed_is_independent": true,
+    "arrival_and_local_compute_sensitivity": "covered by the registered burst and compute_pressure main-matrix contrasts, not duplicated in this OFAT family",
+    "privacy_note": "Privacy thresholds are policy-boundary sensitivity values, not values selected to improve performance. Every reported action remains subject to the full hard mask. The 0.20 point is an infeasible negative control; the other points bracket frozen worst-cell UCB breakpoints and must be revalidated against the generated profile before execution."
+  },
+  "factors": {
+    "privacy_policy_boundary": {
+      "application": "config_sweep",
+      "path": "privacy.risk_threshold",
+      "values": [0.2, 0.22, 0.26, 0.28, 0.31, 0.35],
+      "reference_value": 0.35,
+      "policy": "esl_smpc",
+      "parameter_source": "preregistered_empirical_bound_sensitivity",
+      "expected_role": [
+        "infeasible anonymous negative control",
+        "diffusion-strong boundary",
+        "generative-strong boundary",
+        "blur-strong boundary",
+        "all strong-family boundary",
+        "primary policy value"
+      ]
+    },
+    "lyapunov_tradeoff": {
+      "application": "config_sweep",
+      "path": "controller.lyapunov_v",
+      "values": [3.0, 6.0, 12.0, 24.0, 48.0],
+      "reference_value": 12.0,
+      "policy": "esl_smpc",
+      "parameter_source": "engineering_assumption"
+    },
+    "mpc_horizon": {
+      "application": "config_sweep",
+      "path": "controller.horizon_events",
+      "values": [2, 4],
+      "reference_value": 2,
+      "parameter_source": "engineering_assumption",
+      "policy": "esl_smpc",
+      "theory_note": "ESL-SMPC only: H greater than one is empirical and is not claimed to inherit all H equals one guarantees. H equals one is evaluated through the separate safe_lyapunov_h1 policy comparator, not by setting this config path to one."
+    },
+    "scenario_count": {
+      "application": "config_sweep",
+      "path": "controller.scenarios",
+      "values": [4, 8, 16],
+      "reference_value": 8,
+      "policy": "esl_smpc",
+      "parameter_source": "engineering_assumption"
+    },
+    "rsu_admission_concurrency": {
+      "application": "paired_config_override",
+      "paths": [
+        "rsus.0.workload_capacity_gpu_s",
+        "rsus.1.workload_capacity_gpu_s"
+      ],
+      "paired_values_gpu_s": [
+        [0.03, 0.03],
+        [0.06, 0.06],
+        [0.12, 0.12],
+        [30.0, 18.0]
+      ],
+      "reference_value": [30.0, 18.0],
+      "policy": "esl_smpc",
+      "conservative_jobs_per_rsu": [1, 2, 4, "reference_many"],
+      "parameter_source": "stress_test_boundary"
+    }
+  },
+  "reporting": {
+    "separate_from_primary_family": true,
+    "report_all_factor_levels": true,
+    "report_hard_mask_reason_counts": true,
+    "report_zero_feasible_action_levels": true,
+    "report_queue_wait_admission_and_edge_path_rates": true,
+    "synthetic_numerical_only": true
+  }
+}

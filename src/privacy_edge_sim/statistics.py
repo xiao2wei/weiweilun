@@ -583,6 +583,21 @@ def aggregate_preregistered_study_families(
     input_rows: list[dict[str, Any]] = []
     expected_dimensions = ["load", "metric", "policy_vs_baseline"]
     for index, study in enumerate(normalized):
+        source_preflight = study.get("source_cleanliness_preflight")
+        if (
+            not isinstance(source_preflight, dict)
+            or source_preflight.get("require_clean_source") is not True
+            or source_preflight.get("requirement_status") != "passed"
+            or source_preflight.get("source_commit_reproducible") is not True
+        ):
+            raise StatisticalValidationError(
+                "STAT_LOAD_SOURCE_UNVERIFIED",
+                "formal family aggregation requires clean committed source for every study",
+                index=index,
+            )
+        source_commit = _nonempty_text(
+            source_preflight.get("git_commit"), "source_preflight.git_commit"
+        )
         expected_study_hash = _nonempty_text(
             study.get("study_report_sha256"), "study_report_sha256"
         )
@@ -612,8 +627,97 @@ def aggregate_preregistered_study_families(
                 "load-family registration self-hash mismatch",
                 index=index,
             )
+        experiment_registration = registration.get("experiment_registration")
+        if (
+            not isinstance(experiment_registration, dict)
+            or experiment_registration.get("status") != "VERIFIED"
+            or study.get("experiment_registration") != experiment_registration
+        ):
+            raise StatisticalValidationError(
+                "STAT_LOAD_EXPERIMENT_REGISTRATION",
+                "study lacks a verified generator-matrix registration",
+                index=index,
+            )
+        expected_record_hash = _nonempty_text(
+            experiment_registration.get("record_sha256"),
+            "experiment_registration.record_sha256",
+        )
+        if expected_record_hash != _document_sha256(
+            experiment_registration, "record_sha256"
+        ):
+            raise StatisticalValidationError(
+                "STAT_LOAD_EXPERIMENT_REGISTRATION_HASH",
+                "experiment registration record self-hash mismatch",
+                index=index,
+            )
+        experiment_content_sha = _nonempty_text(
+            experiment_registration.get("registration_content_sha256"),
+            "experiment_registration.registration_content_sha256",
+        )
+        experiment_scale = _nonempty_text(
+            experiment_registration.get("registration_scale"),
+            "experiment_registration.registration_scale",
+        )
+        experiment_regime = _nonempty_text(
+            experiment_registration.get("registration_regime"),
+            "experiment_registration.registration_regime",
+        )
+        experiment_family = _nonempty_text(
+            experiment_registration.get("registration_family"),
+            "experiment_registration.registration_family",
+        )
+        registered_scale_regimes = experiment_registration.get(
+            "registered_scale_regimes"
+        )
+        if (
+            not isinstance(registered_scale_regimes, list)
+            or len(registered_scale_regimes) < 2
+            or registered_scale_regimes != sorted(set(registered_scale_regimes))
+            or any(
+                not isinstance(value, str) or not value
+                for value in registered_scale_regimes
+            )
+        ):
+            raise StatisticalValidationError(
+                "STAT_LOAD_REGISTERED_LEVELS",
+                "experiment registration must enumerate its complete load family",
+                index=index,
+            )
+        experiment_preflight = experiment_registration.get(
+            "source_cleanliness_preflight"
+        )
+        if (
+            not isinstance(experiment_preflight, dict)
+            or experiment_preflight.get("require_clean_source") is not True
+            or experiment_preflight.get("requirement_status") != "passed"
+            or experiment_preflight.get("source_commit_reproducible") is not True
+        ):
+            raise StatisticalValidationError(
+                "STAT_LOAD_EXPERIMENT_REGISTRATION_UNCOMMITTED",
+                "generator-matrix registration must match a Git commit",
+                index=index,
+            )
         current_family_id = _nonempty_text(registration.get("family_id"), "family_id")
         load_level = _nonempty_text(registration.get("load_level"), "load_level")
+        if (
+            experiment_regime != load_level
+            or load_level not in registered_scale_regimes
+            or experiment_registration.get("registered_load_level") != load_level
+            or experiment_registration.get("registered_family_id")
+            != current_family_id
+            or experiment_registration.get("registered_policies")
+            != registration.get("registered_policies")
+            or experiment_registration.get("registered_metrics")
+            != registration.get("registered_metrics")
+            or experiment_registration.get("registered_baseline")
+            != registration.get("baseline")
+            or experiment_preflight.get("git_commit") != source_commit
+        ):
+            raise StatisticalValidationError(
+                "STAT_LOAD_EXPERIMENT_DOMAIN",
+                "study family/load domain or commit differs from its experiment registration",
+                index=index,
+            )
         if load_level in loads:
             raise StatisticalValidationError(
                 "STAT_LOAD_DUPLICATE",
@@ -655,6 +759,11 @@ def aggregate_preregistered_study_families(
             tuple(policies),
             baseline,
             tuple(dimensions),
+            source_commit,
+            experiment_content_sha,
+            experiment_scale,
+            experiment_family,
+            tuple(registered_scale_regimes),
         )
         if reference_signature is None:
             reference_signature = signature
@@ -780,6 +889,16 @@ def aggregate_preregistered_study_families(
             }
         )
 
+    assert reference_signature is not None
+    registered_load_levels = set(reference_signature[9])
+    if loads != registered_load_levels:
+        raise StatisticalValidationError(
+            "STAT_LOAD_INCOMPLETE_FAMILY",
+            "load-family inputs do not cover every registered regime",
+            registered=sorted(registered_load_levels),
+            observed=sorted(loads),
+        )
+
     adjusted = holm_adjust(raw_p_values)
     hypotheses = [
         {
@@ -798,6 +917,7 @@ def aggregate_preregistered_study_families(
         "family_id": family_id,
         "family_dimensions": expected_dimensions,
         "load_levels": sorted(loads),
+        "registered_load_levels": sorted(registered_load_levels),
         "registered_metrics": list(reference_signature[1]),
         "registered_policies": list(reference_signature[2]),
         "baseline": reference_signature[3],
